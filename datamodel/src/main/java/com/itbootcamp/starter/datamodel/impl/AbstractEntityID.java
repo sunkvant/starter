@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class AbstractEntityID {
 
-    protected Integer id;
+    @Expose protected Integer id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

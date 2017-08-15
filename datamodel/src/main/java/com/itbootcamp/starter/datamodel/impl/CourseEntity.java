@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 
@@ -10,10 +11,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "course")
 public class CourseEntity extends AbstractEntityID{
-    private String name;
-    private String organization;
-    private String speciality;
-    private Integer graduationYear;
+    @Expose private String name;
+    @Expose private String organization;
+    @Expose private String speciality;
+    @Expose private Integer graduationYear;
     private ProfileEntity profile;
 
     @Column(name = "name", nullable = false, length = 255)

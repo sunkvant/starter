@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
 import com.itbootcamp.starter.datamodel.*;
 
 import javax.persistence.*;
@@ -18,13 +19,12 @@ public class PersonEntity extends AbstractEntityID
     private ContactEntity contact;
     private RoleEntity role;
     private ProfileEntity profile;
-    private List<ProjectEntity> projects;
+    private List<ProjectEntity> customerProjects;
     private List<RequestEntity> senderRequests;
     private List<RequestEntity> receiverRequests;
     private List<ReviewEntity> receiverReviews;
     private List<ReviewEntity> senderReviews;
     private List<TeamEntity> teams;
-    private List<SkillEntity> skills;
     private MentorInfoEntity mentorInfo;
 
     @Override
@@ -94,13 +94,13 @@ public class PersonEntity extends AbstractEntityID
 
     @Override
     @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
-    public List<ProjectEntity> getProjects() {
-        return projects;
+    public List<ProjectEntity> getCustomerProjects() {
+        return customerProjects;
     }
 
     @Override
-    public void setProjects(List<ProjectEntity> projects) {
-        this.projects = projects;
+    public void setCustomerProjects(List<ProjectEntity> customerProjects) {
+        this.customerProjects = customerProjects;
     }
 
     @Override
@@ -156,17 +156,6 @@ public class PersonEntity extends AbstractEntityID
     @Override
     public void setTeams(List<TeamEntity> teams) {
         this.teams = teams;
-    }
-
-    @Override
-    @ManyToMany(mappedBy = "persons",fetch = FetchType.LAZY)
-    public List<SkillEntity> getSkills() {
-        return skills;
-    }
-
-    @Override
-    public void setSkills(List<SkillEntity> skills) {
-        this.skills = skills;
     }
 
     @Override

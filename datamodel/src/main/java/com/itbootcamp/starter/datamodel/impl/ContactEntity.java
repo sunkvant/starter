@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -9,14 +11,15 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "contact")
 public class ContactEntity extends AbstractEntityID{
-    private String fullName;
-    private Timestamp dateOfBirth;
-    private String avatarPath;
-    private String phone;
-    private String skype;
-    private String email;
-    private String about;
+    @Expose private String fullName;
+    @Expose private Timestamp dateOfBirth;
+    @Expose private String avatarPath;
+    @Expose private String phone;
+    @Expose private String skype;
+    @Expose private String email;
+    @Expose private String about;
     private PersonEntity person;
+    private Integer id;
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {

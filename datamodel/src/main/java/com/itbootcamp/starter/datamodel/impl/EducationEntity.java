@@ -2,6 +2,8 @@ package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.*;
 import javax.validation.groups.ConvertGroup;
@@ -12,13 +14,22 @@ import javax.validation.groups.ConvertGroup;
 @Entity
 @Table(name = "education")
 public class EducationEntity extends AbstractEntityID{
+
+    @Expose
     private String name;
+    @Expose
     private String faculty;
+    @Expose
     private String speciality;
+    @Expose
     private Integer graduationYear;
+
     private ProfileEntity profile;
-    private EducationTypeEntity educationTypeEntity;
+
+    @Expose @SerializedName(value = "educationType") private EducationTypeEntity educationTypeEntity;
     private Integer educationTypeId;
+
+    private Integer profileId;
 
     @Column(name = "profile_id", nullable = false, insertable = false, updatable = false)
     public Integer getProfileId() {
@@ -29,7 +40,7 @@ public class EducationEntity extends AbstractEntityID{
         this.profileId = profileId;
     }
 
-    private Integer profileId;
+
 
     @Column(name = "education_type_id", nullable = false, insertable = false, updatable = false)
     public Integer getEducationTypeId() {
@@ -89,8 +100,8 @@ public class EducationEntity extends AbstractEntityID{
     }
 
     @ManyToOne
-    //@JsonIgnore
-    //@JsonBackReference
+    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "education_type_id", referencedColumnName = "id", nullable = false)
     public EducationTypeEntity getEducationTypeEntity() {
         return educationTypeEntity;

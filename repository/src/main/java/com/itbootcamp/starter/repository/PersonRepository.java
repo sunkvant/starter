@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface PersonRepository extends CrudRepository<PersonEntity, Integer>{
     PersonEntity findByLoginAndPassword(String login, String password);
     PersonEntity findByRole(RoleEntity roleEntity);
+    PersonEntity findByLogin(String login);
 }

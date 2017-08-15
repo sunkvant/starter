@@ -12,6 +12,6 @@ public interface ICustomerEntity extends IPersonEntity{
     List<ReviewEntity> getSenderReviews();
     void setSenderReviews(List<ReviewEntity> senderReviews);
 
-    List<ProjectEntity> getProjects();
-    void setProjects(List<ProjectEntity> projects);
+    List<ProjectEntity> getCustomerProjects();
+    void setCustomerProjects(List<ProjectEntity> customerProjects);
 }

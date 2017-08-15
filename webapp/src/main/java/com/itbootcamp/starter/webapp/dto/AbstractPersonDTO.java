@@ -1,15 +1,11 @@
 package com.itbootcamp.starter.webapp.dto;
 
-import com.itbootcamp.starter.datamodel.impl.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * Created by admin on 8/14/2017.
  */
-public class AbstractDTO {
+public class AbstractPersonDTO {
 
     private String login;
     private String fullName;

@@ -2,6 +2,7 @@ package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "education_type")
 public class EducationTypeEntity  extends AbstractEntityID{
+    @Expose
     private String type;
     private List<EducationEntity> educations;
 

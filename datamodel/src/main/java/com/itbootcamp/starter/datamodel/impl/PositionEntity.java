@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "position")
 public class PositionEntity  extends AbstractEntityID{
-    private String name;
+    @Expose private String name;
 
     @Column(name = "name", nullable = false, length = 255)
     public String getName() {

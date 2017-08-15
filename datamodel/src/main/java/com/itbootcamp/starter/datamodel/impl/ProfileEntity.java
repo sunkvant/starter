@@ -1,6 +1,8 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +20,7 @@ public class ProfileEntity  extends AbstractEntityID{
     private PersonEntity person;
     private DirectionEntity direction;
     private List<WorkplaceEntity> workplaces;
+    private List<SkillEntity> skills;
 
     @Column(name = "direction_id", nullable = false, insertable = false, updatable = false)
     public Integer getDirectionId() {
@@ -84,4 +87,14 @@ public class ProfileEntity  extends AbstractEntityID{
     public void setWorkplaces(List<WorkplaceEntity> workplaces) {
         this.workplaces = workplaces;
     }
+
+    @ManyToMany(mappedBy = "profiles",fetch = FetchType.LAZY)
+    public List<SkillEntity> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<SkillEntity> skills) {
+        this.skills = skills;
+    }
+
 }

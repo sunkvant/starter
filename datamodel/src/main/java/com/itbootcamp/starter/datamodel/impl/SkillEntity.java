@@ -1,5 +1,8 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,8 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "skill")
 public class SkillEntity  extends AbstractEntityID{
-    private String name;
-    private List<PersonEntity> persons;
+    @Expose private String name;
+    private List<ProfileEntity> profiles;
     private List<VacancyEntity> vacancies;
 
     @Id
@@ -33,18 +36,20 @@ public class SkillEntity  extends AbstractEntityID{
     }
 
     @ManyToMany
-    @JoinTable(name = "person_to_skill",
+    @JsonIgnore
+    @JoinTable(name = "profile_to_skill",
             joinColumns = @JoinColumn(name = "skill_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "person_id", nullable = false))
-    public List<PersonEntity> getPersons() {
-        return persons;
+            inverseJoinColumns = @JoinColumn(name = "profile_id", nullable = false))
+    public List<ProfileEntity> getProfiles() {
+        return profiles;
     }
 
-    public void setPersons(List<PersonEntity> persons) {
-        this.persons = persons;
+    public void setProfiles(List<ProfileEntity> profiles) {
+        this.profiles = profiles;
     }
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "skill_to_vacancy", joinColumns = @JoinColumn(name = "skill_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "vacancy_id", nullable = false))
     public List<VacancyEntity> getVacancies() {

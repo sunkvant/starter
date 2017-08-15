@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,13 +12,13 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "workplace")
 public class WorkplaceEntity  extends AbstractEntityID{
-    private String company;
-    private String sphereOfActivity;
-    private String position;
-    private String duties;
-    private Timestamp startWork;
-    private Timestamp endWork;
-    private Boolean isWorking;
+    @Expose private String company;
+    @Expose private String sphereOfActivity;
+    @Expose private String position;
+    @Expose private String duties;
+    @Expose private Timestamp startWork;
+    @Expose private Timestamp endWork;
+    @Expose private Boolean isWorking;
     private ProfileEntity profile;
 
     @Column(name = "company", nullable = false, length = 255)

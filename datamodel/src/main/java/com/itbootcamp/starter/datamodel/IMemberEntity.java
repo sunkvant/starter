@@ -20,6 +20,4 @@ public interface IMemberEntity extends IPersonEntity {
     List<TeamEntity> getTeams();
     void setTeams(List<TeamEntity> teams);
 
-    List<SkillEntity> getSkills();
-    void setSkills(List<SkillEntity> skills);
 }
