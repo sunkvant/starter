@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>security</module>
         <module>repository</module>
         <module>datamodel</module>
         <module>services</module>

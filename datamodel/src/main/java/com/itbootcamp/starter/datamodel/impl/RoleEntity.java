@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "role")
-public class RoleEntity  extends AbstractEntityID{
+public class RoleEntity  extends AbstractEntityID
+    implements Serializable
+
+{
     @Expose private String name;
     private List<PersonEntity> person;
 
