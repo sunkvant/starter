@@ -26,7 +26,8 @@ public class EducationEntity extends AbstractEntityID{
 
     private ProfileEntity profile;
 
-    @Expose @SerializedName(value = "educationType") private EducationTypeEntity educationTypeEntity;
+    @Expose @SerializedName(value = "educationType")
+    private EducationTypeEntity educationTypeEntity;
     private Integer educationTypeId;
 
     private Integer profileId;

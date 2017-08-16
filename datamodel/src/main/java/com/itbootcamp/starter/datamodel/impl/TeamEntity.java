@@ -6,13 +6,13 @@ import javax.persistence.*;
  * Created by admin on 8/8/2017.
  */
 @Entity
-@Table(name = "team", schema = "public", catalog = "starter")
+@Table(name = "team")
 public class TeamEntity extends AbstractEntityID {
+
     private Boolean isMember;
     private ProjectEntity project;
     private PersonEntity person;
 
-    @Basic
     @Column(name = "is_member", nullable = false)
     public Boolean getMember() {
         return isMember;
@@ -28,8 +28,8 @@ public class TeamEntity extends AbstractEntityID {
         return project;
     }
 
-    public void setProject(ProjectEntity projectByProjectId) {
-        this.project = projectByProjectId;
+    public void setProject(ProjectEntity project) {
+        this.project = project;
     }
 
     @ManyToOne
@@ -38,7 +38,7 @@ public class TeamEntity extends AbstractEntityID {
         return person;
     }
 
-    public void setPerson(PersonEntity personByPersonId) {
-        this.person = personByPersonId;
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
 }

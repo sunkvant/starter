@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "person")
 public class PersonEntity extends AbstractEntityID
                           implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity {
+    @Expose
     private String login;
     private String password;
     private Boolean isBlocked;

@@ -18,6 +18,7 @@ public class ProfileEntity  extends AbstractEntityID{
     private List<CourseEntity> courses;
     private List<EducationEntity> educations;
     private PersonEntity person;
+    @Expose
     private DirectionEntity direction;
     private List<WorkplaceEntity> workplaces;
     private List<SkillEntity> skills;

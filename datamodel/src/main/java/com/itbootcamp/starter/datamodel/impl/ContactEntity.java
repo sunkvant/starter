@@ -19,7 +19,6 @@ public class ContactEntity extends AbstractEntityID{
     @Expose private String email;
     @Expose private String about;
     private PersonEntity person;
-    private Integer id;
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {
