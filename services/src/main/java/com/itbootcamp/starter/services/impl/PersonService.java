@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
+import com.itbootcamp.starter.datamodel.impl.PositionEntity;
 import com.itbootcamp.starter.datamodel.impl.TeamEntity;
 import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
@@ -31,18 +32,40 @@ public class PersonService implements IPersonService {
     @Override
     public List<PersonEntity> getAllPersonsByProjectId(Integer projectId) {
 
-        List<PersonEntity> personEntities=new ArrayList<>();
+        List<PersonEntity> personEntities = new ArrayList<>();
 
-        List<TeamEntity> teamEntities=teamRepository.getAllByProjectIdAndMember(projectId,false);
+        List<TeamEntity> teamEntities = teamRepository.getAllByProjectId(projectId);
 
-        for(int i=0; i<teamEntities.size(); i++) {
+        for (int i = 0; i < teamEntities.size(); i++) {
 
             personEntities.add(personRepository.findOne(teamEntities.get(i).getPerson().getId()));
-
-
         }
 
         return personEntities;
+    }
+
+    @Override
+    public List<PersonEntity> getAllPersonsByProjectId(Integer projectId, Boolean isMember) {
+
+        List<PersonEntity> personEntities = new ArrayList<>();
+
+        List<TeamEntity> teamEntities = teamRepository.getAllByProjectIdAndMember(projectId, isMember);
+
+        for (int i = 0; i < teamEntities.size(); i++) {
+
+            personEntities.add(personRepository.findOne(teamEntities.get(i).getPerson().getId()));
+        }
+
+        return personEntities;
+    }
+
+    @Override
+    public PositionEntity getPositionByPersonIdAndByProjectId(Integer personId, Integer projectId) {
+        PositionEntity positionEntity = new PositionEntity();
+
+        TeamEntity teamEntity = teamRepository.getByPersonIdAndProjectId(personId, projectId);
+
+        return teamEntity.getPosition();
     }
 
 

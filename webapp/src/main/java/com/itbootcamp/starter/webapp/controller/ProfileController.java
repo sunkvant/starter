@@ -40,36 +40,25 @@ public class ProfileController {
         json.addProperty("role", personEntity.getRole().getName());
         json.add("contact", gson.toJsonTree(personEntity.getContact()));
 
-
-
-        if(currentRole.equals(RoleType.ROLE_MENTOR) || currentRole.equals(RoleType.ROLE_TRAINEE)){
-
+        if (currentRole.equals(RoleType.ROLE_MENTOR) || currentRole.equals(RoleType.ROLE_TRAINEE)) {
             json.addProperty("isApproved", personEntity.getProfile().getApproved());
             json.addProperty("direction", personEntity.getProfile().getDirection().getName());
             json.add("courses", gson.toJsonTree(personEntity.getProfile().getCourses()));
             //json.add("educations", gson.toJsonTree(personEntity.getProfile().getEducations()));
 
+            JsonArray jsonArray = new JsonArray();
 
-
-                JsonArray jsonArray=new JsonArray();
-
-                for(int i=0; i<personEntity.getProfile().getEducations().size(); i++) {
-
-                    JsonObject jsonObject=new JsonObject();
-                    jsonObject.addProperty("id",personEntity.getProfile().getEducations().get(i).getId());
-                    jsonObject.addProperty("name",personEntity.getProfile().getEducations().get(i).getName());
-                    jsonObject.addProperty("faculty",personEntity.getProfile().getEducations().get(i).getFaculty());
-                    jsonObject.addProperty("speciality",personEntity.getProfile().getEducations().get(i).getSpeciality());
-                    jsonObject.addProperty("graduationYear",personEntity.getProfile().getEducations().get(i).getGraduationYear());
-                    jsonObject.addProperty("educationType",personEntity.getProfile().getEducations().get(i).getEducationTypeEntity().getType());
-
-                    jsonArray.add(jsonObject);
-
-                }
-
-                json.add("educations",jsonArray);
-
-
+            for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", personEntity.getProfile().getEducations().get(i).getId());
+                jsonObject.addProperty("name", personEntity.getProfile().getEducations().get(i).getName());
+                jsonObject.addProperty("faculty", personEntity.getProfile().getEducations().get(i).getFaculty());
+                jsonObject.addProperty("speciality", personEntity.getProfile().getEducations().get(i).getSpeciality());
+                jsonObject.addProperty("graduationYear", personEntity.getProfile().getEducations().get(i).getGraduationYear());
+                jsonObject.addProperty("educationType", personEntity.getProfile().getEducations().get(i).getEducationTypeEntity().getType());
+                jsonArray.add(jsonObject);
+            }
+            json.add("educations", jsonArray);
 
             json.add("workplaces", gson.toJsonTree(personEntity.getProfile().getWorkplaces()));
             json.add("skills", gson.toJsonTree(personEntity.getProfile().getSkills()));
@@ -79,14 +68,13 @@ public class ProfileController {
                 json.addProperty("isMentorExp", personEntity.getMentorInfo().getMentorExp());
             }
 
-        } else if (currentRole.equals(RoleType.ROLE_CUSTOMER)){
+            //TODO if (token.id != personId) json.add(projects);
+
+        } else if (currentRole.equals(RoleType.ROLE_CUSTOMER)) {
             json.add("projects", gson.toJsonTree(personEntity.getCustomerProjects()));
         }
 
-
         return new ResponseEntity<>(json.toString(), HttpStatus.OK);
-
-
     }
 
 }

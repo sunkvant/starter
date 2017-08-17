@@ -11,5 +11,7 @@ public interface IProjectService {
 
     ProjectEntity getById(Integer projectId);
     List<ProjectEntity> getAllProjectsByPersonId(Integer personId);
+    List<ProjectEntity> getAllProjectsByPersonId(Integer personId, Boolean isMember);
+
 
 }

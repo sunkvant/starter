@@ -40,10 +40,20 @@ public class ProjectService implements IProjectService {
 
 
         for(int i=0; i<teamEntities.size(); i++) {
-
             projectEntityList.add(projectRepository.findOne(teamEntities.get(i).getProject().getId()));
+        }
 
+        return projectEntityList;
+    }
 
+    @Override
+    public List<ProjectEntity> getAllProjectsByPersonId(Integer personId, Boolean isMember) {
+
+        List<TeamEntity> teamEntities=teamRepository.getAllByPersonIdAndMember(personId, isMember);
+        List<ProjectEntity> projectEntityList=new ArrayList<>();
+
+        for(int i=0; i<teamEntities.size(); i++) {
+            projectEntityList.add(projectRepository.findOne(teamEntities.get(i).getProject().getId()));
         }
 
         return projectEntityList;

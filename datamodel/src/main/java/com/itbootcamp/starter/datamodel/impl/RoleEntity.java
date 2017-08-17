@@ -25,7 +25,6 @@ public class RoleEntity  extends AbstractEntityID{
     }
 
     @OneToMany(mappedBy = "role")
-    @JsonIgnore
     public List<PersonEntity> getPerson() {
         return person;
     }

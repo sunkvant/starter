@@ -30,7 +30,7 @@ public class VacancyEntity extends AbstractEntityID{
     }
 
     @ManyToOne
-    @JoinColumn(name = "position_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "position_id", nullable = false)
     public PositionEntity getPosition() {
         return position;
     }
@@ -40,7 +40,7 @@ public class VacancyEntity extends AbstractEntityID{
     }
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     public ProjectEntity getProject() {
         return project;
     }

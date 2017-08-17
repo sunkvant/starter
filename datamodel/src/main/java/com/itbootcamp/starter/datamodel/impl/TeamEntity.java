@@ -12,6 +12,7 @@ public class TeamEntity extends AbstractEntityID {
     private Boolean isMember;
     private ProjectEntity project;
     private PersonEntity person;
+    private PositionEntity position;
 
     @Column(name = "is_member", nullable = false)
     public Boolean getMember() {
@@ -40,5 +41,15 @@ public class TeamEntity extends AbstractEntityID {
 
     public void setPerson(PersonEntity person) {
         this.person = person;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "position_id", nullable = false)
+    public PositionEntity getPosition() {
+        return position;
+    }
+
+    public void setPosition(PositionEntity position) {
+        this.position = position;
     }
 }
