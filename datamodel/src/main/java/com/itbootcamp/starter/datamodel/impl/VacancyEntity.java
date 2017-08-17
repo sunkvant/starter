@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,12 +11,15 @@ import java.util.List;
 @Entity
 @Table(name = "vacancy")
 public class VacancyEntity extends AbstractEntityID{
+    @Expose
     private Integer personNumber;
+    @Expose
     private PositionEntity position;
     private ProjectEntity project;
     private List<VacancyRequestEntity> vacancyRequests;
     private List<LanguageEntity> languages;
     private List<SkillEntity> skills;
+    private RoleEntity role;
 
     @Column(name = "person_number", nullable = false)
     public Integer getPersonNumber() {
@@ -26,7 +31,7 @@ public class VacancyEntity extends AbstractEntityID{
     }
 
     @ManyToOne
-    @JoinColumn(name = "position_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "position_id", nullable = false)
     public PositionEntity getPosition() {
         return position;
     }
@@ -36,7 +41,7 @@ public class VacancyEntity extends AbstractEntityID{
     }
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     public ProjectEntity getProject() {
         return project;
     }
@@ -70,5 +75,15 @@ public class VacancyEntity extends AbstractEntityID{
 
     public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
     }
 }

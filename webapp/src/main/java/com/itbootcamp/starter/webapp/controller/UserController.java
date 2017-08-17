@@ -13,7 +13,7 @@ public class UserController {
 
 
     @Autowired
-    private ProjectEntityRepository projectEntityRepository;
+    private ProjectRepository projectRepository;
 
     @Autowired
     private ProfileRepository profileRepository;

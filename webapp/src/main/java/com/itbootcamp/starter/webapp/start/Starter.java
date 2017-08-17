@@ -9,7 +9,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@ComponentScan({"com.itbootcamp.starter.webapp.controller","com.itbootcamp.starter.services"})
+@ComponentScan({"com.itbootcamp.starter.webapp.controller","com.itbootcamp.starter.services","com.itbootcamp.starter.webapp.dto"})
 @EnableJpaRepositories("com.itbootcamp.starter.repository")
 @EntityScan("com.itbootcamp.starter.datamodel")
 @SpringBootApplication

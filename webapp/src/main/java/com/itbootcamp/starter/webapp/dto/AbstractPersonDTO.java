@@ -1,11 +1,16 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.sql.Timestamp;
 
 /**
  * Created by admin on 8/14/2017.
  */
 public class AbstractPersonDTO {
+
 
     private String login;
     private String fullName;

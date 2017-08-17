@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "language")
 public class LanguageEntity extends AbstractEntityID{
-    private String name;
+    @Expose private String name;
     private List<ProjectEntity> projects;
     private List<VacancyEntity> vacancies;
 

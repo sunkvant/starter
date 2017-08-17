@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,21 +12,21 @@ import java.util.List;
 @Entity
 @Table(name = "project")
 public class ProjectEntity  extends AbstractEntityID{
-    private String name;
-    private String description;
-    private Timestamp dateStart;
-    private Timestamp dateEnd;
+    @Expose private String name;
+    @Expose private String description;
+    @Expose private Timestamp dateStart;
+    @Expose private Timestamp dateEnd;
     private Integer projectStatusId;
     private Integer projectCategoryId;
-    private String contactInfo;
+    @Expose private String contactInfo;
     private List<ConsultationRequestEntity> consultations;
     private PersonEntity customer;
-    private ProjectStatusEntity projectStatus;
-    private ProjectCategoryEntity projectCategory;
+    @Expose private ProjectStatusEntity projectStatus;
+    @Expose private ProjectCategoryEntity projectCategory;
     private List<ReviewEntity> reviews;
     private List<TeamEntity> statuses;
     private List<VacancyEntity> vacancies;
-    private List<LanguageEntity> languages;
+    @Expose private List<LanguageEntity> languages;
 
     @Column(name = "name", nullable = false, length = 255)
     public String getName() {

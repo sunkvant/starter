@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
@@ -19,7 +21,6 @@ public class ContactEntity extends AbstractEntityID{
     @Expose private String email;
     @Expose private String about;
     private PersonEntity person;
-    private Integer id;
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {
@@ -85,6 +86,7 @@ public class ContactEntity extends AbstractEntityID{
     }
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     public PersonEntity getPerson() {
         return person;

@@ -8,8 +8,12 @@ import com.itbootcamp.starter.datamodel.impl.ProfileEntity;
 /**
  * Created by admin on 8/15/2017.
  */
-public class Converter {
+public interface Converter {
 
+
+
+
+/*
     public static AbstractPersonDTO convert(PersonEntity personEntity) {
         switch (personEntity.getRole().getName()) {
             case "Trainee": {
@@ -94,7 +98,7 @@ public class Converter {
         }
 
         return null;
-    }
+    }*/
 }
 
 
