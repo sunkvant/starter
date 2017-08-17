@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 /**
@@ -47,7 +46,6 @@ public class ProjectController {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
 
-
         json.addProperty("customerId", projectEntity.getCustomer().getId());
         json.addProperty("name", projectEntity.getName());
         json.addProperty("description", projectEntity.getDescription());
@@ -70,15 +68,15 @@ public class ProjectController {
             jsonObject.addProperty("id", projectEntity.getVacancies().get(i).getId());
             jsonObject.addProperty("position", projectEntity.getVacancies().get(i).getPosition().getName());
             jsonObject.addProperty("personNumber", projectEntity.getVacancies().get(i).getPersonNumber());
+            jsonObject.addProperty("role", projectEntity.getVacancies().get(i).getRole().getName());
             vacancyArray.add(jsonObject);
         }
         json.add("vacancies", vacancyArray);
 
+
         json.add("teamActive", getTeamJsonArray(projectId, true));
         json.add("teamNoActive", getTeamJsonArray(projectId, false));
-
         return new ResponseEntity<>(json.toString(), HttpStatus.OK);
-
     }
 
     private JsonArray getTeamJsonArray(Integer projectId, Boolean isMember) {
@@ -89,6 +87,7 @@ public class ProjectController {
             jsonObject.addProperty("id", listActivePersonsOnProject.get(i).getId());
             jsonObject.addProperty("fullName", listActivePersonsOnProject.get(i).getContact().getFullName());
             jsonObject.addProperty("position", personService.getPositionByPersonIdAndByProjectId(personService.getAllPersonsByProjectId(projectId,isMember).get(i).getId(),projectId).getName());
+            jsonObject.addProperty("role", listActivePersonsOnProject.get(i).getRole().getName());
             teamJsonArray.add(jsonObject);
         }
         return teamJsonArray;
@@ -99,7 +98,7 @@ public class ProjectController {
     ResponseEntity<String> getProjects() {
 
         //TODO id = Token.getId
-        Integer id = 0;
+        Integer id = 1;
 
         PersonEntity personEntity = personService.getById(id);
 
@@ -114,13 +113,25 @@ public class ProjectController {
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
 
 
+        List<ProjectEntity> projectEntityList = null;
         if (currentRole.equals(RoleType.ROLE_CUSTOMER)) {
-            json.add("projects", gson.toJsonTree(personEntity.getCustomerProjects()));
-        } else {
-            projectService.getAllProjectsByPersonId(id);
-        }
 
-        return null;
+            projectEntityList = personEntity.getCustomerProjects();
+        }
+        else {
+            projectEntityList = projectService.getAllProjectsByPersonId(id);
+        }
+            JsonArray projectArray = new JsonArray();
+            for (int i = 0; i < projectEntityList.size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", projectEntityList.get(i).getId());
+                jsonObject.addProperty("name", projectEntityList.get(i).getName());
+                jsonObject.addProperty("projectCategory", projectEntityList.get(i).getProjectCategory().getCategory());
+                projectArray.add(jsonObject);
+            }
+            json.add("projects", projectArray);
+
+        return new ResponseEntity<>(json.toString(), HttpStatus.OK);
     }
 
 

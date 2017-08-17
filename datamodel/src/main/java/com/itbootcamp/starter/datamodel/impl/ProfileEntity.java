@@ -1,7 +1,9 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
@@ -12,13 +14,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "profile")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class ProfileEntity  extends AbstractEntityID{
     private Integer directionId;
     private Boolean isApproved;
     private List<CourseEntity> courses;
     private List<EducationEntity> educations;
     private PersonEntity person;
-    @Expose
     private DirectionEntity direction;
     private List<WorkplaceEntity> workplaces;
     private List<SkillEntity> skills;
@@ -51,7 +53,6 @@ public class ProfileEntity  extends AbstractEntityID{
     }
 
     @OneToMany(mappedBy = "profile")
-    @JsonManagedReference
     public List<EducationEntity> getEducations() {
         return educations;
     }

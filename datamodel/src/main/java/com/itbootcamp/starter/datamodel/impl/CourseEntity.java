@@ -1,6 +1,8 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
@@ -10,11 +12,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "course")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class CourseEntity extends AbstractEntityID{
-    @Expose private String name;
-    @Expose private String organization;
-    @Expose private String speciality;
-    @Expose private Integer graduationYear;
+    private String name;
+    private String organization;
+    private String speciality;
+    private Integer graduationYear;
     private ProfileEntity profile;
 
     @Column(name = "name", nullable = false, length = 255)
@@ -55,7 +58,7 @@ public class CourseEntity extends AbstractEntityID{
 
     @ManyToOne
     @JoinColumn(name = "profile_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
+    //@JsonIgnore
     public ProfileEntity getProfile() {
         return profile;
     }

@@ -19,6 +19,7 @@ public class VacancyEntity extends AbstractEntityID{
     private List<VacancyRequestEntity> vacancyRequests;
     private List<LanguageEntity> languages;
     private List<SkillEntity> skills;
+    private RoleEntity role;
 
     @Column(name = "person_number", nullable = false)
     public Integer getPersonNumber() {
@@ -74,5 +75,15 @@ public class VacancyEntity extends AbstractEntityID{
 
     public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
     }
 }

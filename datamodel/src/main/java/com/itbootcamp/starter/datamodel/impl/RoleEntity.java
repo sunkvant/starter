@@ -3,7 +3,10 @@ package com.itbootcamp.starter.datamodel.impl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -13,7 +16,11 @@ import java.util.List;
 @Table(name = "role")
 public class RoleEntity  extends AbstractEntityID{
     @Expose private String name;
+
+    @JsonIgnore
     private List<PersonEntity> person;
+    @JsonIgnore
+    private List<VacancyEntity> vacancies;
 
     @Column(name = "name", nullable = false, length = 255)
     public String getName() {
@@ -31,5 +38,14 @@ public class RoleEntity  extends AbstractEntityID{
 
     public void setPerson(List<PersonEntity> person) {
         this.person = person;
+    }
+
+    @OneToMany(mappedBy = "role")
+    public List<VacancyEntity> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(List<VacancyEntity> vacancies) {
+        this.vacancies = vacancies;
     }
 }

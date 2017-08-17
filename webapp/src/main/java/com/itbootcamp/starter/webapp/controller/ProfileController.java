@@ -1,10 +1,13 @@
 package com.itbootcamp.starter.webapp.controller;
 
+import com.itbootcamp.starter.datamodel.impl.CourseEntity;
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.google.gson.*;
 import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
+import com.itbootcamp.starter.webapp.dto.AbstractPersonDTO;
+import com.itbootcamp.starter.webapp.dto.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +17,14 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by admin on 8/14/2017.
  */
-@Controller
+@RestController
 public class ProfileController {
 
     @Autowired
     private PersonService personService;
 
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.GET)
-    ResponseEntity<String> getProfile(@PathVariable Integer personId) {
+    ResponseEntity<PersonEntity> getProfile(@PathVariable Integer personId) {
 
         PersonEntity personEntity = personService.getById(personId);
 
@@ -29,7 +32,10 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String currentRole = personEntity.getRole().getName();
+        return new ResponseEntity<>(personEntity, HttpStatus.OK);
+
+
+/*        String currentRole = personEntity.getRole().getName();
 
         JsonObject json = new JsonObject();
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -43,6 +49,9 @@ public class ProfileController {
         if (currentRole.equals(RoleType.ROLE_MENTOR) || currentRole.equals(RoleType.ROLE_TRAINEE)) {
             json.addProperty("isApproved", personEntity.getProfile().getApproved());
             json.addProperty("direction", personEntity.getProfile().getDirection().getName());
+
+            if (personEntity.getProfile().getCourses()
+
             json.add("courses", gson.toJsonTree(personEntity.getProfile().getCourses()));
             //json.add("educations", gson.toJsonTree(personEntity.getProfile().getEducations()));
 
@@ -75,6 +84,8 @@ public class ProfileController {
         }
 
         return new ResponseEntity<>(json.toString(), HttpStatus.OK);
+    }*/
+
     }
 
 }

@@ -91,7 +91,7 @@ public class EducationEntity extends AbstractEntityID{
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "profile_id", referencedColumnName = "id", nullable = false)
-    //@JsonBackReference
+    //@
     public ProfileEntity getProfile() {
         return profile;
     }
