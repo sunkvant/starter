@@ -13,6 +13,7 @@ public interface IPersonService {
     PersonEntity getById(Integer personId);
     List<PersonEntity> getAllPersonsByProjectId(Integer projectId);
     List<PersonEntity> getAllPersonsByProjectId(Integer projectId, Boolean isMember);
-    PositionEntity getPositionByPersonIdAndByProjectId(Integer personId, Integer projectId);
+    PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
+    Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
 
 }

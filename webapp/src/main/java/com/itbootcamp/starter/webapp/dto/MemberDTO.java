@@ -7,8 +7,9 @@ public class MemberDTO {
 
     private Integer id;
     private String fullName;
-    private String position;
-    private String role;
+    private PositionDTO position;
+    private RoleDTO role;
+    private Boolean isMember;
 
     public Integer getId() {
         return id;
@@ -26,19 +27,27 @@ public class MemberDTO {
         this.fullName = fullName;
     }
 
-    public String getPosition() {
+    public PositionDTO getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(PositionDTO position) {
         this.position = position;
     }
 
-    public String getRole() {
+    public RoleDTO getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleDTO role) {
         this.role = role;
+    }
+
+    public Boolean getMember() {
+        return isMember;
+    }
+
+    public void setMember(Boolean member) {
+        isMember = member;
     }
 }

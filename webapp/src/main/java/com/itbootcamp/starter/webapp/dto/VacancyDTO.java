@@ -1,14 +1,25 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import java.util.List;
+
 /**
  * Created by admin on 8/17/2017.
  */
 public class VacancyDTO {
 
     private Integer id;
-    private String position;
     private Integer personNumber;
-    private String role;
+    private PositionDTO position;
+    private RoleDTO role;
+    private List<SkillDTO> skills;
+
+    public List<SkillDTO> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<SkillDTO> skills) {
+        this.skills = skills;
+    }
 
     public Integer getId() {
         return id;
@@ -18,11 +29,11 @@ public class VacancyDTO {
         this.id = id;
     }
 
-    public String getPosition() {
+    public PositionDTO getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(PositionDTO position) {
         this.position = position;
     }
 
@@ -34,11 +45,11 @@ public class VacancyDTO {
         this.personNumber = personNumber;
     }
 
-    public String getRole() {
+    public RoleDTO getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleDTO role) {
         this.role = role;
     }
 }

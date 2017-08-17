@@ -17,19 +17,9 @@ public class ProjectDTO {
     private String contactInfo;
     private String projectStatus;
     private String projectCategory;
-    private List<String> languages;
+    private List<LanguageDTO> languages;
     private List<VacancyDTO> vacancies;
-    private List<MemberDTO> teamActive;
-    private List<MemberDTO> teamNoActive;
-
-    public ProjectDTO convert() {
-
-        this
-
-
-
-    }
-
+    private List<MemberDTO> team;
 
     public Integer getCustomerId() {
         return customerId;
@@ -95,11 +85,11 @@ public class ProjectDTO {
         this.projectCategory = projectCategory;
     }
 
-    public List<String> getLanguages() {
+    public List<LanguageDTO> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(List<LanguageDTO> languages) {
         this.languages = languages;
     }
 
@@ -111,28 +101,11 @@ public class ProjectDTO {
         this.vacancies = vacancies;
     }
 
-    public List<MemberDTO> getTeamActive() {
-        return teamActive;
+    public List<MemberDTO> getTeam() {
+        return team;
     }
 
-    public void setTeamActive(List<MemberDTO> teamActive) {
-        this.teamActive = teamActive;
+    public void setTeam(List<MemberDTO> team) {
+        this.team = team;
     }
-
-    public List<MemberDTO> getTeamNoActive() {
-        return teamNoActive;
-    }
-
-    public void setTeamNoActive(List<MemberDTO> teamNoActive) {
-        this.teamNoActive = teamNoActive;
-    }json.addProperty("customerId", projectEntity.getCustomer().getId());
-        json.addProperty("name", projectEntity.getName());
-        json.addProperty("description", projectEntity.getDescription());
-        json.addProperty("dateStart", projectEntity.getDateStart().toString());
-        json.addProperty("dateEnd", projectEntity.getDateEnd().toString());
-        json.addProperty("contactInfo", projectEntity.getContactInfo());
-        json.addProperty("projectStatus", projectEntity.getProjectStatus().getStatus());
-        json.addProperty("projectCategory", projectEntity.getProjectCategory().getCategory());
-
-
 }

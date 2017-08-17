@@ -60,12 +60,20 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public PositionEntity getPositionByPersonIdAndByProjectId(Integer personId, Integer projectId) {
+    public PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId) {
         PositionEntity positionEntity = new PositionEntity();
 
         TeamEntity teamEntity = teamRepository.getByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getPosition();
+    }
+
+    @Override
+    public Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId) {
+
+        TeamEntity teamEntity = teamRepository.getByPersonIdAndProjectId(personId, projectId);
+
+        return teamEntity.getMember();
     }
 
 

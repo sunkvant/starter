@@ -9,6 +9,8 @@ import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
+import com.itbootcamp.starter.webapp.dto.DTOFactory;
+import com.itbootcamp.starter.webapp.dto.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,11 @@ public class ProjectController {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private DTOFactory dtoFactory;
+
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.GET)
-    ResponseEntity<String> getProject(@PathVariable Integer projectId) {
+    ResponseEntity<ProjectDTO> getProject(@PathVariable Integer projectId) {
 
         ProjectEntity projectEntity = projectService.getById(projectId);
 
@@ -42,6 +47,8 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        return new ResponseEntity<ProjectDTO>(dtoFactory.getProjectDTO(projectEntity),HttpStatus.OK);
+/*
         JsonObject json = new JsonObject();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
@@ -76,7 +83,7 @@ public class ProjectController {
 
         json.add("teamActive", getTeamJsonArray(projectId, true));
         json.add("teamNoActive", getTeamJsonArray(projectId, false));
-        return new ResponseEntity<>(json.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(json.toString(), HttpStatus.OK);*/
     }
 
     private JsonArray getTeamJsonArray(Integer projectId, Boolean isMember) {
@@ -86,7 +93,7 @@ public class ProjectController {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", listActivePersonsOnProject.get(i).getId());
             jsonObject.addProperty("fullName", listActivePersonsOnProject.get(i).getContact().getFullName());
-            jsonObject.addProperty("position", personService.getPositionByPersonIdAndByProjectId(personService.getAllPersonsByProjectId(projectId,isMember).get(i).getId(),projectId).getName());
+            jsonObject.addProperty("position", personService.getPositionOnProjectByPersonIdAndByProjectId(personService.getAllPersonsByProjectId(projectId,isMember).get(i).getId(),projectId).getName());
             jsonObject.addProperty("role", listActivePersonsOnProject.get(i).getRole().getName());
             teamJsonArray.add(jsonObject);
         }
