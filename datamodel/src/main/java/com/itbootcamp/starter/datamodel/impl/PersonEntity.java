@@ -6,8 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.gson.annotations.Expose;
 import com.itbootcamp.starter.datamodel.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,7 +22,7 @@ import java.util.List;
 @Table(name = "person")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class PersonEntity extends AbstractEntityID
-                          implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity {
+                          implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity, UserDetails {
     private String login;
     private String password;
     private Boolean isBlocked;
@@ -52,12 +57,52 @@ public class PersonEntity extends AbstractEntityID
         isBlocked = blocked;
     }
 
+
     @Override
     @Column(name = "password", nullable = false, length = 255)
     public String getPassword() {
         return password;
     }
+//--------------------UserDetails----------------------------------
 
+    @Transient
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        return authorities;
+    }
+
+    @Transient
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Transient
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Transient
+    @Override
+    public boolean isAccountNonLocked() {
+        return !isBlocked;
+    }
+
+    @Transient
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Transient
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+//---------------------------------------------------------------------
     @Override
     public void setPassword(String password) {
         this.password = password;
