@@ -1,5 +1,9 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.gson.annotations.Expose;
 import com.itbootcamp.starter.datamodel.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +20,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class PersonEntity extends AbstractEntityID
                           implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity, UserDetails {
     private String login;
