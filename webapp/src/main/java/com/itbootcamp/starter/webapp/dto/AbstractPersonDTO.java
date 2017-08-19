@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class AbstractPersonDTO {
 
 
+    private Integer id;
     private String login;
     private String fullName;
     private Timestamp dateOfBirth;
@@ -20,8 +21,16 @@ public class AbstractPersonDTO {
     private String skype;
     private String email;
     private String about;
-    private String roleName;
+    private RoleDTO role;
     private Boolean isBlocked;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;
@@ -95,11 +104,11 @@ public class AbstractPersonDTO {
         this.about = about;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public RoleDTO getRole() {
+        return role;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRole(RoleDTO role) {
+        this.role = role;
     }
 }

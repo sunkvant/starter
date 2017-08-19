@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public class ProjectDTO {
 
 
-    private Integer customerId;
+    private Integer id;
     private String name;
     private String description;
     private Timestamp dateStart;
@@ -17,16 +18,25 @@ public class ProjectDTO {
     private String contactInfo;
     private String projectStatus;
     private String projectCategory;
+    private CustomerAdminModerDTO customer;
     private List<LanguageDTO> languages;
     private List<VacancyDTO> vacancies;
     private List<MemberDTO> team;
 
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public CustomerAdminModerDTO getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerAdminModerDTO customer) {
+        this.customer = customer;
     }
 
     public String getName() {

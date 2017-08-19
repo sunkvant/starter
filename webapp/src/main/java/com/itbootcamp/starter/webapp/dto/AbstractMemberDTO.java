@@ -12,19 +12,27 @@ import java.util.List;
  */
 public class AbstractMemberDTO extends AbstractPersonDTO {
 
-    private String directionName;
+    private DirectionDTO direction;
+    private List<CourseDTO> courses;
+    private List<WorkplaceDTO> workplaces;
+    private List<EducationDTO> educations;
+    private List<SkillDTO> skills;
     private Boolean isApproved;
-    private List<CourseEntity> courses;
-    private List<WorkplaceEntity> workplaces;
-    private List<EducationEntity> educations;
-    private List<SkillEntity> skills;
 
-    public String getDirectionName() {
-        return directionName;
+    public DirectionDTO getDirection() {
+        return direction;
     }
 
-    public void setDirectionName(String directionName) {
-        this.directionName = directionName;
+    public void setDirection(DirectionDTO direction) {
+        this.direction = direction;
+    }
+
+    public List<SkillDTO> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<SkillDTO> skills) {
+        this.skills = skills;
     }
 
     public Boolean getApproved() {
@@ -35,35 +43,27 @@ public class AbstractMemberDTO extends AbstractPersonDTO {
         isApproved = approved;
     }
 
-    public List<CourseEntity> getCourses() {
+    public List<CourseDTO> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<CourseEntity> courses) {
+    public void setCourses(List<CourseDTO> courses) {
         this.courses = courses;
     }
 
-    public List<WorkplaceEntity> getWorkplaces() {
+    public List<WorkplaceDTO> getWorkplaces() {
         return workplaces;
     }
 
-    public void setWorkplaces(List<WorkplaceEntity> workplaces) {
+    public void setWorkplaces(List<WorkplaceDTO> workplaces) {
         this.workplaces = workplaces;
     }
 
-    public List<EducationEntity> getEducations() {
+    public List<EducationDTO> getEducations() {
         return educations;
     }
 
-    public void setEducations(List<EducationEntity> educations) {
+    public void setEducations(List<EducationDTO> educations) {
         this.educations = educations;
-    }
-
-    public List<SkillEntity> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<SkillEntity> skills) {
-        this.skills = skills;
     }
 }
