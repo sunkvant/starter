@@ -30,11 +30,18 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    public PersonEntity getByLogin(String login) {
+
+        return personRepository.findByLogin(login);
+
+    }
+
+    @Override
     public List<PersonEntity> getAllPersonsByProjectId(Integer projectId) {
 
         List<PersonEntity> personEntities = new ArrayList<>();
 
-        List<TeamEntity> teamEntities = teamRepository.getAllByProjectId(projectId);
+        List<TeamEntity> teamEntities = teamRepository.findAllByProjectId(projectId);
 
         for (int i = 0; i < teamEntities.size(); i++) {
 
@@ -49,7 +56,7 @@ public class PersonService implements IPersonService {
 
         List<PersonEntity> personEntities = new ArrayList<>();
 
-        List<TeamEntity> teamEntities = teamRepository.getAllByProjectIdAndMember(projectId, isMember);
+        List<TeamEntity> teamEntities = teamRepository.findAllByProjectIdAndMember(projectId, isMember);
 
         for (int i = 0; i < teamEntities.size(); i++) {
 
@@ -63,7 +70,7 @@ public class PersonService implements IPersonService {
     public PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId) {
         PositionEntity positionEntity = new PositionEntity();
 
-        TeamEntity teamEntity = teamRepository.getByPersonIdAndProjectId(personId, projectId);
+        TeamEntity teamEntity = teamRepository.findByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getPosition();
     }
@@ -71,7 +78,7 @@ public class PersonService implements IPersonService {
     @Override
     public Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId) {
 
-        TeamEntity teamEntity = teamRepository.getByPersonIdAndProjectId(personId, projectId);
+        TeamEntity teamEntity = teamRepository.findByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getMember();
     }

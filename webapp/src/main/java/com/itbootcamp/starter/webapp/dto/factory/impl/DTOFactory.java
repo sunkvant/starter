@@ -1,7 +1,10 @@
-package com.itbootcamp.starter.webapp.dto;
+package com.itbootcamp.starter.webapp.dto.factory.impl;
 
 import com.itbootcamp.starter.datamodel.impl.*;
 import com.itbootcamp.starter.services.impl.PersonService;
+import com.itbootcamp.starter.services.impl.ProjectService;
+import com.itbootcamp.starter.webapp.dto.*;
+import com.itbootcamp.starter.webapp.dto.factory.IDTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -12,11 +15,14 @@ import java.util.List;
 
 @Component
 @Scope(value = "singleton")
-public class DTOFactory implements  IDTOFactory {
+public class DTOFactory implements IDTOFactory {
 
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Override
     public ProjectDTO getProjectDTO(ProjectEntity projectEntity) {
@@ -60,8 +66,20 @@ public class DTOFactory implements  IDTOFactory {
 
         }
 
-
         projectDTO.setTeam(membersDTO);
+
+
+
+        List<ReviewDTO> reviewsDTO=new ArrayList<>();
+
+        for (int i = 0; i < projectEntity.getReviews().size(); i++) {
+
+            reviewsDTO.add(getReviewDTO(projectEntity.getReviews().get(i)));
+
+        }
+
+        projectDTO.setReviews(reviewsDTO);
+
 
         return projectDTO;
     }
@@ -72,9 +90,11 @@ public class DTOFactory implements  IDTOFactory {
         VacancyDTO vacancyDTO=new VacancyDTO();
 
         vacancyDTO.setId(vacancyEntity.getId());
+        vacancyDTO.setProjectId(vacancyEntity.getProject().getId());
         vacancyDTO.setPersonNumber(vacancyEntity.getPersonNumber());
         vacancyDTO.setPosition(getPositionDTO(vacancyEntity.getPosition()));
         vacancyDTO.setRole(getRoleDTO(vacancyEntity.getRole()));
+
 
         List<SkillDTO> skillsDTO=new ArrayList<>();
 
@@ -83,9 +103,16 @@ public class DTOFactory implements  IDTOFactory {
             skillsDTO.add(getSkillDTO(vacancyEntity.getSkills().get(i)));
 
         }
-
         vacancyDTO.setSkills(skillsDTO);
 
+        List<LanguageDTO> languagesDTO=new ArrayList<>();
+
+
+        for (int i = 0; i < vacancyEntity.getLanguages().size(); i++) {
+
+            languagesDTO.add(getLanguageDTO(vacancyEntity.getLanguages().get(i)));
+        }
+        vacancyDTO.setLanguages(languagesDTO);
 
         return vacancyDTO;
     }
@@ -125,10 +152,9 @@ public class DTOFactory implements  IDTOFactory {
     @Override
     public MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity) {
 
-
         MemberDTO memberDTO=new MemberDTO();
 
-        memberDTO.setMember(getProfileDTO(personEntity));
+        memberDTO.setProfile(getProfileDTO(personEntity));
         memberDTO.setPosition(getPositionDTO(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId())));
         memberDTO.setRole(getRoleDTO(personEntity.getRole()));
         memberDTO.setActive(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()));
@@ -169,15 +195,7 @@ public class DTOFactory implements  IDTOFactory {
         profileDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
 
 
-        List<CourseDTO> courseDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getCourses().size(); i++) {
-
-            courseDTO.add(getCourseDTO(personEntity.getProfile().getCourses().get(i)));
-
-        }
-
-        profileDTO.setCourses(courseDTO);
+        profileDTO.setCourses(getCoursesDTO(personEntity.getProfile().getCourses()));
 
         List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
 
@@ -212,6 +230,21 @@ public class DTOFactory implements  IDTOFactory {
 
 
 
+
+        List<ReviewDTO> reviewsDTO=new ArrayList<>();
+
+        for (int i = 0; i < personEntity.getReceiverReviews().size(); i++) {
+
+            reviewsDTO.add(getReviewDTO(personEntity.getReceiverReviews().get(i)));
+
+        }
+
+        profileDTO.setReviews(reviewsDTO);
+
+
+
+
+
         if (personEntity.getMentorInfo()==null) {
 
             profileDTO.setMentorExp(false);
@@ -242,17 +275,25 @@ public class DTOFactory implements  IDTOFactory {
     }
 
     @Override
-    public CourseDTO getCourseDTO(CourseEntity courseEntity) {
+    public List<CourseDTO> getCoursesDTO(List<CourseEntity> coursesEntity) {
 
-        CourseDTO courseDTO=new CourseDTO();
+        List<CourseDTO> coursesDTO=new ArrayList<>();
 
-        courseDTO.setId(courseEntity.getId());
-        courseDTO.setName(courseEntity.getName());
-        courseDTO.setOrganization(courseEntity.getOrganization());
-        courseDTO.setSpeciality(courseEntity.getSpeciality());
-        courseDTO.setGraduationYear(courseEntity.getGraduationYear());
+        for (int i = 0; i < coursesEntity.size(); i++) {
 
-        return courseDTO;
+            CourseDTO courseDTO=new CourseDTO();
+
+            courseDTO.setId(coursesEntity.get(i).getId());
+            courseDTO.setName(coursesEntity.get(i).getName());
+            courseDTO.setOrganization(coursesEntity.get(i).getOrganization());
+            courseDTO.setSpeciality(coursesEntity.get(i).getSpeciality());
+            courseDTO.setGraduationYear(coursesEntity.get(i).getGraduationYear());
+
+            coursesDTO.add(courseDTO);
+
+        }
+
+        return coursesDTO;
     }
 
     @Override
@@ -284,6 +325,22 @@ public class DTOFactory implements  IDTOFactory {
         educationDTO.setGraduationYear(educationEntity.getGraduationYear());
 
         return educationDTO;
+    }
+
+    @Override
+    public ReviewDTO getReviewDTO(ReviewEntity reviewEntity) {
+
+        ReviewDTO reviewDTO=new ReviewDTO();
+
+        reviewDTO.setId(reviewEntity.getId());
+        reviewDTO.setProjectId(reviewEntity.getProject().getId());
+        reviewDTO.setDate(reviewEntity.getDate());
+        reviewDTO.setRating(reviewEntity.getRating());
+        reviewDTO.setReceiverPersonId(reviewEntity.getReceiverPerson().getId());
+        reviewDTO.setSenderPersonId(reviewEntity.getSenderPerson().getId());
+        reviewDTO.setText(reviewEntity.getText());
+
+        return reviewDTO;
     }
 
 

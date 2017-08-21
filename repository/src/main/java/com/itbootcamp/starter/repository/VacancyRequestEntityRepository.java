@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface VacancyRequestEntityRepository extends CrudRepository<VacancyRequestEntity,Long> {
-    VacancyRequestEntity findByVacancyId(Integer vacancyId);
+
 }

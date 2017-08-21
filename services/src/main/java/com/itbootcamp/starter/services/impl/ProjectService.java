@@ -35,7 +35,7 @@ public class ProjectService implements IProjectService {
     @Override
     public List<ProjectEntity> getAllProjectsByPersonId(Integer personId) {
 
-        List<TeamEntity> teamEntities=teamRepository.getAllByPersonId(personId);
+        List<TeamEntity> teamEntities=teamRepository.findAllByPersonId(personId);
         List<ProjectEntity> projectEntityList=new ArrayList<>();
 
 
@@ -49,7 +49,7 @@ public class ProjectService implements IProjectService {
     @Override
     public List<ProjectEntity> getAllProjectsByPersonId(Integer personId, Boolean isMember) {
 
-        List<TeamEntity> teamEntities=teamRepository.getAllByPersonIdAndMember(personId, isMember);
+        List<TeamEntity> teamEntities=teamRepository.findAllByPersonIdAndMember(personId, isMember);
         List<ProjectEntity> projectEntityList=new ArrayList<>();
 
         for(int i=0; i<teamEntities.size(); i++) {
@@ -57,5 +57,10 @@ public class ProjectService implements IProjectService {
         }
 
         return projectEntityList;
+    }
+
+    @Override
+    public Boolean isExist(Integer projectId) {
+        return projectRepository.exists(projectId);
     }
 }

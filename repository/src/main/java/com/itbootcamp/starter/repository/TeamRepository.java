@@ -13,11 +13,11 @@ import java.util.List;
 @Repository
 public interface TeamRepository extends CrudRepository<TeamEntity,Integer> {
 
-    List<TeamEntity> getAllByPersonId(Integer personId);
-    List<TeamEntity> getAllByProjectId(Integer projectId);
-    List<TeamEntity> getAllByPersonIdAndMember(Integer personId,Boolean isMember);
-    List<TeamEntity> getAllByProjectIdAndMember(Integer projectId, Boolean isMember);
-    TeamEntity getByPersonIdAndProjectId(Integer personId, Integer projectId);
+    List<TeamEntity> findAllByPersonId(Integer personId);
+    List<TeamEntity> findAllByProjectId(Integer projectId);
+    List<TeamEntity> findAllByPersonIdAndMember(Integer personId, Boolean isMember);
+    List<TeamEntity> findAllByProjectIdAndMember(Integer projectId, Boolean isMember);
+    TeamEntity findByPersonIdAndProjectId(Integer personId, Integer projectId);
 
 
 }

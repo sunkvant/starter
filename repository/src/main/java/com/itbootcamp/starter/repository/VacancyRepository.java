@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Sergei on 7/21/2017.
  */
 @Repository
-public interface VacancyEntityRepository extends CrudRepository<VacancyEntity,Long> {
-    VacancyEntity findByProjectId(Integer projectId);
+public interface VacancyRepository extends CrudRepository<VacancyEntity,Integer> {
+    List<VacancyEntity> findByProjectId(Integer projectId);
     List<VacancyEntity> findByPersonNumberBetween(Integer after, Integer before);
 }

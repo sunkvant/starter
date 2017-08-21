@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class ProfileDTO {
 
-
     private Integer id;
     private String login;
     private String fullName;
@@ -29,9 +28,18 @@ public class ProfileDTO {
     private List<WorkplaceDTO> workplaces;
     private List<EducationDTO> educations;
     private List<SkillDTO> skills;
+    private List<ReviewDTO> reviews;
     private Boolean isApproved;
     private Boolean isMentorExp;
     private String experience;
+
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
 
     public DirectionDTO getDirection() {
         return direction;

@@ -22,6 +22,15 @@ public class ProjectDTO {
     private List<LanguageDTO> languages;
     private List<VacancyDTO> vacancies;
     private List<MemberDTO> team;
+    private List<ReviewDTO> reviews;
+
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
 
     public Integer getId() {
         return id;

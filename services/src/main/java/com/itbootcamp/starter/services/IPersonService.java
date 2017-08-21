@@ -2,6 +2,7 @@ package com.itbootcamp.starter.services;
 
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.PositionEntity;
+import org.apache.el.parser.BooleanNode;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public interface IPersonService {
 
     PersonEntity getById(Integer personId);
+    PersonEntity getByLogin(String login);
     List<PersonEntity> getAllPersonsByProjectId(Integer projectId);
     List<PersonEntity> getAllPersonsByProjectId(Integer projectId, Boolean isMember);
     PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);

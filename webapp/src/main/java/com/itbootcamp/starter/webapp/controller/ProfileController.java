@@ -1,10 +1,9 @@
 package com.itbootcamp.starter.webapp.controller;
 
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.webapp.dto.ProfileDTO;
-import com.itbootcamp.starter.webapp.dto.DTOFactory;
+import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +29,6 @@ public class ProfileController {
         if (personEntity == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
-
-        return new ResponseEntity<ProfileDTO>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
-
-
-
-
+        return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
-
 }
