@@ -1,6 +1,5 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,9 +10,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "review")
 public class ReviewEntity  extends AbstractEntityID{
-    @Expose private Timestamp date;
-    @Expose private Integer rating;
-    @Expose private String text;
+    private Timestamp date;
+    private Integer rating;
+    private String text;
     private PersonEntity receiverPerson;
     private PersonEntity senderPerson;
     private ProjectEntity project;

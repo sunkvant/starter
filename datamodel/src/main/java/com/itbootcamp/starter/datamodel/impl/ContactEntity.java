@@ -1,10 +1,9 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,14 +11,14 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "contact")
-public class ContactEntity extends AbstractEntityID{
-    @Expose private String fullName;
-    @Expose private Timestamp dateOfBirth;
-    @Expose private String avatarPath;
-    @Expose private String phone;
-    @Expose private String skype;
-    @Expose private String email;
-    @Expose private String about;
+public class ContactEntity extends AbstractEntityID implements Serializable{
+     private String fullName;
+     private Timestamp dateOfBirth;
+     private String avatarPath;
+     private String phone;
+     private String skype;
+     private String email;
+     private String about;
     private PersonEntity person;
 
     @Column(name = "full_name", nullable = false, length = 255)

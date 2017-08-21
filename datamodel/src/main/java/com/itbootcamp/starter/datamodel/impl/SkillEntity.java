@@ -1,7 +1,6 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "skill")
 public class SkillEntity  extends AbstractEntityID{
-    @Expose private String name;
+    private String name;
     private List<ProfileEntity> profiles;
     private List<VacancyEntity> vacancies;
 

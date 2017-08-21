@@ -18,7 +18,7 @@ public class ProjectDTO {
     private String contactInfo;
     private String projectStatus;
     private String projectCategory;
-    private CustomerAdminModerDTO customer;
+    private ProfileDTO customer;
     private List<LanguageDTO> languages;
     private List<VacancyDTO> vacancies;
     private List<MemberDTO> team;
@@ -31,11 +31,11 @@ public class ProjectDTO {
         this.id = id;
     }
 
-    public CustomerAdminModerDTO getCustomer() {
+    public ProfileDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerAdminModerDTO customer) {
+    public void setCustomer(ProfileDTO customer) {
         this.customer = customer;
     }
 

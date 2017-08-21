@@ -14,6 +14,12 @@ import com.itbootcamp.starter.webapp.dto.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +32,7 @@ import java.util.List;
 /**
  * Created by admin on 8/16/2017.
  */
-
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RestController
 public class ProjectController {
 
@@ -39,8 +45,11 @@ public class ProjectController {
     @Autowired
     private DTOFactory dtoFactory;
 
+    @PreAuthorize("hasAuthority('Admin')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.GET)
-    ResponseEntity<ProjectDTO> getProject(@PathVariable Integer projectId) {
+    ResponseEntity<ProjectDTO> getProject(@PathVariable Integer projectId, OAuth2Authentication auth) {
+
+        System.out.println(auth.getName());
 
         ProjectEntity projectEntity = projectService.getById(projectId);
 

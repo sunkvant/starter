@@ -2,8 +2,6 @@ package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import javax.persistence.*;
 import javax.validation.groups.ConvertGroup;
@@ -15,18 +13,12 @@ import javax.validation.groups.ConvertGroup;
 @Table(name = "education")
 public class EducationEntity extends AbstractEntityID{
 
-    @Expose
     private String name;
-    @Expose
     private String faculty;
-    @Expose
     private String speciality;
-    @Expose
     private Integer graduationYear;
 
     private ProfileEntity profile;
-
-    @Expose @SerializedName(value = "educationType")
     private EducationTypeEntity educationTypeEntity;
     private Integer educationTypeId;
 

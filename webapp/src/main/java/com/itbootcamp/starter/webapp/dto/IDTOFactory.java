@@ -11,9 +11,7 @@ public interface IDTOFactory {
     public PositionDTO getPositionDTO(PositionEntity positionEntity);
     public MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity);
     public SkillDTO getSkillDTO(SkillEntity skillEntity);
-    public CustomerAdminModerDTO getCustomerAdminModerDTO(PersonEntity personEntity);
-    public MentorDTO getMentorDTO(PersonEntity personEntity);
-    public TraineeDTO getTraineeDTO(PersonEntity personEntity);
+    public ProfileDTO getProfileDTO(PersonEntity personEntity);
     public DirectionDTO getDirectionDTO(DirectionEntity directionEntity);
     public CourseDTO getCourseDTO(CourseEntity courseEntity);
     public WorkplaceDTO getWorkplaceDTO(WorkplaceEntity workplaceEntity);

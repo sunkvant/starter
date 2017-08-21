@@ -3,7 +3,7 @@ package com.itbootcamp.starter.webapp.controller;
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
-import com.itbootcamp.starter.webapp.dto.AbstractPersonDTO;
+import com.itbootcamp.starter.webapp.dto.ProfileDTO;
 import com.itbootcamp.starter.webapp.dto.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class ProfileController {
     private DTOFactory dtoFactory;
 
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.GET)
-    ResponseEntity<AbstractPersonDTO> getProfile(@PathVariable Integer personId) {
+    ResponseEntity<ProfileDTO> getProfile(@PathVariable Integer personId) {
 
         PersonEntity personEntity = personService.getById(personId);
 
@@ -32,24 +32,9 @@ public class ProfileController {
         }
 
 
-        if ((personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN)) || (personEntity.getRole().getName().equals(RoleType.ROLE_CUSTOMER)) || (personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
-            return new ResponseEntity<AbstractPersonDTO>(dtoFactory.getCustomerAdminModerDTO(personEntity), HttpStatus.OK);
+        return new ResponseEntity<ProfileDTO>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
 
-        }
-        if (personEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE)) {
-
-
-            return new ResponseEntity<AbstractPersonDTO>(dtoFactory.getTraineeDTO(personEntity), HttpStatus.OK);
-
-
-
-        } else {
-
-
-            return new ResponseEntity<AbstractPersonDTO>(dtoFactory.getMentorDTO(personEntity), HttpStatus.OK);
-
-        }
 
 
 

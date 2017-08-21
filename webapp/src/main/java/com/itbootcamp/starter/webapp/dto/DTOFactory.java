@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class DTOFactory implements  IDTOFactory {
         ProjectDTO projectDTO=new ProjectDTO();
 
         projectDTO.setId(projectEntity.getId());
-        projectDTO.setCustomer(getCustomerAdminModerDTO(projectEntity.getCustomer()));
+        projectDTO.setCustomer(getProfileDTO(projectEntity.getCustomer()));
         projectDTO.setName(projectEntity.getName());
         projectDTO.setDescription(projectEntity.getDescription());
         projectDTO.setDateStart(projectEntity.getDateStart());
@@ -129,11 +128,10 @@ public class DTOFactory implements  IDTOFactory {
 
         MemberDTO memberDTO=new MemberDTO();
 
-        memberDTO.setId(personEntity.getId());
-        memberDTO.setFullName(personEntity.getContact().getFullName());
+        memberDTO.setMember(getProfileDTO(personEntity));
         memberDTO.setPosition(getPositionDTO(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId())));
         memberDTO.setRole(getRoleDTO(personEntity.getRole()));
-        memberDTO.setMember(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()));
+        memberDTO.setActive(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()));
 
 
         return memberDTO;
@@ -149,46 +147,26 @@ public class DTOFactory implements  IDTOFactory {
         return skillDTO;
     }
 
-    @Override
-    public CustomerAdminModerDTO getCustomerAdminModerDTO(PersonEntity personEntity) {
-
-        CustomerAdminModerDTO customerDTO=new CustomerAdminModerDTO();
-
-        customerDTO.setId(personEntity.getId());
-        customerDTO.setLogin(personEntity.getLogin());
-        customerDTO.setFullName(personEntity.getContact().getFullName());
-        customerDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
-        customerDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
-        customerDTO.setPhone(personEntity.getContact().getPhone());
-        customerDTO.setSkype(personEntity.getContact().getSkype());
-        customerDTO.setEmail(personEntity.getContact().getEmail());
-        customerDTO.setAbout(personEntity.getContact().getAbout());
-        customerDTO.setRole(getRoleDTO(personEntity.getRole()));
-        customerDTO.setBlocked(personEntity.getBlocked());
-
-
-        return customerDTO;
-    }
 
     @Override
-    public MentorDTO getMentorDTO(PersonEntity personEntity) {
+    public ProfileDTO getProfileDTO(PersonEntity personEntity) {
 
-        MentorDTO mentorDTO=new MentorDTO();
+        ProfileDTO profileDTO =new ProfileDTO();
 
-        mentorDTO.setId(personEntity.getId());
-        mentorDTO.setLogin(personEntity.getLogin());
-        mentorDTO.setFullName(personEntity.getContact().getFullName());
-        mentorDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
-        mentorDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
-        mentorDTO.setPhone(personEntity.getContact().getPhone());
-        mentorDTO.setSkype(personEntity.getContact().getSkype());
-        mentorDTO.setEmail(personEntity.getContact().getEmail());
-        mentorDTO.setAbout(personEntity.getContact().getAbout());
-        mentorDTO.setRole(getRoleDTO(personEntity.getRole()));
-        mentorDTO.setBlocked(personEntity.getBlocked());
-        mentorDTO.setApproved(personEntity.getProfile().getApproved());
+        profileDTO.setId(personEntity.getId());
+        profileDTO.setLogin(personEntity.getLogin());
+        profileDTO.setFullName(personEntity.getContact().getFullName());
+        profileDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
+        profileDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
+        profileDTO.setPhone(personEntity.getContact().getPhone());
+        profileDTO.setSkype(personEntity.getContact().getSkype());
+        profileDTO.setEmail(personEntity.getContact().getEmail());
+        profileDTO.setAbout(personEntity.getContact().getAbout());
+        profileDTO.setRole(getRoleDTO(personEntity.getRole()));
+        profileDTO.setBlocked(personEntity.getBlocked());
+        profileDTO.setApproved(personEntity.getProfile().getApproved());
 
-        mentorDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
+        profileDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
 
 
         List<CourseDTO> courseDTO=new ArrayList<>();
@@ -199,7 +177,7 @@ public class DTOFactory implements  IDTOFactory {
 
         }
 
-        mentorDTO.setCourses(courseDTO);
+        profileDTO.setCourses(courseDTO);
 
         List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
 
@@ -209,7 +187,7 @@ public class DTOFactory implements  IDTOFactory {
 
         }
 
-        mentorDTO.setWorkplaces(workplacesDTO);
+        profileDTO.setWorkplaces(workplacesDTO);
 
 
         List<EducationDTO> educationsDTO=new ArrayList<>();
@@ -220,7 +198,7 @@ public class DTOFactory implements  IDTOFactory {
 
         }
 
-        mentorDTO.setEducations(educationsDTO);
+        profileDTO.setEducations(educationsDTO);
 
         List<SkillDTO> skillsDTO=new ArrayList<>();
 
@@ -230,86 +208,26 @@ public class DTOFactory implements  IDTOFactory {
 
         }
 
-        mentorDTO.setSkills(skillsDTO);
+        profileDTO.setSkills(skillsDTO);
 
 
 
+        if (personEntity.getMentorInfo()==null) {
 
-        mentorDTO.setMentorExp(personEntity.getMentorInfo().getMentorExp());
-        mentorDTO.setExperience(personEntity.getMentorInfo().getExperience());
+            profileDTO.setMentorExp(false);
+            profileDTO.setExperience("");
 
-        return mentorDTO;
+        } else {
 
-    }
-
-    @Override
-    public TraineeDTO getTraineeDTO(PersonEntity personEntity) {
-        TraineeDTO traineeDTO=new TraineeDTO();
-
-        traineeDTO.setId(personEntity.getId());
-        traineeDTO.setLogin(personEntity.getLogin());
-        traineeDTO.setFullName(personEntity.getContact().getFullName());
-        traineeDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
-        traineeDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
-        traineeDTO.setPhone(personEntity.getContact().getPhone());
-        traineeDTO.setSkype(personEntity.getContact().getSkype());
-        traineeDTO.setEmail(personEntity.getContact().getEmail());
-        traineeDTO.setAbout(personEntity.getContact().getAbout());
-        traineeDTO.setRole(getRoleDTO(personEntity.getRole()));
-        traineeDTO.setBlocked(personEntity.getBlocked());
-        traineeDTO.setApproved(personEntity.getProfile().getApproved());
-
-        traineeDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
-
-
-        List<CourseDTO> courseDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getCourses().size(); i++) {
-
-            courseDTO.add(getCourseDTO(personEntity.getProfile().getCourses().get(i)));
+            profileDTO.setMentorExp(personEntity.getMentorInfo().getMentorExp());
+            profileDTO.setExperience(personEntity.getMentorInfo().getExperience());
 
         }
 
-        traineeDTO.setCourses(courseDTO);
-
-        List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
-
-            workplacesDTO.add(getWorkplaceDTO(personEntity.getProfile().getWorkplaces().get(i)));
-
-        }
-
-        traineeDTO.setWorkplaces(workplacesDTO);
 
 
-        List<EducationDTO> educationsDTO=new ArrayList<>();
+        return profileDTO;
 
-        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
-
-            educationsDTO.add(getEducationDTO(personEntity.getProfile().getEducations().get(i)));
-
-        }
-
-        traineeDTO.setEducations(educationsDTO);
-
-        List<SkillDTO> skillsDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getSkills().size(); i++) {
-
-            skillsDTO.add(getSkillDTO(personEntity.getProfile().getSkills().get(i)));
-
-        }
-
-        traineeDTO.setSkills(skillsDTO);
-
-
-
-
-
-
-
-        return traineeDTO;
     }
 
     @Override
@@ -365,7 +283,7 @@ public class DTOFactory implements  IDTOFactory {
         educationDTO.setSpeciality(educationEntity.getSpeciality());
         educationDTO.setGraduationYear(educationEntity.getGraduationYear());
 
-        return null;
+        return educationDTO;
     }
 
 

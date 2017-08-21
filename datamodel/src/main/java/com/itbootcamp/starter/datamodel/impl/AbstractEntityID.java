@@ -1,16 +1,15 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.google.gson.annotations.Expose;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by admin on 8/9/2017.
  */
 @MappedSuperclass
-public abstract class AbstractEntityID {
+public abstract class AbstractEntityID implements Serializable {
 
-    @Expose protected Integer id;
+     protected Integer id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

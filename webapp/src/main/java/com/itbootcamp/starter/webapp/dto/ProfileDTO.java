@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by admin on 8/14/2017.
  */
-public class AbstractPersonDTO {
+public class ProfileDTO {
 
 
     private Integer id;
@@ -23,6 +24,81 @@ public class AbstractPersonDTO {
     private String about;
     private RoleDTO role;
     private Boolean isBlocked;
+    private DirectionDTO direction;
+    private List<CourseDTO> courses;
+    private List<WorkplaceDTO> workplaces;
+    private List<EducationDTO> educations;
+    private List<SkillDTO> skills;
+    private Boolean isApproved;
+    private Boolean isMentorExp;
+    private String experience;
+
+    public DirectionDTO getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DirectionDTO direction) {
+        this.direction = direction;
+    }
+
+    public List<CourseDTO> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<CourseDTO> courses) {
+        this.courses = courses;
+    }
+
+    public List<WorkplaceDTO> getWorkplaces() {
+        return workplaces;
+    }
+
+    public void setWorkplaces(List<WorkplaceDTO> workplaces) {
+        this.workplaces = workplaces;
+    }
+
+    public List<EducationDTO> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(List<EducationDTO> educations) {
+        this.educations = educations;
+    }
+
+    public List<SkillDTO> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<SkillDTO> skills) {
+        this.skills = skills;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
+
+    public Boolean getMentorExp() {
+        return isMentorExp;
+    }
+
+    public void setMentorExp(Boolean mentorExp) {
+        isMentorExp = mentorExp;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public ProfileDTO() {
+    }
 
     public Integer getId() {
         return id;

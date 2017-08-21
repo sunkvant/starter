@@ -1,8 +1,10 @@
 package com.itbootcamp.starter.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -18,22 +20,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableResourceServer/*
-@Order(SecurityProperties.BASIC_AUTH_ORDER)*/
+@EnableResourceServer
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     JdbcTokenStore tokenStore;
-
- /* @Override // [3]
-    public void configure(HttpSecurity http) throws Exception {
-
-        http
-                .requestMatchers()
-                .antMatchers("/")
-                .and()
-                .authorizeRequests()
-                  .anyRequest().authenticated();
-    }*/
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -46,17 +37,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
     }
-    private static class OAuthRequestedMatcher implements RequestMatcher {
-        public boolean matches(HttpServletRequest request) {
-            String auth = request.getHeader("Authorization");
-            // Determine if the client request contained an OAuth Authorization
-            boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
-            boolean haveAccessToken = request.getParameter("access_token")!=null;
-            return haveOauth2Token || haveAccessToken;
-        }
-    }
-
 
 }

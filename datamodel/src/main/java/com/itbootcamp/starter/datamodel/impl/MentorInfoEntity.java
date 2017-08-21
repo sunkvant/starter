@@ -1,6 +1,5 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 

@@ -1,7 +1,6 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.Expose;
 
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
->>>>>>> datamodel/src/main/java/com/itbootcamp/starter/datamodel/impl/RoleEntity.java
 import java.util.List;
 
 /**
@@ -23,7 +21,7 @@ public class RoleEntity  extends AbstractEntityID
     implements Serializable
 
 {
-    @Expose private String name;
+    private String name;
 
     @JsonIgnore
     private List<PersonEntity> person;

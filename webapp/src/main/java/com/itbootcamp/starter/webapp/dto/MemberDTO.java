@@ -5,26 +5,17 @@ package com.itbootcamp.starter.webapp.dto;
  */
 public class MemberDTO {
 
-    private Integer id;
-    private String fullName;
+    private ProfileDTO member;
     private PositionDTO position;
     private RoleDTO role;
-    private Boolean isMember;
+    private Boolean isActive;
 
-    public Integer getId() {
-        return id;
+    public void setMember(ProfileDTO member) {
+        this.member = member;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public ProfileDTO getMember() {
+        return member;
     }
 
     public PositionDTO getPosition() {
@@ -43,11 +34,11 @@ public class MemberDTO {
         this.role = role;
     }
 
-    public Boolean getMember() {
-        return isMember;
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setMember(Boolean member) {
-        isMember = member;
+    public void setActive(Boolean member) {
+        isActive = member;
     }
 }

@@ -26,11 +26,17 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Configuration
 @EnableWebSecurity
-@Order(2)
+//@Order(2)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private MyUserDetailsService myUserDetailService;
+
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -38,31 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
- /*   @Bean
-    public ResourceServerTokenServices tokenService() {
-        RemoteTokenServices tokenServices = new RemoteTokenServices();
-        tokenServices.setClientId("clientIdPassword");
-        tokenServices.setClientSecret("secret");
-        tokenServices.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
-        return tokenServices;
-    }*/
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-/* @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        OAuth2AuthenticationManager authenticationManager = new OAuth2AuthenticationManager();
-        authenticationManager.setTokenServices(tokenService());
-        return authenticationManager;
-    }*/
-
-    @Autowired
-    private MyUserDetailsService myUserDetailService;
-
 
 
 
@@ -71,15 +57,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable();
-        // @formatter:off
         http
-               // .requestMatcher(new BasicRequestMatcher())
+                //.requestMatcher(new BasicRequestMatcher())
                 .authorizeRequests()
 
-                .anyRequest().permitAll();/*
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(new OAuth2AuthenticationEntryPoint());*/
+                .anyRequest().authenticated();
+
 
         http.logout().logoutUrl("/logout").deleteCookies("access_token").permitAll();
     }
