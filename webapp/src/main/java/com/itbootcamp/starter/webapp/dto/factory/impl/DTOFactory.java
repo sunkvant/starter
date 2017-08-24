@@ -275,6 +275,11 @@ public class DTOFactory implements IDTOFactory {
     }
 
     @Override
+    public CourseDTO getCourseDTO(CourseEntity courseEntity) {
+        return null;
+    }
+
+    @Override
     public List<CourseDTO> getCoursesDTO(List<CourseEntity> coursesEntity) {
 
         List<CourseDTO> coursesDTO=new ArrayList<>();

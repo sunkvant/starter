@@ -1,7 +1,6 @@
 package com.itbootcamp.starter.services;
 
 import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ public interface IProjectService {
     List<ProjectEntity> getAllProjectsByPersonId(Integer personId, Boolean isMember);
     Boolean isExist(Integer projectId);
 
-
+    List<ProjectEntity> searchProjects(SearchProjectEntity searchProjectEntity);
 }
