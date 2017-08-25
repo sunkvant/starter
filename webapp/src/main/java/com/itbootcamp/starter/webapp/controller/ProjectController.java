@@ -1,24 +1,18 @@
 package com.itbootcamp.starter.webapp.controller;
 
 
-import com.itbootcamp.starter.datamodel.impl.LanguageEntity;
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
 import com.itbootcamp.starter.webapp.dto.ProjectDTO;
-import com.itbootcamp.starter.webapp.dto.SearchProjectDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +43,10 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        ProjectEntity projectEntity=projectService.getById(projectId);
+        ProjectEntity projectEntity = projectService.getById(projectId);
 
-        return new ResponseEntity<>(dtoFactory.getProjectDTO(projectEntity),HttpStatus.OK);
+        return new ResponseEntity<>(dtoFactory.getProjectDTO(projectEntity), HttpStatus.OK);
     }
-
 
 
     @RequestMapping(value = "/api/profile/{personId}/projects", method = RequestMethod.GET)
@@ -74,8 +67,7 @@ public class ProjectController {
                 projects.add(dtoFactory.getProjectDTO(personEntity.getCustomerProjects().get(i)));
             }
 
-        }
-        else {
+        } else {
             for (int i = 0; i < projectService.getAllProjectsByPersonId(personId).size(); i++) {
                 projects.add(dtoFactory.getProjectDTO(projectService.getAllProjectsByPersonId(personId).get(i)));
             }
@@ -83,18 +75,23 @@ public class ProjectController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/project/search", method = RequestMethod.POST)
-    ResponseEntity<List<ProjectDTO>> searchProject(RequestEntity<SearchProjectDTO> searchProjectDTO) {
+
+    @RequestMapping(value = "/api/project/search", method = RequestMethod.GET)
+    ResponseEntity<List<ProjectDTO>> searchProject(
+            @RequestParam(required = false) String projectName,
+            @RequestParam(value = "projectCategories", required = false) List<String> projectCategoryList,
+            @RequestParam(value = "projectStatuses", required = false) List<String> projectStatusList,
+            @RequestParam(value = "projectLanguages", required = false) List<String> projectLanguageList) {
 
 
-        List<ProjectEntity> projectEntityList = projectService.searchProjects(entityFactory.getSearchProjectEntity(searchProjectDTO.getBody()));
+        List<ProjectEntity> projectEntityList =
+                projectService.searchProjects(projectName, projectCategoryList, projectStatusList, projectLanguageList);
+
         List<ProjectDTO> projectDTOList = new ArrayList<>();
 
         for (int i = 0; i < projectEntityList.size(); i++) {
             projectDTOList.add(dtoFactory.getProjectDTO(projectEntityList.get(i)));
         }
         return new ResponseEntity<>(projectDTOList, HttpStatus.OK);
-
-
     }
 }

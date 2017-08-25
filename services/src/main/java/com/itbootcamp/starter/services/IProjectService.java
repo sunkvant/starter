@@ -14,5 +14,8 @@ public interface IProjectService {
     List<ProjectEntity> getAllProjectsByPersonId(Integer personId, Boolean isMember);
     Boolean isExist(Integer projectId);
 
-    List<ProjectEntity> searchProjects(SearchProjectEntity searchProjectEntity);
+    List<ProjectEntity> searchProjects(String projectName,
+                                       List<String> projectCategoryList,
+                                       List<String> projectStatusList,
+                                       List<String> projectLanguageList);
 }
