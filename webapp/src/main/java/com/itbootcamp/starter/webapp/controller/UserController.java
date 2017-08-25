@@ -39,7 +39,7 @@ public class UserController {
         educationEntity.setProfile(profileRepository.findOne(1));
 
 
-        educationService.update(educationEntity);
+        //educationService.update(educationEntity);
 
 
         return new ResponseEntity(HttpStatus.CREATED);

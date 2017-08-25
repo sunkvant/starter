@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
+
 public class EducationDTO {
 
     private Integer id;
@@ -7,6 +9,15 @@ public class EducationDTO {
     private String faculty;
     private String speciality;
     private Integer graduationYear;
+    private EducationTypeDTO educationType;
+
+    public EducationTypeDTO getEducationType() {
+        return educationType;
+    }
+
+    public void setEducationType(EducationTypeDTO educationType) {
+        this.educationType = educationType;
+    }
 
     public Integer getId() {
         return id;

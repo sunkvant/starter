@@ -10,7 +10,7 @@ import java.util.List;
  * Created by foooox on 20.7.17.
  */
 @Repository
-public interface RoleRepository extends CrudRepository<RoleEntity,Long>{
+public interface RoleRepository extends CrudRepository<RoleEntity,Integer>{
 
     List<RoleEntity> findByName(String name);
 }

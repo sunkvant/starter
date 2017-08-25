@@ -54,7 +54,7 @@ public class EducationController {
 
         educationEntity.setEducationTypeEntity(educationTypeEntity);
 
-        educationService.addEducation(educationEntity);
+       // educationService.addEducation(educationEntity);
         //educationService.addEducation(education.getBody());
 
 

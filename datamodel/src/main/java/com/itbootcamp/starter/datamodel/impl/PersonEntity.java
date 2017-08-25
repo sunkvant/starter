@@ -19,7 +19,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class PersonEntity extends AbstractEntityID
                           implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity, UserDetails {
     private String login;
@@ -108,7 +107,7 @@ public class PersonEntity extends AbstractEntityID
     }
 
     @Override
-    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     public ContactEntity getContact() {
         return contact;
     }
@@ -131,7 +130,7 @@ public class PersonEntity extends AbstractEntityID
     }
 
     @Override
-    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     public ProfileEntity getProfile() {
         return profile;
     }

@@ -13,7 +13,7 @@ public class MentorInfoEntity extends AbstractEntityID{
     private String experience;
     private PersonEntity person;
 
-    @Column(name = "is_mentor_exp", nullable = false)
+    @Column(name = "is_mentor_exp")
     public Boolean getMentorExp() {
         return isMentorExp;
     }

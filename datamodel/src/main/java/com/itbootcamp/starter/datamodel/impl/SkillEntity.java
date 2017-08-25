@@ -34,11 +34,10 @@ public class SkillEntity  extends AbstractEntityID{
         this.name = name;
     }
 
-    @ManyToMany
-    @JsonIgnore
-    @JoinTable(name = "profile_to_skill",
+    @ManyToMany(mappedBy = "skills")
+/*    @JoinTable(name = "profile_to_skill",
             joinColumns = @JoinColumn(name = "skill_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "profile_id", nullable = false))
+            inverseJoinColumns = @JoinColumn(name = "profile_id", nullable = false))*/
     public List<ProfileEntity> getProfiles() {
         return profiles;
     }

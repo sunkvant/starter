@@ -1,9 +1,9 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.PositionEntity;
-import com.itbootcamp.starter.datamodel.impl.TeamEntity;
+import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.repository.DirectionRepository;
 import com.itbootcamp.starter.repository.PersonRepository;
+import com.itbootcamp.starter.repository.RoleRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,15 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private DirectionRepository directionRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private EducationService educationService;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -81,6 +90,58 @@ public class PersonService implements IPersonService {
         TeamEntity teamEntity = teamRepository.findByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getMember();
+    }
+
+    @Override
+    public Boolean create(PersonEntity personEntity) {
+
+        if (personRepository.findByLogin(personEntity.getLogin())!=null) {
+
+            return false;
+
+
+        }
+
+        if ((!roleRepository.exists(personEntity.getRole().getId()))
+                || (personEntity.getRole().getId()==1)
+                    ||(personEntity.getRole().getId()==2)) {
+
+            return false;
+
+
+        }
+
+
+
+        if (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
+
+            return false;
+
+
+        }
+
+        personEntity.setBlocked(false);
+        personEntity.getProfile().setApproved(false);
+
+        personRepository.save(personEntity);
+
+        List<EducationEntity> educationEntities=personEntity.getProfile().getEducations();
+
+        for (int i=0; i<educationEntities.size(); i++) {
+
+            educationService.add(educationEntities.get(i),personEntity);
+
+        }
+
+        ProfileEntity profileEntity1=personEntity.getProfile();
+
+        //profileEntity1.setSkills(skillEntities);
+
+        //profileRepository.save(profileEntity1);
+
+
+
+        return null;
     }
 
 

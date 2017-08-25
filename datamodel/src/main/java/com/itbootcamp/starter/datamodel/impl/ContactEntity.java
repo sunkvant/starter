@@ -1,10 +1,12 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import org.hibernate.annotations.Parameter;
 
 /**
  * Created by admin on 8/8/2017.
@@ -20,6 +22,12 @@ public class ContactEntity extends AbstractEntityID implements Serializable{
      private String email;
      private String about;
     private PersonEntity person;
+    private Integer id;
+
+
+
+  //  @GenericGenerator(name = "generator", strategy = "foreign",
+   //         parameters = @Parameter(name = "property", value = "person"))
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {
@@ -85,8 +93,9 @@ public class ContactEntity extends AbstractEntityID implements Serializable{
     }
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    //@PrimaryKeyJoinColumn
+    @MapsId
     public PersonEntity getPerson() {
         return person;
     }

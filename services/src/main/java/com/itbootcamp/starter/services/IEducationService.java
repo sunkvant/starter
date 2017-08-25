@@ -11,9 +11,7 @@ import java.util.List;
  */
 public interface IEducationService {
 
-    void addEducation(EducationEntity educationEntity);
+    Boolean add(EducationEntity educationEntity,PersonEntity personEntity);
+    Boolean update(EducationEntity educationEntity,PersonEntity personEntity);
 
-    List<EducationEntity> getAllByprofile(ProfileEntity profileEntity);
-
-    void update(EducationEntity educationEntity);
 }

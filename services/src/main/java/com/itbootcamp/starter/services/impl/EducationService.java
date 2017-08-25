@@ -25,24 +25,57 @@ public class EducationService implements IEducationService {
     @Autowired
     EducationRepository educationRepository;
 
+
     @Override
-    public void addEducation(EducationEntity educationEntity) {
+    public Boolean add(EducationEntity educationEntity, PersonEntity personEntity) {
 
-        profileRepository.exists(educationEntity.getProfile().getId());
+        if (personEntity.getProfile() == null) {
 
+            return false;
 
+        } else {
+
+            educationEntity.setId(null);
+            educationEntity.setProfile(personEntity.getProfile());
+
+            if (educationRepository.save(educationEntity) != null) {
+
+                return true;
+
+            }
+
+            return false;
+        }
     }
 
     @Override
-    public List<EducationEntity> getAllByprofile(ProfileEntity profileEntity) {
+    public Boolean update(EducationEntity educationEntity,PersonEntity personEntity) {
+        if (personEntity.getProfile() == null) {
 
-       return educationRepository.findAllByProfile(profileEntity);
+            return false;
 
-    }
+        } else {
 
-    @Override
-    public void update(EducationEntity educationEntity) {
-        educationRepository.save(educationEntity);
+            List<EducationEntity> educationEntities = personEntity.getProfile().getEducations();
+
+            for (int i = 0; i < educationEntities.size(); i++) {
+
+                if (educationEntity.getId() == educationEntities.get(i).getId()) {
+
+                    educationEntity.setProfile(personEntity.getProfile());
+                    if (educationRepository.save(educationEntity) != null) {
+
+                        return true;
+
+                    }
+
+                }
+
+            }
+
+            return false;
+
+        }
     }
 
 }

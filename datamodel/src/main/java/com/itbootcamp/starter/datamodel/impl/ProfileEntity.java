@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "profile")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class ProfileEntity  extends AbstractEntityID implements Serializable {
     private Integer directionId;
     private Boolean isApproved;
@@ -43,7 +42,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         isApproved = approved;
     }
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL)
     public List<CourseEntity> getCourses() {
         return courses;
     }
@@ -63,6 +62,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @MapsId
     public PersonEntity getPerson() {
         return person;
     }
@@ -90,7 +90,10 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.workplaces = workplaces;
     }
 
-    @ManyToMany(mappedBy = "profiles",fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "profile_to_skill",
+            joinColumns = @JoinColumn(name = "profile_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "skill_id", nullable = false))
     public List<SkillEntity> getSkills() {
         return skills;
     }
