@@ -20,5 +20,6 @@ public interface IPersonService {
     PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
     Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
     Boolean create(PersonEntity personEntity);
+    Boolean update(PersonEntity personEntity);
 
 }

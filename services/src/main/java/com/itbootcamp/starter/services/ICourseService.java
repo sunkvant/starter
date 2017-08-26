@@ -6,6 +6,7 @@ import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 public interface ICourseService {
 
     Boolean add(CourseEntity courseEntity, PersonEntity personEntity);
+    Boolean update(CourseEntity courseEntity,PersonEntity personEntity);
 
 
 }

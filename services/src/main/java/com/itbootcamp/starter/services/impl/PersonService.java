@@ -1,10 +1,7 @@
 package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.datamodel.impl.*;
-import com.itbootcamp.starter.repository.DirectionRepository;
-import com.itbootcamp.starter.repository.PersonRepository;
-import com.itbootcamp.starter.repository.RoleRepository;
-import com.itbootcamp.starter.repository.TeamRepository;
+import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,12 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private EducationService educationService;
+
+    @Autowired
+    private EducationTypeRepository educationTypeRepository;
+
+    @Autowired
+    private SkillService skillService;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -92,19 +95,11 @@ public class PersonService implements IPersonService {
         return teamEntity.getMember();
     }
 
-    @Override
-    public Boolean create(PersonEntity personEntity) {
-
-        if (personRepository.findByLogin(personEntity.getLogin())!=null) {
-
-            return false;
-
-
-        }
+    private Boolean save(PersonEntity personEntity) {
 
         if ((!roleRepository.exists(personEntity.getRole().getId()))
                 || (personEntity.getRole().getId()==1)
-                    ||(personEntity.getRole().getId()==2)) {
+                ||(personEntity.getRole().getId()==2)) {
 
             return false;
 
@@ -120,28 +115,95 @@ public class PersonService implements IPersonService {
 
         }
 
-        personEntity.setBlocked(false);
-        personEntity.getProfile().setApproved(false);
 
-        personRepository.save(personEntity);
+
+        personEntity.getProfile().setId(personEntity.getId());
+        personEntity.getContact().setId(personEntity.getId());
+
+
+
+        if (personRepository.save(personEntity)!=null) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+
+
+    }
+
+    @Override
+    public Boolean create(PersonEntity personEntity) {
+
+            if (personRepository.findByLogin(personEntity.getLogin())!=null) {
+
+                return false;
+
+
+            }
+
+            personEntity.setId(null);
+
 
         List<EducationEntity> educationEntities=personEntity.getProfile().getEducations();
 
         for (int i=0; i<educationEntities.size(); i++) {
 
-            educationService.add(educationEntities.get(i),personEntity);
+            educationEntities.get(i).setId(null);
+
+            if (!educationTypeRepository.exists(educationEntities.get(i).getEducationTypeEntity().getId())) {
+
+                return false;
+
+            }
 
         }
 
-        ProfileEntity profileEntity1=personEntity.getProfile();
+        List<CourseEntity> courseEntities=personEntity.getProfile().getCourses();
 
-        //profileEntity1.setSkills(skillEntities);
+        for (int i=0; i<courseEntities.size(); i++) {
 
-        //profileRepository.save(profileEntity1);
+            courseEntities.get(i).setId(null);
+
+        }
+
+        List<WorkplaceEntity> workplaceEntities=personEntity.getProfile().getWorkplaces();
+
+        for (int i=0; i<workplaceEntities.size(); i++) {
+
+            workplaceEntities.get(i).setId(null);
+
+        }
+
+        personEntity.setBlocked(false);
+        personEntity.getProfile().setApproved(false);
+
+        return save(personEntity);
 
 
 
-        return null;
+
+
+    }
+
+    @Override
+    public Boolean update(PersonEntity personEntity) {
+
+        if (!personRepository.exists(personEntity.getId())) {
+
+            return false;
+
+
+        }
+        personEntity.getProfile().setId(personEntity.getId());
+
+        skillService.add(personEntity.getProfile().getSkills(),personEntity);
+
+        return save(personEntity);
     }
 
 

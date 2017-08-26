@@ -48,27 +48,66 @@ public class ProfileController {
 
 
     @RequestMapping(value = "/api/profile/", method = RequestMethod.POST)
-    ResponseEntity<ProfileDTO> setProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
+    ResponseEntity<ProfileDTO> createProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
 
 
-        PersonEntity personEntity;
+       // if (bindingResult.hasErrors()) {
 
-            personEntity = entityFactory.getPersonEntity(profileDTO);
+         //   return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+      //  }
+
+
+            PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
+
             if (!personService.create(personEntity)) {
 
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             }
 
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
+
+    @RequestMapping(value = "/api/profile/", method = RequestMethod.PUT)
+    ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
 
 
+        //if (bindingResult.hasErrors()) {
+
+     //       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+     //   }
+
+
+        PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
+
+        if (!personService.update(personEntity)) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
-        //   if (personEntity == null) {
-        //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.DELETE)
+    ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Integer personId) {
+
+
+        //if (bindingResult.hasErrors()) {
+
+        //       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         //   }
-        //   return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
-        // }
+
+
+        personRepository.delete(personId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 }

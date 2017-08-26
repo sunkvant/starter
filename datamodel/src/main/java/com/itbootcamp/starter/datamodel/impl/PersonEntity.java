@@ -107,7 +107,7 @@ public class PersonEntity extends AbstractEntityID
     }
 
     @Override
-    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     public ContactEntity getContact() {
         return contact;
     }

@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.datamodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,7 +36,8 @@ public class SkillEntity  extends AbstractEntityID{
     }
 
     @ManyToMany(mappedBy = "skills")
-/*    @JoinTable(name = "profile_to_skill",
+/*    @ManyToMany
+    @JoinTable(name = "profile_to_skill",
             joinColumns = @JoinColumn(name = "skill_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "profile_id", nullable = false))*/
     public List<ProfileEntity> getProfiles() {

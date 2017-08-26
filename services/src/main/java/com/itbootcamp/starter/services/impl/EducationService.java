@@ -19,8 +19,6 @@ import java.util.List;
 @Service
 public class EducationService implements IEducationService {
 
-    @Autowired
-    ProfileRepository profileRepository;
 
     @Autowired
     EducationRepository educationRepository;
