@@ -9,6 +9,7 @@ import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,11 @@ public class PersonService implements IPersonService {
         TeamEntity teamEntity = teamRepository.findByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getMember();
+    }
+
+    @Override
+    public List<PersonEntity> searchPersons(String role, String fullName, Timestamp dateOfBirth, String direction, String education, Boolean isWorking, Boolean isMentorExp, List<String> skills) {
+        return null;
     }
 
 

@@ -1,7 +1,5 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -11,15 +9,16 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "contact")
-public class ContactEntity extends AbstractEntityID implements Serializable{
-     private String fullName;
-     private Timestamp dateOfBirth;
-     private String avatarPath;
-     private String phone;
-     private String skype;
-     private String email;
-     private String about;
+public class ContactEntity extends AbstractEntityID implements Serializable {
+    private String fullName;
+    private Timestamp dateOfBirth;
+    private String avatarPath;
+    private String phone;
+    private String skype;
+    private String email;
+    private String about;
     private PersonEntity person;
+    private LocationEntity location;
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {
@@ -85,7 +84,6 @@ public class ContactEntity extends AbstractEntityID implements Serializable{
     }
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     public PersonEntity getPerson() {
         return person;
@@ -93,5 +91,15 @@ public class ContactEntity extends AbstractEntityID implements Serializable{
 
     public void setPerson(PersonEntity person) {
         this.person = person;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    public LocationEntity getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
     }
 }

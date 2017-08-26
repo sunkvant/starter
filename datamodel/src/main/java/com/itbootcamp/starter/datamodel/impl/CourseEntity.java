@@ -11,7 +11,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "course")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class CourseEntity extends AbstractEntityID{
     private String name;
     private String organization;

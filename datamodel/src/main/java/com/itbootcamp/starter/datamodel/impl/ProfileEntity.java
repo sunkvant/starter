@@ -24,6 +24,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
     private DirectionEntity direction;
     private List<WorkplaceEntity> workplaces;
     private List<SkillEntity> skills;
+    private MentorInfoEntity mentorInfo;
 
     @Column(name = "direction_id", nullable = false, insertable = false, updatable = false)
     public Integer getDirectionId() {
@@ -98,5 +99,15 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
     public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
     }
+
+    @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
+    public MentorInfoEntity getMentorInfo() {
+        return mentorInfo;
+    }
+
+    public void setMentorInfo(MentorInfoEntity mentorInfo) {
+        this.mentorInfo = mentorInfo;
+    }
+
 
 }

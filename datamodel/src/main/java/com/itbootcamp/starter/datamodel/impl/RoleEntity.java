@@ -1,9 +1,6 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-import javax.persistence.*;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -17,15 +14,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "role")
-public class RoleEntity  extends AbstractEntityID
-    implements Serializable
+public class RoleEntity  extends AbstractEntityID implements Serializable {
 
-{
     private String name;
-
-    @JsonIgnore
-    private List<PersonEntity> person;
-    @JsonIgnore
+    private List<PersonEntity> persons;
     private List<VacancyEntity> vacancies;
 
     @Column(name = "name", nullable = false, length = 255)
@@ -38,12 +30,12 @@ public class RoleEntity  extends AbstractEntityID
     }
 
     @OneToMany(mappedBy = "role")
-    public List<PersonEntity> getPerson() {
-        return person;
+    public List<PersonEntity> getPersons() {
+        return persons;
     }
 
-    public void setPerson(List<PersonEntity> person) {
-        this.person = person;
+    public void setPersons(List<PersonEntity> persons) {
+        this.persons = persons;
     }
 
     @OneToMany(mappedBy = "role")
