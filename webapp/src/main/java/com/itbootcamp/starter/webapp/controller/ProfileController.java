@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by admin on 8/14/2017.
@@ -51,11 +52,11 @@ public class ProfileController {
     ResponseEntity<ProfileDTO> createProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
 
 
-       // if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
 
-         //   return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-      //  }
+        }
 
 
             PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
@@ -74,11 +75,11 @@ public class ProfileController {
     ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
 
 
-        //if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
 
-     //       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
 
-     //   }
+        }
 
 
         PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
@@ -96,12 +97,11 @@ public class ProfileController {
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.DELETE)
     ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Integer personId) {
 
+        PersonEntity personEntity = personService.getById(personId);
 
-        //if (bindingResult.hasErrors()) {
-
-        //       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        //   }
+        if (personEntity == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
 
         personRepository.delete(personId);

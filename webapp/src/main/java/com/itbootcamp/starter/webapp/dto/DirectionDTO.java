@@ -1,8 +1,11 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class DirectionDTO {
 
     private Integer id;
+    @NotNull
     private String name;
 
     public Integer getId() {

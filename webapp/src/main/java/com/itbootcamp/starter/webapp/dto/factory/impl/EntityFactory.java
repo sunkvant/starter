@@ -197,7 +197,7 @@ return null;
 
         personEntity.setId(profileDTO.getId());
         personEntity.setLogin(profileDTO.getLogin());
-        personEntity.setPassword("evevtrbrb");
+        personEntity.setPassword(personEntity.getPassword());
         personEntity.setBlocked(profileDTO.getBlocked());
         personEntity.setRole(getRoleEntity(profileDTO.getRole()));
 
@@ -237,7 +237,7 @@ return null;
                 educationTypeEntity.setType(profileDTO.getEducations().get(i).getEducationType().getName());
 
                 educationEntity.setEducationTypeEntity(educationTypeEntity);
-                //educationEntity.setProfile(profileEntity);
+                educationEntity.setProfile(profileEntity);
 
                 educationEntities.add(educationEntity);
 

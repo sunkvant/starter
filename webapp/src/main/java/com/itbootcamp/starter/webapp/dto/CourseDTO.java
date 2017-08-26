@@ -1,11 +1,17 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class CourseDTO {
 
     private Integer id;
+    @NotNull
     private String name;
+    @NotNull
     private String organization;
+    @NotNull
     private String speciality;
+    @NotNull
     private Integer graduationYear;
 
 

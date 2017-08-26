@@ -2,13 +2,20 @@ package com.itbootcamp.starter.webapp.dto;
 
 import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
 
+import javax.validation.constraints.NotNull;
+
 public class EducationDTO {
 
     private Integer id;
+    @NotNull
     private String name;
+    @NotNull
     private String faculty;
+    @NotNull
     private String speciality;
+    @NotNull
     private Integer graduationYear;
+    @NotNull
     private EducationTypeDTO educationType;
 
     public EducationTypeDTO getEducationType() {

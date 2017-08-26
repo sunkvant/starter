@@ -3,6 +3,7 @@ package com.itbootcamp.starter.webapp.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Max;
@@ -20,13 +21,14 @@ public class ProfileDTO {
     private Integer id;
     @NotNull
     private String login;
-    @JsonIgnore
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotNull
     private String fullName;
     @NotNull
     private Timestamp dateOfBirth;
+    @NotNull
     private String avatarPath;
     @NotNull
     private String phone;
@@ -48,6 +50,7 @@ public class ProfileDTO {
     private Boolean isApproved;
     private Boolean isMentorExp;
     private String experience;
+
 
     public String getPassword() {
         return password;

@@ -34,29 +34,20 @@ public class SkillService implements ISkillService {
     @Override
     public Boolean add(List<SkillEntity> skillEntities, PersonEntity personEntity) {
 
-        Set<Integer> set=new HashSet<>();
 
-        List<SkillEntity> skillEntityList=(List) skillRepository.findAll();
-
-        for(int i=0; i<skillEntityList.size(); i++) {
-
-            set.add(skillEntityList.get(i).getId());
-
-        }
-
-        List<SkillEntity> buf=new ArrayList<>();
+        List<SkillEntity> bufSkills=new ArrayList<>();
 
         for(int i=0; i<skillEntities.size();i++) {
 
-            if (set.contains(skillEntities.get(i).getId())) {
+            if (skillRepository.exists(skillEntities.get(i).getId())) {
 
-                buf.add(skillEntities.get(i));
+                bufSkills.add(skillEntities.get(i));
 
             }
 
         }
 
-        personEntity.getProfile().setSkills(buf);
+        personEntity.getProfile().setSkills(bufSkills);
 
         profileRepository.save(personEntity.getProfile());
 

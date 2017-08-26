@@ -91,7 +91,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.workplaces = workplaces;
     }
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "profile_to_skill",
             joinColumns = @JoinColumn(name = "profile_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "skill_id", nullable = false))

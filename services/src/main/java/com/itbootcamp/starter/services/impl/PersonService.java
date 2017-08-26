@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by admin on 8/16/2017.
@@ -27,14 +29,12 @@ public class PersonService implements IPersonService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private EducationService educationService;
 
     @Autowired
     private EducationTypeRepository educationTypeRepository;
 
     @Autowired
-    private SkillService skillService;
+    private SkillRepository skillRepository;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -97,6 +97,13 @@ public class PersonService implements IPersonService {
 
     private Boolean save(PersonEntity personEntity) {
 
+        if (personRepository.findByLogin(personEntity.getLogin())!=null) {
+
+            return false;
+
+
+        }
+
         if ((!roleRepository.exists(personEntity.getRole().getId()))
                 || (personEntity.getRole().getId()==1)
                 ||(personEntity.getRole().getId()==2)) {
@@ -139,12 +146,6 @@ public class PersonService implements IPersonService {
     @Override
     public Boolean create(PersonEntity personEntity) {
 
-            if (personRepository.findByLogin(personEntity.getLogin())!=null) {
-
-                return false;
-
-
-            }
 
             personEntity.setId(null);
 
@@ -199,9 +200,119 @@ public class PersonService implements IPersonService {
 
 
         }
-        personEntity.getProfile().setId(personEntity.getId());
 
-        skillService.add(personEntity.getProfile().getSkills(),personEntity);
+        PersonEntity personInDatabase=personRepository.findOne(personEntity.getId());
+
+     //check educations   ---------------------------------------------------
+
+        List<EducationEntity> educationEntities=personInDatabase.getProfile().getEducations();
+        List<EducationEntity> bufEducations=new ArrayList<>();
+
+        Set<Integer> set=new HashSet<>();
+
+        for(int i=0; i<educationEntities.size(); i++) {
+
+            set.add(educationEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getEducations().size(); i++) {
+
+
+            if ((personEntity.getProfile().getEducations().get(i).getId()==null)
+                ||(set.contains(personEntity.getProfile().getEducations().get(i).getId()))) {
+
+                if (!educationTypeRepository.exists(personEntity.getProfile().getEducations()
+                        .get(i).getEducationTypeEntity().getId())) {
+
+                    return false;
+
+                }
+
+                bufEducations.add(personEntity.getProfile().getEducations().get(i));
+
+            }
+
+        }
+
+   //----------------------------------------------------
+
+        // check course ---------------------------------------------
+
+        List<CourseEntity> courseEntities=personInDatabase.getProfile().getCourses();
+        List<CourseEntity> bufCourses=new ArrayList<>();
+
+        set=new HashSet<>();
+
+        for(int i=0; i<courseEntities.size(); i++) {
+
+            set.add(courseEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getCourses().size(); i++) {
+
+
+            if ((personEntity.getProfile().getCourses().get(i).getId()==null)
+                    ||(set.contains(personEntity.getProfile().getCourses().get(i).getId()))) {
+
+                bufCourses.add(personEntity.getProfile().getCourses().get(i));
+
+            }
+
+        }
+        //----------------------------------------------------
+
+        //check workplaces ----------------------------------
+
+        List<WorkplaceEntity> workplaceEntities=personInDatabase.getProfile().getWorkplaces();
+        List<WorkplaceEntity> bufWorkplaces=new ArrayList<>();
+
+        set=new HashSet<>();
+
+        for(int i=0; i<workplaceEntities.size(); i++) {
+
+            set.add(workplaceEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getWorkplaces().size(); i++) {
+
+
+            if ((personEntity.getProfile().getWorkplaces().get(i).getId()==null)
+                    ||(set.contains(personEntity.getProfile().getWorkplaces().get(i).getId()))) {
+
+                bufWorkplaces.add(personEntity.getProfile().getWorkplaces().get(i));
+
+            }
+
+        }
+        //----------------------------------------------------
+
+        //check skills --------------------------------------
+
+        List<SkillEntity> bufSkills=new ArrayList<>();
+
+        for(int i=0; i<personEntity.getProfile().getSkills().size();i++) {
+
+            if (skillRepository.exists(personEntity.getProfile().getSkills().get(i).getId())) {
+
+                bufSkills.add(personEntity.getProfile().getSkills().get(i));
+
+            }
+
+        }
+
+        //----------------------------------------------------
+
+        personEntity.getProfile().setId(personEntity.getId());
+        personEntity.getProfile().setEducations(bufEducations);
+        personEntity.getProfile().setCourses(bufCourses);
+        personEntity.getProfile().setWorkplaces(bufWorkplaces);
+        personEntity.getProfile().setSkills(bufSkills);
+
+        personEntity.getProfile().setApproved(personInDatabase.getProfile().getApproved());
+        personEntity.setBlocked(personInDatabase.getBlocked());
 
         return save(personEntity);
     }
