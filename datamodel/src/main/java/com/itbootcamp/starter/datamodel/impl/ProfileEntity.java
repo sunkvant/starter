@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "profile")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class ProfileEntity  extends AbstractEntityID implements Serializable {
     private Integer directionId;
     private Boolean isApproved;
@@ -108,6 +107,5 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
     public void setMentorInfo(MentorInfoEntity mentorInfo) {
         this.mentorInfo = mentorInfo;
     }
-
 
 }

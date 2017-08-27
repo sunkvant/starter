@@ -8,7 +8,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "city")
-public class CityEntity extends AbstractEntityID{
+public class CityEntity extends AbstractEntityID {
     private Integer id;
     private String name;
     private CountryEntity country;

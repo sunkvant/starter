@@ -4,10 +4,7 @@ import com.itbootcamp.starter.datamodel.impl.*;
 import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.services.IProjectService;
-import com.itbootcamp.starter.services.SearchProjectEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -21,7 +18,6 @@ import java.util.List;
  * Created by admin on 8/16/2017.
  */
 @Service
-@PropertySource("classpath:search.sql.properties")
 public class ProjectService implements IProjectService {
 
     @Autowired
@@ -33,16 +29,9 @@ public class ProjectService implements IProjectService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Value("${seacrhProjectSql}")
-    private String sql;
-
-
     @Override
     public ProjectEntity getById(Integer projectId) {
-
-
         return projectRepository.findOne(projectId);
-
     }
 
     @Override
@@ -51,11 +40,9 @@ public class ProjectService implements IProjectService {
         List<TeamEntity> teamEntities = teamRepository.findAllByPersonId(personId);
         List<ProjectEntity> projectEntityList = new ArrayList<>();
 
-
         for (int i = 0; i < teamEntities.size(); i++) {
             projectEntityList.add(projectRepository.findOne(teamEntities.get(i).getProject().getId()));
         }
-
         return projectEntityList;
     }
 
@@ -78,61 +65,63 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public List<ProjectEntity> searchProjects(SearchProjectEntity searchProjectEntity) {
+    public List<ProjectEntity> searchProjects(String projectName,
+                                              List<String> projectCategoryList,
+                                              List<String> projectStatusList,
+                                              List<String> projectLanguageList) {
+
+        if (projectCategoryList == null) {
+            projectCategoryList = new ArrayList<>();
+        }
+        if (projectStatusList == null) {
+            projectStatusList = new ArrayList<>();
+        }
+        if (projectLanguageList == null) {
+            projectLanguageList = new ArrayList<>();
+        }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<ProjectEntity> criteriaQuery = criteriaBuilder.createQuery(ProjectEntity.class);
 
         Root<ProjectEntity> root = criteriaQuery.from(ProjectEntity.class);
-        Join<ProjectEntity, LanguageEntity> languagesJoin = root.join("languages");
 
-
-        Predicate namePredicate = null;
+        //Predicates
+        Predicate namePredicate = criteriaBuilder.conjunction();
         List<Predicate> projectCategoryPredicateList = new ArrayList<>();
         List<Predicate> projectStatusPredicateList = new ArrayList<>();
         List<Predicate> languagePredicateList = new ArrayList<>();
 
-
-        if (searchProjectEntity.getName() != null) {
-            namePredicate = criteriaBuilder.equal(root.get("name"), searchProjectEntity.getName());
-        } else {
-            namePredicate = criteriaBuilder.conjunction();
+        //Create Predicates
+        if (projectName != null) {
+            namePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%" + projectName.toUpperCase() + "%");
         }
 
-        if ((searchProjectEntity.getProjectCategories() != null) || (searchProjectEntity.getProjectCategories().size() != 0)) {
-            for (int i = 0; i < searchProjectEntity.getProjectCategories().size(); i++) {
-                if (searchProjectEntity.getProjectCategories().get(i) != null) {
-                    projectCategoryPredicateList.add(criteriaBuilder.equal(root.join("projectCategory").get("category"), searchProjectEntity.getProjectCategories().get(i).getCategory()));
-                }
+        if (projectCategoryList.size() != 0) {
+            for (int i = 0; i < projectCategoryList.size(); i++) {
+                projectCategoryPredicateList.add(criteriaBuilder.equal(root.join("projectCategory").get("category"), projectCategoryList.get(i)));
             }
         } else {
             projectCategoryPredicateList.add(criteriaBuilder.conjunction());
         }
 
-        if (searchProjectEntity.getProjectStatuses() != null) {
-            if (searchProjectEntity.getProjectStatuses().size() != 0) {
-                for (int i = 0; i < searchProjectEntity.getProjectStatuses().size(); i++) {
-                    if (searchProjectEntity.getProjectStatuses().get(i) != null) {
-                        projectStatusPredicateList.add(criteriaBuilder.equal(root.join("projectStatus").get("status"), searchProjectEntity.getProjectStatuses().get(i).getStatus()));
-                    }
-                }
+        if (projectStatusList.size() != 0) {
+            for (int i = 0; i < projectStatusList.size(); i++) {
+                projectStatusPredicateList.add(criteriaBuilder.equal(root.join("projectStatus").get("status"), projectStatusList.get(i)));
             }
         } else {
             projectStatusPredicateList.add(criteriaBuilder.conjunction());
         }
 
-        Boolean con=false;
+        if (projectLanguageList.size() != 0) {
+            for (int i = 0; i < projectLanguageList.size(); i++) {
+                languagePredicateList.add(criteriaBuilder.equal(root.join("languages").get("name"), projectLanguageList.get(i)));
 
-        if ((searchProjectEntity.getLanguages() == null)||(searchProjectEntity.getLanguages().size() == 0)) {
-            languagePredicateList.add(criteriaBuilder.conjunction());
-        } else {
-            for (int i = 0; i < searchProjectEntity.getLanguages().size(); i++) {
-                if (searchProjectEntity.getLanguages().get(i) != null)
-                    languagePredicateList.add(criteriaBuilder.equal(root.join("languages").get("name"), searchProjectEntity.getLanguages().get(i).getName()));
             }
+        } else {
+            languagePredicateList.add(criteriaBuilder.conjunction());
         }
 
-
+        //Query
         criteriaQuery.select(root).distinct(true).where(criteriaBuilder.and(namePredicate,
                 criteriaBuilder.or(projectCategoryPredicateList.toArray(new Predicate[]{})),
                 criteriaBuilder.or(projectStatusPredicateList.toArray(new Predicate[]{}))),

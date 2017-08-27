@@ -1,49 +1,55 @@
 package com.itbootcamp.starter.webapp.controller;
 
 
-import com.itbootcamp.starter.repository.*;
-import com.itbootcamp.starter.services.impl.EducationService;
-import com.itbootcamp.starter.datamodel.impl.EducationEntity;
+import com.itbootcamp.starter.datamodel.impl.LocationEntity;
+import com.itbootcamp.starter.datamodel.impl.PersonEntity;
+import com.itbootcamp.starter.services.IPersonService;
+import com.itbootcamp.starter.webapp.dto.ProfileDTO;
+import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
 public class UserController {
 
+    @Autowired
+    private IPersonService personService;
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private DTOFactory dtoFactory;
 
-    @Autowired
-    private ProfileRepository profileRepository;
+    @RequestMapping(value = "/api/profile/search", method = RequestMethod.GET)
+    ResponseEntity<List<ProfileDTO>> searchUsers(
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String fullName,
+            @RequestParam(required = false) Integer ageFrom,
+            @RequestParam(required = false) Integer ageTo,
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) List<String> directions,
+            @RequestParam(required = false) List<String> skills,
+            @RequestParam(required = false) String educationName,
+            @RequestParam(required = false) Boolean isMentorExp){
 
-    @Autowired
-    private RoleRepository roleRepository;
+        List<PersonEntity> personEntityList =
+                personService.searchPersons(role, fullName, ageFrom, ageTo, country, city, directions, skills, educationName, isMentorExp);
 
-    @Autowired
-    private PersonRepository personRepository;
+        List<ProfileDTO> profileDTOList = new ArrayList<>();
 
-    @Autowired
-    private EducationService educationService;
+        for (int i = 0; i < personEntityList.size(); i++) {
+            profileDTOList.add(dtoFactory.getProfileDTO(personEntityList.get(i)));
+        }
 
-    @Autowired
-    private EducationTypeRepository educationTypeRepository;
-
-
-    @RequestMapping(name = "/save", method = RequestMethod.POST)
-    ResponseEntity addUser(@RequestBody EducationEntity educationEntity) {
-
-
-        educationEntity.setEducationTypeEntity(educationTypeRepository.findOne(educationEntity.getEducationTypeId()));
-        educationEntity.setProfile(profileRepository.findOne(1));
-
-
-        educationService.update(educationEntity);
-
-
-        return new ResponseEntity(HttpStatus.CREATED);
-
-
+        return new ResponseEntity<>(profileDTOList, HttpStatus.OK);
     }
+
 }

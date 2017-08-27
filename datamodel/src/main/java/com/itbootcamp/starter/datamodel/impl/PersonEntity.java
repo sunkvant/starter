@@ -120,7 +120,7 @@ public class PersonEntity extends AbstractEntityID implements UserDetails {
         this.role = role;
     }
 
-    @OneToOne(mappedBy = "persons",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
     public ProfileEntity getProfile() {
         return profile;
     }

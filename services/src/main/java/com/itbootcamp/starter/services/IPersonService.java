@@ -2,7 +2,6 @@ package com.itbootcamp.starter.services;
 
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.PositionEntity;
-import org.apache.el.parser.BooleanNode;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,11 +20,12 @@ public interface IPersonService {
     List<PersonEntity> searchPersons(
             String role,
             String fullName,
-            Timestamp dateOfBirth,
-            String direction,
-            String education,
-            Boolean isWorking,
-            Boolean isMentorExp,
-            List<String> skills);
-
+            Integer ageFrom,
+            Integer ageTo,
+            String country,
+            String city,
+            List<String> direction,
+            List<String> skills,
+            String educationName,
+            Boolean isMentorExp);
 }

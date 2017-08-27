@@ -98,8 +98,8 @@ public class ContactEntity extends AbstractEntityID implements Serializable {
     public LocationEntity getLocation() {
         return location;
     }
-
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
+
 }

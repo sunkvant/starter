@@ -245,15 +245,15 @@ public class DTOFactory implements IDTOFactory {
 
 
 
-        if (personEntity.getMentorInfo()==null) {
+        if (personEntity.getProfile().getMentorInfo()==null) {
 
             profileDTO.setMentorExp(false);
             profileDTO.setExperience("");
 
         } else {
 
-            profileDTO.setMentorExp(personEntity.getMentorInfo().getMentorExp());
-            profileDTO.setExperience(personEntity.getMentorInfo().getExperience());
+            profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
+            profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());
 
         }
 
