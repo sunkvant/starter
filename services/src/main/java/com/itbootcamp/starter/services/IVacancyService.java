@@ -13,4 +13,5 @@ public interface IVacancyService {
     List<VacancyEntity> getAllByProjectId(Integer projectId);
 
 
+    List<VacancyEntity> searchVacancies(List<String> positions, String role, List<String> skills, List<String> languages);
 }

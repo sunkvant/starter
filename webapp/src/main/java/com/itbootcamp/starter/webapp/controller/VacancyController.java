@@ -9,10 +9,7 @@ import com.itbootcamp.starter.webapp.dto.VacancyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +70,24 @@ public class VacancyController {
 
 
         return new ResponseEntity<>(dtoFactory.getVacancyDTO(vacancyEntity),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/vacancy/search", method = RequestMethod.GET)
+    ResponseEntity<List<VacancyDTO>> searchUsers(
+            @RequestParam(required = false) List<String> positions,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) List<String> skills,
+            @RequestParam(required = false) List<String> languages){
+
+        List<VacancyEntity> vacancyEntityList =
+                vacancyService.searchVacancies(positions, role, skills, languages);
+        List<VacancyDTO> vacancyDTOList = new ArrayList<>();
+
+        for (int i = 0; i < vacancyEntityList.size(); i++) {
+            vacancyDTOList.add(dtoFactory.getVacancyDTO(vacancyEntityList.get(i)));
+        }
+
+        return new ResponseEntity<>(vacancyDTOList, HttpStatus.OK);
     }
 
 
