@@ -1,4 +1,4 @@
-package com.itbootcamp.starter.datamodel.impl;
+package com.itbootcamp.starter.datamodel.test;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "city")
-public class CityEntity extends AbstractEntityID {
+public class CityEntity {
     private Integer id;
     private String name;
     private CountryEntity country;

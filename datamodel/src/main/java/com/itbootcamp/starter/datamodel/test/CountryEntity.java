@@ -1,4 +1,4 @@
-package com.itbootcamp.starter.datamodel.impl;
+package com.itbootcamp.starter.datamodel.test;
 
 import javax.persistence.*;
 import java.util.List;
@@ -7,11 +7,11 @@ import java.util.List;
  * Created by admin on 8/26/2017.
  */
 @Entity
-@Table(name = "city")
-public class CityEntity extends AbstractEntityID {
+@Table(name = "country")
+public class CountryEntity {
     private Integer id;
     private String name;
-    private CountryEntity country;
+    private List<CityEntity> cities;
     private List<LocationEntity> locations;
 
     @Id
@@ -34,17 +34,16 @@ public class CityEntity extends AbstractEntityID {
         this.name = name;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
-    public CountryEntity getCountry() {
-        return country;
+    @OneToMany(mappedBy = "country")
+    public List<CityEntity> getCities() {
+        return cities;
     }
 
-    public void setCountry(CountryEntity country) {
-        this.country = country;
+    public void setCities(List<CityEntity> cities) {
+        this.cities = cities;
     }
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "country")
     public List<LocationEntity> getLocations() {
         return locations;
     }
