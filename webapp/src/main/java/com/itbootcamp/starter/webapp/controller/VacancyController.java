@@ -39,36 +39,21 @@ public class VacancyController {
         if (projectEntity == null) {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-
         }
-
         List<VacancyDTO> vacancies=new ArrayList<>();
-
         for (int i = 0; i < projectEntity.getVacancies().size(); i++) {
-
             vacancies.add(dtoFactory.getVacancyDTO(projectEntity.getVacancies().get(i)));
-
         }
-
         return new ResponseEntity<>(vacancies,HttpStatus.OK);
-
-
     }
 
 
     @RequestMapping(value = "api/vacancy/{vacancyId}", method = RequestMethod.GET)
     ResponseEntity<VacancyDTO> getVacancy(@PathVariable Integer vacancyId){
-
         VacancyEntity vacancyEntity=vacancyService.getById(vacancyId);
-
         if (vacancyEntity == null) {
-
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         }
-
-
         return new ResponseEntity<>(dtoFactory.getVacancyDTO(vacancyEntity),HttpStatus.OK);
     }
 
@@ -86,7 +71,6 @@ public class VacancyController {
         for (int i = 0; i < vacancyEntityList.size(); i++) {
             vacancyDTOList.add(dtoFactory.getVacancyDTO(vacancyEntityList.get(i)));
         }
-
         return new ResponseEntity<>(vacancyDTOList, HttpStatus.OK);
     }
 

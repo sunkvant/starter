@@ -31,17 +31,17 @@ public class UserController {
     ResponseEntity<List<ProfileDTO>> searchUsers(
             @RequestParam(required = false) String role,
             @RequestParam(required = false) String fullName,
-            @RequestParam(required = false) Long ageFrom,
-            @RequestParam(required = false) Long ageTo,
+            @RequestParam(required = false) Integer ageFrom,
+            @RequestParam(required = false) Integer ageTo,
             @RequestParam(required = false) String country,
             @RequestParam(required = false) String city,
-            @RequestParam(required = false) List<String> direction,
+            @RequestParam(required = false) List<String> directions,
             @RequestParam(required = false) List<String> skills,
             @RequestParam(required = false) String educationName,
             @RequestParam(required = false) Boolean isMentorExp){
 
         List<PersonEntity> personEntityList =
-                personService.searchPersons(role, fullName, ageFrom, ageTo, country, city, direction, skills, educationName, isMentorExp);
+                personService.searchPersons(role, fullName, ageFrom, ageTo, country, city, directions, skills, educationName, isMentorExp);
 
         List<ProfileDTO> profileDTOList = new ArrayList<>();
 

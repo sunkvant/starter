@@ -17,7 +17,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,8 +100,8 @@ public class PersonService implements IPersonService {
     public List<PersonEntity> searchPersons(
             String role,
             String fullName,
-            Long ageFrom,
-            Long ageTo,
+            Integer ageFrom,
+            Integer ageTo,
             String country,
             String city,
             List<String> directions,
@@ -113,7 +115,6 @@ public class PersonService implements IPersonService {
         if (directions == null) {
             directions = new ArrayList<>();
         }
-
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<PersonEntity> criteriaQuery = criteriaBuilder.createQuery(PersonEntity.class);
@@ -142,10 +143,14 @@ public class PersonService implements IPersonService {
         }
 
         if (ageFrom != null) {
-            ageFromPredicate = criteriaBuilder.greaterThanOrEqualTo(root.join("contact").get("dateOfBirth"),new Timestamp(ageFrom));
+            LocalDate localDate = LocalDate.now().minusYears(ageFrom);
+            Timestamp timestampTo = Timestamp.valueOf(localDate.atStartOfDay());
+            ageFromPredicate = criteriaBuilder.lessThanOrEqualTo(root.join("contact").get("dateOfBirth"),timestampTo);
         }
         if (ageTo != null) {
-            ageToPredicate = criteriaBuilder.lessThanOrEqualTo(root.join("contact").get("dateOfBirth"),new Timestamp(ageTo));
+            LocalDate localDate = LocalDate.now().minusYears(ageTo);
+            Timestamp timestampFrom = Timestamp.valueOf(localDate.atStartOfDay());
+            ageToPredicate = criteriaBuilder.greaterThanOrEqualTo(root.join("contact").get("dateOfBirth"),timestampFrom);
         }
         if (skills.size() != 0) {
             for (int i = 0; i < skills.size(); i++) {
@@ -161,7 +166,7 @@ public class PersonService implements IPersonService {
             cityPredicate = criteriaBuilder.equal(root.join("contact").join("location").join("city").get("name"), city);
         }
         if (educationName != null){
-            educationNamePredicate = criteriaBuilder.equal(root.join("profile").join("educations").get("name"), educationName);
+            educationNamePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.join("profile").join("educations").get("name")), "%" + educationName.toUpperCase() + "%");
         }
 
         if (directions.size() != 0) {

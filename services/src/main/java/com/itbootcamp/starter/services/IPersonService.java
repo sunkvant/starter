@@ -19,8 +19,8 @@ public interface IPersonService {
     List<PersonEntity> searchPersons(
             String role,
             String fullName,
-            Long ageFrom,
-            Long ageTo,
+            Integer ageFrom,
+            Integer ageTo,
             String country,
             String city,
             List<String> direction,

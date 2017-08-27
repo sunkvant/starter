@@ -32,9 +32,6 @@ public class ProjectController {
     @Autowired
     private DTOFactory dtoFactory;
 
-    @Autowired
-    private EntityFactory entityFactory;
-
     //@PreAuthorize("hasAuthority('Admin')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.GET)
     ResponseEntity<ProjectDTO> getProject(@PathVariable Integer projectId) {
@@ -78,10 +75,10 @@ public class ProjectController {
 
     @RequestMapping(value = "/api/project/search", method = RequestMethod.GET)
     ResponseEntity<List<ProjectDTO>> searchProject(
-            @RequestParam(required = false) String projectName,
-            @RequestParam(value = "projectCategories", required = false) List<String> projectCategoryList,
-            @RequestParam(value = "projectStatuses", required = false) List<String> projectStatusList,
-            @RequestParam(value = "projectLanguages", required = false) List<String> projectLanguageList) {
+            @RequestParam(value = "name", required = false) String projectName,
+            @RequestParam(value = "categories", required = false) List<String> projectCategoryList,
+            @RequestParam(value = "statuses", required = false) List<String> projectStatusList,
+            @RequestParam(value = "languages", required = false) List<String> projectLanguageList) {
 
 
         List<ProjectEntity> projectEntityList =
