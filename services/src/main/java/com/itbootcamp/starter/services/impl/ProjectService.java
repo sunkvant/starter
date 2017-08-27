@@ -93,7 +93,7 @@ public class ProjectService implements IProjectService {
 
         //Create Predicates
         if (projectName != null) {
-            namePredicate = criteriaBuilder.like(root.get("name"), "%" + projectName + "%");
+            namePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%" + projectName.toUpperCase() + "%");
         }
 
         if (projectCategoryList.size() != 0) {

@@ -19,9 +19,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-public class PersonEntity extends AbstractEntityID
-                          implements IAdminEntity, IModerEntity, ICustomerEntity, IMentorEntity, ITraineeEntity, UserDetails {
+public class PersonEntity extends AbstractEntityID implements UserDetails {
     private String login;
     private String password;
     private Boolean isBlocked;
@@ -34,15 +32,12 @@ public class PersonEntity extends AbstractEntityID
     private List<ReviewEntity> receiverReviews;
     private List<ReviewEntity> senderReviews;
     private List<TeamEntity> teams;
-    private MentorInfoEntity mentorInfo;
 
-    @Override
     @Column(name = "login", nullable = false, length = 255)
     public String getLogin() {
         return login;
     }
 
-    @Override
     public void setLogin(String login) {
         this.login = login;
     }
@@ -102,119 +97,89 @@ public class PersonEntity extends AbstractEntityID
         return true;
     }
 //---------------------------------------------------------------------
-    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
     @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
     public ContactEntity getContact() {
         return contact;
     }
 
-    @Override
     public void setContact(ContactEntity contact) {
         this.contact = contact;
     }
 
-    @Override
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     public RoleEntity getRole() {
         return role;
     }
 
-    @Override
     public void setRole(RoleEntity role) {
         this.role = role;
     }
 
-    @Override
     @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
     public ProfileEntity getProfile() {
         return profile;
     }
 
-    @Override
     public void setProfile(ProfileEntity profile) {
         this.profile = profile;
     }
 
-    @Override
     @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     public List<ProjectEntity> getCustomerProjects() {
         return customerProjects;
     }
 
-    @Override
     public void setCustomerProjects(List<ProjectEntity> customerProjects) {
         this.customerProjects = customerProjects;
     }
 
-    @Override
     @OneToMany(mappedBy = "senderPerson",fetch = FetchType.LAZY)
     public List<RequestEntity> getSenderRequests() {
         return senderRequests;
     }
 
-    @Override
     public void setSenderRequests(List<RequestEntity> senderRequests) {
         this.senderRequests = senderRequests;
     }
 
-    @Override
     @OneToMany(mappedBy = "receiverPerson",fetch = FetchType.LAZY)
     public List<RequestEntity> getReceiverRequests() {
         return receiverRequests;
     }
 
-    @Override
     public void setReceiverRequests(List<RequestEntity> receiverRequests) {
         this.receiverRequests = receiverRequests;
     }
 
-    @Override
     @OneToMany(mappedBy = "receiverPerson",fetch = FetchType.LAZY)
     public List<ReviewEntity> getReceiverReviews() {
         return receiverReviews;
     }
 
-    @Override
     public void setReceiverReviews(List<ReviewEntity> receiverReviews) {
         this.receiverReviews = receiverReviews;
     }
 
-    @Override
     @OneToMany(mappedBy = "senderPerson",fetch = FetchType.LAZY)
     public List<ReviewEntity> getSenderReviews() {
         return senderReviews;
     }
 
-    @Override
     public void setSenderReviews(List<ReviewEntity> senderReviews) {
         this.senderReviews = senderReviews;
     }
 
-    @Override
     @OneToMany(mappedBy = "person",fetch = FetchType.LAZY)
     public List<TeamEntity> getTeams() {
         return teams;
     }
 
-    @Override
     public void setTeams(List<TeamEntity> teams) {
         this.teams = teams;
-    }
-
-    @Override
-    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
-    public MentorInfoEntity getMentorInfo() {
-        return mentorInfo;
-    }
-
-    @Override
-    public void setMentorInfo(MentorInfoEntity mentorInfo) {
-        this.mentorInfo = mentorInfo;
     }
 }

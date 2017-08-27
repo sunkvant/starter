@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class MentorInfoEntity extends AbstractEntityID{
     private Boolean isMentorExp;
     private String experience;
-    private PersonEntity person;
+    private ProfileEntity profile;
 
     @Column(name = "is_mentor_exp", nullable = false)
     public Boolean getMentorExp() {
@@ -33,11 +33,11 @@ public class MentorInfoEntity extends AbstractEntityID{
 
     @OneToOne
     @JoinColumn(name = "id", nullable = false)
-    public PersonEntity getPerson() {
-        return person;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
-    public void setPerson(PersonEntity person) {
-        this.person = person;
+    public void setProfile(ProfileEntity profile) {
+        this.profile = profile;
     }
 }

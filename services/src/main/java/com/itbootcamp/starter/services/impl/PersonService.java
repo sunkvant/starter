@@ -9,6 +9,14 @@ import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +31,9 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -81,6 +92,108 @@ public class PersonService implements IPersonService {
         TeamEntity teamEntity = teamRepository.findByPersonIdAndProjectId(personId, projectId);
 
         return teamEntity.getMember();
+    }
+
+    @Override
+    public List<PersonEntity> searchPersons(
+            String role,
+            String fullName,
+            Long ageFrom,
+            Long ageTo,
+            String country,
+            String city,
+            List<String> directions,
+            List<String> skills,
+            String educationName,
+            Boolean isMentorExp) {
+
+        if (skills == null) {
+            skills = new ArrayList<>();
+        }
+        if (directions == null) {
+            directions = new ArrayList<>();
+        }
+
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PersonEntity> criteriaQuery = criteriaBuilder.createQuery(PersonEntity.class);
+
+        Root<PersonEntity> root = criteriaQuery.from(PersonEntity.class);
+
+        //Predicates
+        Predicate rolePredicate = criteriaBuilder.conjunction();
+        Predicate fullNamePredicate = criteriaBuilder.conjunction();
+        Predicate ageFromPredicate = criteriaBuilder.conjunction();
+        Predicate ageToPredicate = criteriaBuilder.conjunction();
+        Predicate countryPredicate = criteriaBuilder.conjunction();
+        Predicate cityPredicate = criteriaBuilder.conjunction();
+        List<Predicate> directionPredicateList = new ArrayList<>();
+        List<Predicate> skillPredicateList = new ArrayList<>();
+        Predicate educationNamePredicate = criteriaBuilder.conjunction();
+        Predicate isMentorExpPredicate = criteriaBuilder.conjunction();
+
+        //Create Predicates
+        if (role != null) {
+            rolePredicate = criteriaBuilder.equal(root.join("role").get("name"), role);
+        }
+
+        if (fullName != null) {
+            fullNamePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.join("contact").get("fullName")), "%" + fullName.toUpperCase() + "%");
+        }
+
+        if (ageFrom != null) {
+            ageFromPredicate = criteriaBuilder.greaterThanOrEqualTo(root.join("contact").get("dateOfBirth"),new Timestamp(ageFrom));
+        }
+        if (ageTo != null) {
+            ageToPredicate = criteriaBuilder.lessThanOrEqualTo(root.join("contact").get("dateOfBirth"),new Timestamp(ageTo));
+        }
+        if (skills.size() != 0) {
+            for (int i = 0; i < skills.size(); i++) {
+                skillPredicateList.add(criteriaBuilder.equal(root.join("profile").join("skills").get("name"), skills.get(i)));
+            }
+        }else {
+           skillPredicateList.add(criteriaBuilder.conjunction());
+        }
+        if (country != null){
+            countryPredicate = criteriaBuilder.equal(root.join("contact").join("location").join("country").get("name"), country);
+        }
+        if (city != null){
+            cityPredicate = criteriaBuilder.equal(root.join("contact").join("location").join("city").get("name"), city);
+        }
+        if (educationName != null){
+            educationNamePredicate = criteriaBuilder.equal(root.join("profile").join("educations").get("name"), educationName);
+        }
+
+        if (directions.size() != 0) {
+            for (int i = 0; i < directions.size(); i++) {
+                directionPredicateList.add(criteriaBuilder.equal(root.join("profile").join("direction").get("name"), directions.get(i)));
+            }
+        }else {
+            directionPredicateList.add(criteriaBuilder.conjunction());
+        }
+
+        if (isMentorExp != null){
+            isMentorExpPredicate = criteriaBuilder.equal(root.join("profile").join("mentorInfo").get("mentorExp"), isMentorExp);
+        }
+
+        //Query
+        criteriaQuery.select(root).distinct(true).where(criteriaBuilder.and(
+                rolePredicate,
+                fullNamePredicate,
+                criteriaBuilder.or(skillPredicateList.toArray(new Predicate[]{})),
+                ageFromPredicate,
+                ageToPredicate,
+                countryPredicate,
+                cityPredicate,
+                criteriaBuilder.or(directionPredicateList.toArray(new Predicate[]{})),
+                educationNamePredicate,
+                isMentorExpPredicate));
+
+        TypedQuery<PersonEntity> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<PersonEntity> personEntityList = typedQuery.getResultList();
+
+        return personEntityList;
     }
 
 
