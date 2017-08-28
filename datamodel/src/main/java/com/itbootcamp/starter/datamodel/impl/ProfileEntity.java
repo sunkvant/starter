@@ -43,7 +43,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         isApproved = approved;
     }
 
-    @OneToMany(mappedBy = "profile",cascade =CascadeType.ALL)
+    @OneToMany(mappedBy = "profile",cascade =CascadeType.ALL,orphanRemoval = true)
     public List<CourseEntity> getCourses() {
         return courses;
     }
@@ -52,7 +52,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.courses = courses;
     }
 
-    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL,orphanRemoval = true)
     public List<EducationEntity> getEducations() {
         return educations;
     }

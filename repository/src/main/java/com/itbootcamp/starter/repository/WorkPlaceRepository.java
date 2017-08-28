@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Sergei on 7/21/2017.
  */
 @Repository
-public interface WorkPlaceRepository extends CrudRepository<WorkplaceEntity,Long> {
+public interface WorkPlaceRepository extends CrudRepository<WorkplaceEntity,Integer> {
     WorkplaceEntity findByProfileId(Integer profileId);
     List<WorkplaceEntity> findByCompany(String company);
     List<WorkplaceEntity> findByPosition(String position);

@@ -21,7 +21,6 @@ public class ProfileDTO {
     private Integer id;
     @NotNull
     private String login;
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotNull
@@ -43,9 +42,13 @@ public class ProfileDTO {
     private RoleDTO role;
     private Boolean isBlocked;
     private DirectionDTO direction;
+    @NotNull
     private List<CourseDTO> courses;
+    @NotNull
     private List<WorkplaceDTO> workplaces;
+    @NotNull
     private List<EducationDTO> educations;
+    @NotNull
     private List<SkillDTO> skills;
     private Boolean isApproved;
     private Boolean isMentorExp;

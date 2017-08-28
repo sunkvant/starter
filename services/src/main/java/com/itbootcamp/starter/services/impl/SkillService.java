@@ -3,6 +3,7 @@ package com.itbootcamp.starter.services.impl;
 import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleEntity;
 import com.itbootcamp.starter.datamodel.impl.SkillEntity;
+import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.repository.RoleRepository;
 import com.itbootcamp.starter.repository.SkillRepository;
@@ -27,7 +28,7 @@ public class SkillService implements ISkillService {
     private SkillRepository skillRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private PersonRepository personRepository;
 
 
 
@@ -39,7 +40,8 @@ public class SkillService implements ISkillService {
 
         for(int i=0; i<skillEntities.size();i++) {
 
-            if (skillRepository.exists(skillEntities.get(i).getId())) {
+            if ((skillEntities.get(i).getId()!=null)
+                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
 
                 bufSkills.add(skillEntities.get(i));
 
@@ -49,7 +51,7 @@ public class SkillService implements ISkillService {
 
         personEntity.getProfile().setSkills(bufSkills);
 
-        profileRepository.save(personEntity.getProfile());
+        personRepository.save(personEntity);
 
         return true;
     }

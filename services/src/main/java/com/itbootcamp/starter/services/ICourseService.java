@@ -5,8 +5,10 @@ import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 
 public interface ICourseService {
 
+    CourseEntity getById(Integer courseId);
     Boolean add(CourseEntity courseEntity, PersonEntity personEntity);
     Boolean update(CourseEntity courseEntity,PersonEntity personEntity);
+    Boolean delete(CourseEntity courseEntity,PersonEntity personEntity);
 
 
 }

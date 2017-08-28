@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface IEducationService {
 
+    EducationEntity getById(Integer educationId);
     Boolean add(EducationEntity educationEntity,PersonEntity personEntity);
     Boolean update(EducationEntity educationEntity,PersonEntity personEntity);
+    Boolean delete(EducationEntity educationEntity,PersonEntity personEntity);
 
 }

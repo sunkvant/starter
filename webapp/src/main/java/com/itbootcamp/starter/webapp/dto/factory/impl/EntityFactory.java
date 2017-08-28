@@ -43,15 +43,6 @@ public class EntityFactory implements IEntityFactory {
     private ILanguageService languageService;
 
     @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private ContactRepository contactRepository;
-
-    @Autowired
     SkillRepository skillRepository;
 
     @Autowired
@@ -155,38 +146,105 @@ public class EntityFactory implements IEntityFactory {
 
     }
 
-    public List<EducationEntity> getEducationsEntity(List<EducationDTO> educationsDTO) {
+    @Override
+    public EducationEntity getEducationEntity(EducationDTO educationDTO) {
 
 
-        if (educationsDTO==null) {
+        if (educationDTO==null) {
 
             return null;
 
 
         }
 
-        List<EducationEntity> educationEntities=new ArrayList<>();
 
-            for(int i=0; i<educationsDTO.size(); i++) {
+        EducationEntity educationEntity=new EducationEntity();
 
-                EducationEntity educationEntity=new EducationEntity();
+        educationEntity.setId(educationDTO.getId());
+        educationEntity.setName(educationDTO.getName());
+        educationEntity.setFaculty(educationDTO.getFaculty());
+        educationEntity.setSpeciality(educationDTO.getSpeciality());
+        educationEntity.setGraduationYear(educationDTO.getGraduationYear());
+        educationEntity.setEducationTypeEntity(getEducationTypeEntity(educationDTO.getEducationType()));
 
-                educationEntity.setId(educationsDTO.get(i).getId());
-                educationEntity.setName(educationsDTO.get(i).getName());
-                educationEntity.setFaculty(educationsDTO.get(i).getFaculty());
-                educationEntity.setSpeciality(educationsDTO.get(i).getSpeciality());
-                educationEntity.setGraduationYear(educationsDTO.get(i).getGraduationYear());
+        return educationEntity;
+    }
+
+    @Override
+    public CourseEntity getCourseEntity(CourseDTO courseDTO) {
 
 
-                educationEntity.setEducationTypeEntity(getEducationTypeEntity(educationsDTO.get(i).getEducationType()));
-                educationEntity.setProfile(null);
+        if (courseDTO==null) {
 
-                educationEntities.add(educationEntity);
+            return null;
 
 
         }
 
-return null;
+        CourseEntity courseEntity=new CourseEntity();
+
+        courseEntity.setId(courseDTO.getId());
+        courseEntity.setName(courseDTO.getName());
+        courseEntity.setOrganization(courseDTO.getOrganization());
+        courseEntity.setSpeciality(courseDTO.getSpeciality());
+        courseEntity.setGraduationYear(courseDTO.getGraduationYear());
+
+        return courseEntity;
+    }
+
+    @Override
+    public WorkplaceEntity getWorkplaceEntity(WorkplaceDTO workplaceDTO) {
+
+        if (workplaceDTO==null) {
+
+            return null;
+
+
+        }
+
+        WorkplaceEntity workplaceEntity=new WorkplaceEntity();
+
+        workplaceEntity.setId(workplaceDTO.getId());
+        workplaceEntity.setCompany(workplaceDTO.getCompany());
+        workplaceEntity.setSphereOfActivity(workplaceDTO.getSphereOfActivity());
+        workplaceEntity.setPosition(workplaceDTO.getPosition());
+        workplaceEntity.setDuties(workplaceDTO.getDuties());
+        workplaceEntity.setStartWork(workplaceDTO.getStartWork());
+        workplaceEntity.setEndWork(workplaceDTO.getEndWork());
+        workplaceEntity.setWorking(workplaceDTO.getWorking());
+
+        return  workplaceEntity;
+
+
+    }
+
+    @Override
+    public List<SkillEntity> getSkillsEntity(List<SkillDTO> skillsDTO) {
+
+        if (skillsDTO==null) {
+
+            return null;
+
+        }
+
+
+        List<SkillEntity> skillEntities=new ArrayList<>();
+
+
+
+        for(int i=0; i<skillsDTO.size(); i++) {
+
+            SkillEntity skillEntity=new SkillEntity();
+
+            skillEntity.setId(skillsDTO.get(i).getId());
+            skillEntity.setName(skillsDTO.get(i).getName());
+
+            skillEntities.add(skillEntity);
+
+        }
+
+        return skillEntities;
+
     }
 
 
@@ -197,7 +255,7 @@ return null;
 
         personEntity.setId(profileDTO.getId());
         personEntity.setLogin(profileDTO.getLogin());
-        personEntity.setPassword(personEntity.getPassword());
+        personEntity.setPassword(profileDTO.getPassword());
         personEntity.setBlocked(profileDTO.getBlocked());
         personEntity.setRole(getRoleEntity(profileDTO.getRole()));
 
@@ -217,108 +275,49 @@ return null;
         profileEntity.setApproved(profileDTO.getApproved());
         profileEntity.setDirection(getDirectionEntity(profileDTO.getDirection()));
 
+
+
         List<EducationEntity> educationEntities=new ArrayList<>();
 
-        if (profileDTO.getEducations()!=null) {
+        for(int i=0; i<profileDTO.getEducations().size(); i++) {
 
-            for(int i=0; i<profileDTO.getEducations().size(); i++) {
-
-                EducationEntity educationEntity=new EducationEntity();
-
-                educationEntity.setId(profileDTO.getEducations().get(i).getId());
-                educationEntity.setName(profileDTO.getEducations().get(i).getName());
-                educationEntity.setFaculty(profileDTO.getEducations().get(i).getFaculty());
-                educationEntity.setSpeciality(profileDTO.getEducations().get(i).getSpeciality());
-                educationEntity.setGraduationYear(profileDTO.getEducations().get(i).getGraduationYear());
-
-                EducationTypeEntity educationTypeEntity=new EducationTypeEntity();
-
-                educationTypeEntity.setId(profileDTO.getEducations().get(i).getEducationType().getId());
-                educationTypeEntity.setType(profileDTO.getEducations().get(i).getEducationType().getName());
-
-                educationEntity.setEducationTypeEntity(educationTypeEntity);
-                educationEntity.setProfile(profileEntity);
-
-                educationEntities.add(educationEntity);
-
-
-
-            }
+            educationEntities.add(getEducationEntity(profileDTO.getEducations().get(i)));
 
         }
 
-        profileEntity.setEducations(educationEntities);
+
+
 
         List<CourseEntity> courseEntities=new ArrayList<>();
 
-        if (profileDTO.getCourses()!=null) {
+        for(int i=0; i<profileDTO.getCourses().size(); i++) {
 
-            for(int i=0; i<profileDTO.getCourses().size(); i++) {
-
-                CourseEntity courseEntity=new CourseEntity();
-
-                courseEntity.setId(profileDTO.getCourses().get(i).getId());
-                courseEntity.setName(profileDTO.getCourses().get(i).getName());
-                courseEntity.setOrganization(profileDTO.getCourses().get(i).getOrganization());
-                courseEntity.setSpeciality(profileDTO.getCourses().get(i).getSpeciality());
-                courseEntity.setGraduationYear(profileDTO.getCourses().get(i).getGraduationYear());
-                courseEntity.setProfile(profileEntity);
-
-                courseEntities.add(courseEntity);
-
-            }
+            courseEntities.add(getCourseEntity(profileDTO.getCourses().get(i)));
 
         }
 
-        profileEntity.setCourses(courseEntities);
 
 
         List<WorkplaceEntity> workplaceEntities=new ArrayList<>();
 
-        if (profileDTO.getWorkplaces()!=null) {
 
-            for(int i=0; i<profileDTO.getWorkplaces().size(); i++) {
+        for(int i=0; i<profileDTO.getWorkplaces().size(); i++) {
 
-                WorkplaceEntity workplaceEntity=new WorkplaceEntity();
 
-                workplaceEntity.setId(profileDTO.getWorkplaces().get(i).getId());
-                workplaceEntity.setCompany(profileDTO.getWorkplaces().get(i).getCompany());
-                workplaceEntity.setSphereOfActivity(profileDTO.getWorkplaces().get(i).getSphereOfActivity());
-                workplaceEntity.setPosition(profileDTO.getWorkplaces().get(i).getPosition());
-                workplaceEntity.setDuties(profileDTO.getWorkplaces().get(i).getDuties());
-                workplaceEntity.setStartWork(profileDTO.getWorkplaces().get(i).getStartWork());
-                workplaceEntity.setEndWork(profileDTO.getWorkplaces().get(i).getEndWork());
-                workplaceEntity.setWorking(profileDTO.getWorkplaces().get(i).getWorking());
-
-                workplaceEntities.add(workplaceEntity);
-
-            }
+            workplaceEntities.add(getWorkplaceEntity(profileDTO.getWorkplaces().get(i)));
 
         }
 
+
+
+
+        List<SkillEntity> skillEntities=getSkillsEntity(profileDTO.getSkills());
+
+
+        profileEntity.setCourses(courseEntities);
         profileEntity.setWorkplaces(workplaceEntities);
-
-        List<SkillEntity> skillEntities=new ArrayList<>();
-
-        if (profileDTO.getSkills()!=null) {
-
-
-            for(int i=0; i<profileDTO.getSkills().size(); i++) {
-
-                SkillEntity skillEntity=new SkillEntity();
-
-                skillEntity.setId(profileDTO.getSkills().get(i).getId());
-                skillEntity.setName(profileDTO.getSkills().get(i).getName());
-
-                skillEntities.add(skillEntity);
-
-            }
-
-        }
-
+        profileEntity.setEducations(educationEntities);
         profileEntity.setSkills(skillEntities);
-
-        profileEntity.setPerson(personEntity);
 
         personEntity.setProfile(profileEntity);
 

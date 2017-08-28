@@ -4,6 +4,8 @@ import com.itbootcamp.starter.datamodel.impl.*;
 import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -97,14 +99,8 @@ public class PersonService implements IPersonService {
 
     private Boolean save(PersonEntity personEntity) {
 
-        if (personRepository.findByLogin(personEntity.getLogin())!=null) {
 
-            return false;
-
-
-        }
-
-        if ((!roleRepository.exists(personEntity.getRole().getId()))
+        if ((personEntity.getRole().getId()==null)||(!roleRepository.exists(personEntity.getRole().getId()))
                 || (personEntity.getRole().getId()==1)
                 ||(personEntity.getRole().getId()==2)) {
 
@@ -115,7 +111,8 @@ public class PersonService implements IPersonService {
 
 
 
-        if (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
+        if ((personEntity.getProfile().getDirection().getId()==null)
+                ||(!directionRepository.exists(personEntity.getProfile().getDirection().getId()))) {
 
             return false;
 
@@ -124,8 +121,8 @@ public class PersonService implements IPersonService {
 
 
 
-        personEntity.getProfile().setId(personEntity.getId());
-        personEntity.getContact().setId(personEntity.getId());
+        //personEntity.getProfile().setId(personEntity.getId());
+        //personEntity.getContact().setId(personEntity.getId());
 
 
 
@@ -146,8 +143,17 @@ public class PersonService implements IPersonService {
     @Override
     public Boolean create(PersonEntity personEntity) {
 
+        if ((personEntity.getPassword()==null)
+                ||(personRepository.findByLogin(personEntity.getLogin())!=null)) {
 
-            personEntity.setId(null);
+            return false;
+
+
+        }
+
+
+        personEntity.setId(null);
+        personEntity.getProfile().setPerson(personEntity);
 
 
         List<EducationEntity> educationEntities=personEntity.getProfile().getEducations();
@@ -155,8 +161,10 @@ public class PersonService implements IPersonService {
         for (int i=0; i<educationEntities.size(); i++) {
 
             educationEntities.get(i).setId(null);
+            educationEntities.get(i).setProfile(personEntity.getProfile());
 
-            if (!educationTypeRepository.exists(educationEntities.get(i).getEducationTypeEntity().getId())) {
+            if ((educationEntities.get(i).getEducationTypeEntity().getId()==null)
+                    ||(!educationTypeRepository.exists(educationEntities.get(i).getEducationTypeEntity().getId()))) {
 
                 return false;
 
@@ -169,6 +177,7 @@ public class PersonService implements IPersonService {
         for (int i=0; i<courseEntities.size(); i++) {
 
             courseEntities.get(i).setId(null);
+            courseEntities.get(i).setProfile(personEntity.getProfile());
 
         }
 
@@ -180,6 +189,23 @@ public class PersonService implements IPersonService {
 
         }
 
+        List<SkillEntity> skillEntities=personEntity.getProfile().getSkills();
+        List<SkillEntity> bufSkills=new ArrayList<>();
+
+        for(int i=0; i<skillEntities.size();i++) {
+
+            if ((skillEntities.get(i).getId()!=null)
+                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
+
+                bufSkills.add(skillEntities.get(i));
+
+            }
+
+        }
+
+        personEntity.getProfile().setSkills(bufSkills);
+
+        personEntity.setPassword(BCrypt.hashpw(personEntity.getPassword(),BCrypt.gensalt()));
         personEntity.setBlocked(false);
         personEntity.getProfile().setApproved(false);
 
@@ -193,15 +219,27 @@ public class PersonService implements IPersonService {
 
     @Override
     public Boolean update(PersonEntity personEntity) {
+/*
+        PersonEntity personInDatabase=personRepository.findOne(personEntity.getId());
 
-        if (!personRepository.exists(personEntity.getId())) {
+        if (personInDatabase==null) {
 
             return false;
 
+        }
+
+        if (!personEntity.getLogin().equals(personInDatabase.getLogin())) {
+
+            if (personRepository.findByLogin(personEntity.getLogin())!=null) {
+
+                return false;
+
+
+            }
 
         }
 
-        PersonEntity personInDatabase=personRepository.findOne(personEntity.getId());
+
 
      //check educations   ---------------------------------------------------
 
@@ -311,10 +349,14 @@ public class PersonService implements IPersonService {
         personEntity.getProfile().setWorkplaces(bufWorkplaces);
         personEntity.getProfile().setSkills(bufSkills);
 
+        personEntity.setPassword(personInDatabase.getPassword());
         personEntity.getProfile().setApproved(personInDatabase.getProfile().getApproved());
         personEntity.setBlocked(personInDatabase.getBlocked());
 
-        return save(personEntity);
+        return save(personEntity);*/
+
+
+        return null;
     }
 
 

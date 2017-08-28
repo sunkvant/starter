@@ -1,6 +1,9 @@
 package com.itbootcamp.starter.services.impl;
 
+import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
 import com.itbootcamp.starter.repository.EducationRepository;
+import com.itbootcamp.starter.repository.EducationTypeRepository;
+import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.services.IEducationService;
 import com.itbootcamp.starter.datamodel.impl.EducationEntity;
@@ -21,8 +24,21 @@ public class EducationService implements IEducationService {
 
 
     @Autowired
-    EducationRepository educationRepository;
+    private EducationRepository educationRepository;
 
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private EducationTypeRepository educationTypeRepository;
+
+
+    @Override
+    public EducationEntity getById(Integer educationId) {
+
+        return educationRepository.findOne(educationId);
+
+    }
 
     @Override
     public Boolean add(EducationEntity educationEntity, PersonEntity personEntity) {
@@ -31,49 +47,86 @@ public class EducationService implements IEducationService {
 
             return false;
 
-        } else {
+        }
 
-            educationEntity.setId(null);
-            educationEntity.setProfile(personEntity.getProfile());
-
-            if (educationRepository.save(educationEntity) != null) {
-
-                return true;
-
-            }
+        if (!educationTypeRepository.exists(educationEntity.getEducationTypeEntity().getId())) {
 
             return false;
+
         }
+
+        educationEntity.setId(null);
+        educationEntity.setProfile(personEntity.getProfile());
+        personEntity.getProfile().getEducations().add(educationEntity);
+
+        if (personRepository.save(personEntity) != null) {
+
+            return true;
+
+        }
+
+        return false;
     }
 
     @Override
     public Boolean update(EducationEntity educationEntity,PersonEntity personEntity) {
-        if (personEntity.getProfile() == null) {
+
+        if ((personEntity.getProfile() == null)||(educationEntity.getId()==null)) {
 
             return false;
 
-        } else {
+        }
 
-            List<EducationEntity> educationEntities = personEntity.getProfile().getEducations();
+        if (!educationTypeRepository.exists(educationEntity.getEducationTypeEntity().getId())) {
 
-            for (int i = 0; i < educationEntities.size(); i++) {
+            return false;
 
-                if (educationEntity.getId() == educationEntities.get(i).getId()) {
+        }
 
-                    educationEntity.setProfile(personEntity.getProfile());
-                    if (educationRepository.save(educationEntity) != null) {
 
-                        return true;
+        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
 
-                    }
+            if (educationEntity.getId() == personEntity.getProfile().getEducations().get(i).getId()) {
+
+
+                personEntity.getProfile().getEducations().get(i).setName(educationEntity.getName());
+                personEntity.getProfile().getEducations().get(i).setFaculty(educationEntity.getFaculty());
+                personEntity.getProfile().getEducations().get(i).setGraduationYear(educationEntity.getGraduationYear());
+                personEntity.getProfile().getEducations().get(i).setEducationTypeEntity(educationEntity.getEducationTypeEntity());
+
+
+                if (personRepository.save(personEntity) != null) {
+
+                    return true;
+
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+    @Override
+    public Boolean delete(EducationEntity educationEntity, PersonEntity personEntity) {
+
+        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
+
+            if (educationEntity.getId()==personEntity.getProfile().getEducations().get(i).getId()) {
+
+                personEntity.getProfile().getEducations().remove(i);
+                if (personRepository.save(personEntity)!=null) {
+
+                    return true;
 
                 }
 
             }
 
-            return false;
-
         }
+
+
+        return false;
     }
 
 }
