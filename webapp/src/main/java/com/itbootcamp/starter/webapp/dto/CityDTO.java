@@ -1,7 +1,10 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class CityDTO {
 
+    @NotNull
     private Integer id;
     private String name;
 

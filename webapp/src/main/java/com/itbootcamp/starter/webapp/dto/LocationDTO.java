@@ -1,8 +1,12 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class LocationDTO {
 
+    @NotNull
     private CountryDTO country;
+    @NotNull
     private CityDTO city;
 
     public CountryDTO getCountry() {

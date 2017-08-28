@@ -4,8 +4,8 @@ import javax.validation.constraints.NotNull;
 
 public class DirectionDTO {
 
-    private Integer id;
     @NotNull
+    private Integer id;
     private String name;
 
     public Integer getId() {

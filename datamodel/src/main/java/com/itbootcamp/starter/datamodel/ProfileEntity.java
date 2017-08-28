@@ -77,7 +77,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.direction = direction;
     }
 
-    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL,orphanRemoval = true)
     public List<WorkplaceEntity> getWorkplaces() {
         return workplaces;
     }

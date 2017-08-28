@@ -223,7 +223,7 @@ public class PersonService implements IPersonService {
     private Boolean save(PersonEntity personEntity) {
 
 
-        if ((personEntity.getRole().getId()==null)||(!roleRepository.exists(personEntity.getRole().getId()))
+        if ((!roleRepository.exists(personEntity.getRole().getId()))
                 || (personEntity.getRole().getId()==RoleType.ROLE_ADMIN)
                 ||(personEntity.getRole().getId()==RoleType.ROLE_MODER)) {
 
@@ -250,15 +250,14 @@ public class PersonService implements IPersonService {
 
         }
 
-        if ((personEntity.getContact().getLocation().getCity().getId()==null)
-                ||(!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId()))) {
+        if (!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId())) {
 
             return false;
 
         }
 
-        if ((personEntity.getContact().getLocation().getCountry().getId()==null)
-                ||(!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId()))) {
+        if (!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId())) {
+
 
             return false;
 
@@ -286,8 +285,8 @@ public class PersonService implements IPersonService {
 
 
 
-        if ((personEntity.getProfile().getDirection().getId()==null)
-                ||(!directionRepository.exists(personEntity.getProfile().getDirection().getId()))) {
+        if  (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
+
 
             return false;
 
