@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CityRepository extends CrudRepository<CityEntity,Integer> {
 
+    CityEntity getByNameIgnoreCase(String name);
+
     List<CityEntity> findAllByCountry(CountryEntity countryEntity);
 
 }

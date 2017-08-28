@@ -14,13 +14,13 @@ public class EducationDTO {
     @NotNull
     private Integer graduationYear;
     @NotNull
-    private EducationTypeDTO educationType;
+    private String educationType;
 
-    public EducationTypeDTO getEducationType() {
+    public String getEducationType() {
         return educationType;
     }
 
-    public void setEducationType(EducationTypeDTO educationType) {
+    public void setEducationType(String educationType) {
         this.educationType = educationType;
     }
 

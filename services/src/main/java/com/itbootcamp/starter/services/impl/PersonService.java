@@ -41,10 +41,6 @@ public class PersonService implements IPersonService {
     @Autowired
     private RoleRepository roleRepository;
 
-
-    @Autowired
-    private EducationTypeRepository educationTypeRepository;
-
     @Autowired
     private SkillRepository skillRepository;
 
@@ -232,6 +228,22 @@ public class PersonService implements IPersonService {
 
         }
 
+        if (personEntity.getRole().getId()==RoleType.ROLE_CUSTOMER) {
+
+            personEntity.setProfile(null);
+
+        } else {
+
+
+            if (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
+
+                return false;
+
+
+            }
+
+        }
+
         if ((personEntity.getRole().getId()!=RoleType.ROLE_MENTOR)) {
 
             personEntity.getProfile().setMentorInfo(null);
@@ -250,49 +262,61 @@ public class PersonService implements IPersonService {
 
         }
 
-        if (!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId())) {
+        if (personEntity.getContact().getLocation().getCountry().getId()==null) {
 
-            return false;
+            if (countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName())==null) {
 
-        }
+                CountryEntity countryEntity = new CountryEntity();
+                countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
+                personEntity.getContact().getLocation().setCountry(countryRepository.save(countryEntity));
 
-        if (!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId())) {
+            } else {
+
+                personEntity.getContact().getLocation().setCountry(
+                        countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName()));
+
+            }
+
+        } else {
 
 
-            return false;
+            if (!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId())) {
 
-        }
-
-        List<CityEntity> cityEntities=cityRepository.findAllByCountry(personEntity.getContact().getLocation().getCountry());
-        Boolean exist=false;
-
-        for (int i = 0; i < cityEntities.size(); i++) {
-
-            if (personEntity.getContact().getLocation().getCity().getId()==cityEntities.get(i).getId()) {
-
-                exist=true;
-                break;
+                return false;
 
             }
 
         }
 
-        if (!exist) {
+        if (personEntity.getContact().getLocation().getCity().getId()==null) {
 
-            return false;
+            if (cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName())==null) {
+
+                CityEntity cityEntity = new CityEntity();
+                cityEntity.setName(personEntity.getContact().getLocation().getCity().getName());
+                cityEntity.setCountry(personEntity.getContact().getLocation().getCountry());
+                personEntity.getContact().getLocation().setCity(cityRepository.save(cityEntity));
+
+            } else {
+
+
+
+                    personEntity.getContact().getLocation().setCity(
+                            cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName()));
+
+
+
+            }
+
+        } else {
+
+            if (!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId())) {
+
+                return false;
+
+            }
 
         }
-
-
-
-        if  (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
-
-
-            return false;
-
-
-        }
-
 
 
         //personEntity.getProfile().setId(personEntity.getId());
@@ -336,13 +360,6 @@ public class PersonService implements IPersonService {
 
             educationEntities.get(i).setId(null);
             educationEntities.get(i).setProfile(personEntity.getProfile());
-
-            if ((educationEntities.get(i).getEducationTypeEntity().getId()==null)
-                    ||(!educationTypeRepository.exists(educationEntities.get(i).getEducationTypeEntity().getId()))) {
-
-                return false;
-
-            }
 
         }
 

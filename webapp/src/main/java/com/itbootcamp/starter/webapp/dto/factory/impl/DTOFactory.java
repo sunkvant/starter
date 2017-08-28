@@ -187,7 +187,6 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setRole(getRoleDTO(personEntity.getRole()));
         profileDTO.setBlocked(personEntity.getBlocked());
 
-        String currentRole=personEntity.getRole().getName();
 
         if ((personEntity.getRole().getId()==RoleType.ROLE_TRAINEE)||(personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
 
@@ -309,7 +308,7 @@ public class DTOFactory implements IDTOFactory {
         educationDTO.setFaculty(educationEntity.getFaculty());
         educationDTO.setSpeciality(educationEntity.getSpeciality());
         educationDTO.setGraduationYear(educationEntity.getGraduationYear());
-        educationDTO.setEducationType(getEducationTypeDTO(educationEntity.getEducationTypeEntity()));
+        educationDTO.setEducationType(educationEntity.getEducationType());
 
         return educationDTO;
     }
@@ -330,16 +329,6 @@ public class DTOFactory implements IDTOFactory {
         return reviewDTO;
     }
 
-    @Override
-    public EducationTypeDTO getEducationTypeDTO(EducationTypeEntity educationEntity) {
-
-        EducationTypeDTO educationTypeDTO=new EducationTypeDTO();
-
-        educationTypeDTO.setId(educationEntity.getId());
-        educationTypeDTO.setName(educationEntity.getType());
-
-        return educationTypeDTO;
-    }
 
     @Override
     public LocationDTO getLocationDTO(LocationEntity locationEntity) {

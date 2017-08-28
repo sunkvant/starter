@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -21,14 +22,15 @@ public class ProfileDTO {
     private Integer id;
 
     @NotNull
+    @NotEmpty
     private String login;
+    @NotEmpty
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotNull
     private ContactDTO contact;
     @NotNull
     private RoleDTO role;
-    @NotNull
     private DirectionDTO direction;
     @NotNull
     private List<CourseDTO> courses;

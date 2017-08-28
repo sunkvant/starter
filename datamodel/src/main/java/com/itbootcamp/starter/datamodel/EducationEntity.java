@@ -16,31 +16,16 @@ public class EducationEntity extends AbstractEntityID{
     private String faculty;
     private String speciality;
     private Integer graduationYear;
-
+    private String educationType;
     private ProfileEntity profile;
-    private EducationTypeEntity educationTypeEntity;
-    private Integer educationTypeId;
 
-    private Integer profileId;
-
-    @Column(name = "profile_id", nullable = false, insertable = false, updatable = false)
-    public Integer getProfileId() {
-        return profileId;
+    @Column(name = "education_type", nullable = false, length = 255)
+    public String getEducationType() {
+        return educationType;
     }
 
-    public void setProfileId(Integer profileId) {
-        this.profileId = profileId;
-    }
-
-
-
-    @Column(name = "education_type_id", nullable = false, insertable = false, updatable = false)
-    public Integer getEducationTypeId() {
-        return educationTypeId;
-    }
-
-    public void setEducationTypeId(Integer educationTypeId) {
-        this.educationTypeId = educationTypeId;
+    public void setEducationType(String educationType) {
+        this.educationType = educationType;
     }
 
     @Column(name = "name", nullable = false, length = 255)
@@ -91,15 +76,4 @@ public class EducationEntity extends AbstractEntityID{
         this.profile = profile;
     }
 
-    @ManyToOne
-    @JsonIgnore
-    @JsonBackReference
-    @JoinColumn(name = "education_type_id", referencedColumnName = "id", nullable = false)
-    public EducationTypeEntity getEducationTypeEntity() {
-        return educationTypeEntity;
-    }
-
-    public void setEducationTypeEntity(EducationTypeEntity educationEntity) {
-        this.educationTypeEntity = educationEntity;
-    }
 }

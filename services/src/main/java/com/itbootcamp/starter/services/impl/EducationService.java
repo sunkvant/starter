@@ -1,7 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.repository.EducationRepository;
-import com.itbootcamp.starter.repository.EducationTypeRepository;
 import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.services.IEducationService;
 import com.itbootcamp.starter.datamodel.EducationEntity;
@@ -24,10 +23,6 @@ public class EducationService implements IEducationService {
     @Autowired
     private PersonRepository personRepository;
 
-    @Autowired
-    private EducationTypeRepository educationTypeRepository;
-
-
     @Override
     public EducationEntity getById(Integer educationId) {
 
@@ -39,12 +34,6 @@ public class EducationService implements IEducationService {
     public Boolean add(EducationEntity educationEntity, PersonEntity personEntity) {
 
         if (personEntity.getProfile() == null) {
-
-            return false;
-
-        }
-
-        if (!educationTypeRepository.exists(educationEntity.getEducationTypeEntity().getId())) {
 
             return false;
 
@@ -72,12 +61,6 @@ public class EducationService implements IEducationService {
 
         }
 
-        if (!educationTypeRepository.exists(educationEntity.getEducationTypeEntity().getId())) {
-
-            return false;
-
-        }
-
 
         for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
 
@@ -87,7 +70,6 @@ public class EducationService implements IEducationService {
                 personEntity.getProfile().getEducations().get(i).setName(educationEntity.getName());
                 personEntity.getProfile().getEducations().get(i).setFaculty(educationEntity.getFaculty());
                 personEntity.getProfile().getEducations().get(i).setGraduationYear(educationEntity.getGraduationYear());
-                personEntity.getProfile().getEducations().get(i).setEducationTypeEntity(educationEntity.getEducationTypeEntity());
 
 
                 if (personRepository.save(personEntity) != null) {

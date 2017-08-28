@@ -21,7 +21,6 @@ public interface IDTOFactory {
     WorkplaceDTO getWorkplaceDTO(WorkplaceEntity workplaceEntity);
     EducationDTO getEducationDTO(EducationEntity educationEntity);
     ReviewDTO getReviewDTO(ReviewEntity reviewEntity);
-    EducationTypeDTO getEducationTypeDTO(EducationTypeEntity educationEntity);
     LocationDTO getLocationDTO(LocationEntity locationEntity);
     CityDTO getCityDTO(CityEntity cityEntity);
     CountryDTO getCountryDTO(CountryEntity countryEntity);

@@ -94,23 +94,6 @@ public class EntityFactory implements IEntityFactory {
         return directionEntity;
     }
 
-    public EducationTypeEntity getEducationTypeEntity(EducationTypeDTO educationTypeDTO) {
-
-        if (educationTypeDTO==null) {
-
-            return null;
-
-        }
-
-        EducationTypeEntity educationTypeEntity=new EducationTypeEntity();
-
-        educationTypeEntity.setId(educationTypeDTO.getId());
-        educationTypeEntity.setType(educationTypeDTO.getName());
-
-        return educationTypeEntity;
-
-
-    }
 
     @Override
     public EducationEntity getEducationEntity(EducationDTO educationDTO) {
@@ -131,7 +114,7 @@ public class EntityFactory implements IEntityFactory {
         educationEntity.setFaculty(educationDTO.getFaculty());
         educationEntity.setSpeciality(educationDTO.getSpeciality());
         educationEntity.setGraduationYear(educationDTO.getGraduationYear());
-        educationEntity.setEducationTypeEntity(getEducationTypeEntity(educationDTO.getEducationType()));
+        educationEntity.setEducationType(educationDTO.getEducationType());
 
         return educationEntity;
     }

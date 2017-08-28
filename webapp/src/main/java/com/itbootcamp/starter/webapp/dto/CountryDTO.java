@@ -4,8 +4,9 @@ import javax.validation.constraints.NotNull;
 
 public class CountryDTO {
 
-    @NotNull
+
     private Integer id;
+    @NotNull
     private String name;
 
     public Integer getId() {
