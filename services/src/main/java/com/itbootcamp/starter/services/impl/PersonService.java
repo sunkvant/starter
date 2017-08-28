@@ -1,12 +1,10 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.PositionEntity;
-import com.itbootcamp.starter.datamodel.impl.TeamEntity;
-import com.itbootcamp.starter.repository.PersonRepository;
-import com.itbootcamp.starter.repository.TeamRepository;
+import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -19,8 +17,8 @@ import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 
 /**
  * Created by admin on 8/16/2017.
@@ -36,6 +34,19 @@ public class PersonService implements IPersonService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private DirectionRepository directionRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+
+    @Autowired
+    private EducationTypeRepository educationTypeRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -96,6 +107,7 @@ public class PersonService implements IPersonService {
         return teamEntity.getMember();
     }
 
+
     @Override
     public List<PersonEntity> searchPersons(
             String role,
@@ -145,27 +157,27 @@ public class PersonService implements IPersonService {
         if (ageFrom != null) {
             LocalDate localDate = LocalDate.now().minusYears(ageFrom);
             Timestamp timestampTo = Timestamp.valueOf(localDate.atStartOfDay());
-            ageFromPredicate = criteriaBuilder.lessThanOrEqualTo(root.join("contact").get("dateOfBirth"),timestampTo);
+            ageFromPredicate = criteriaBuilder.lessThanOrEqualTo(root.join("contact").get("dateOfBirth"), timestampTo);
         }
         if (ageTo != null) {
             LocalDate localDate = LocalDate.now().minusYears(ageTo);
             Timestamp timestampFrom = Timestamp.valueOf(localDate.atStartOfDay());
-            ageToPredicate = criteriaBuilder.greaterThanOrEqualTo(root.join("contact").get("dateOfBirth"),timestampFrom);
+            ageToPredicate = criteriaBuilder.greaterThanOrEqualTo(root.join("contact").get("dateOfBirth"), timestampFrom);
         }
         if (skills.size() != 0) {
             for (int i = 0; i < skills.size(); i++) {
                 skillPredicateList.add(criteriaBuilder.equal(root.join("profile").join("skills").get("name"), skills.get(i)));
             }
-        }else {
-           skillPredicateList.add(criteriaBuilder.conjunction());
+        } else {
+            skillPredicateList.add(criteriaBuilder.conjunction());
         }
-        if (country != null){
+        if (country != null) {
             countryPredicate = criteriaBuilder.equal(root.join("contact").join("location").join("country").get("name"), country);
         }
-        if (city != null){
+        if (city != null) {
             cityPredicate = criteriaBuilder.equal(root.join("contact").join("location").join("city").get("name"), city);
         }
-        if (educationName != null){
+        if (educationName != null) {
             educationNamePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.join("profile").join("educations").get("name")), "%" + educationName.toUpperCase() + "%");
         }
 
@@ -173,11 +185,11 @@ public class PersonService implements IPersonService {
             for (int i = 0; i < directions.size(); i++) {
                 directionPredicateList.add(criteriaBuilder.equal(root.join("profile").join("direction").get("name"), directions.get(i)));
             }
-        }else {
+        } else {
             directionPredicateList.add(criteriaBuilder.conjunction());
         }
 
-        if (isMentorExp != null){
+        if (isMentorExp != null) {
             isMentorExpPredicate = criteriaBuilder.equal(root.join("profile").join("mentorInfo").get("mentorExp"), isMentorExp);
         }
 
@@ -199,6 +211,270 @@ public class PersonService implements IPersonService {
         List<PersonEntity> personEntityList = typedQuery.getResultList();
 
         return personEntityList;
+
+    }
+
+    private Boolean save(PersonEntity personEntity) {
+
+
+        if ((personEntity.getRole().getId()==null)||(!roleRepository.exists(personEntity.getRole().getId()))
+                || (personEntity.getRole().getId()==1)
+                ||(personEntity.getRole().getId()==2)) {
+
+            return false;
+
+
+        }
+
+
+
+        if ((personEntity.getProfile().getDirection().getId()==null)
+                ||(!directionRepository.exists(personEntity.getProfile().getDirection().getId()))) {
+
+            return false;
+
+
+        }
+
+
+
+        //personEntity.getProfile().setId(personEntity.getId());
+        //personEntity.getContact().setId(personEntity.getId());
+
+
+
+        if (personRepository.save(personEntity)!=null) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+
+
+    }
+
+    @Override
+    public Boolean create(PersonEntity personEntity) {
+
+        if ((personEntity.getPassword()==null)
+                ||(personRepository.findByLogin(personEntity.getLogin())!=null)) {
+
+            return false;
+
+
+        }
+
+
+        personEntity.setId(null);
+        personEntity.getProfile().setPerson(personEntity);
+
+
+        List<EducationEntity> educationEntities=personEntity.getProfile().getEducations();
+
+        for (int i=0; i<educationEntities.size(); i++) {
+
+            educationEntities.get(i).setId(null);
+            educationEntities.get(i).setProfile(personEntity.getProfile());
+
+            if ((educationEntities.get(i).getEducationTypeEntity().getId()==null)
+                    ||(!educationTypeRepository.exists(educationEntities.get(i).getEducationTypeEntity().getId()))) {
+
+                return false;
+
+            }
+
+        }
+
+        List<CourseEntity> courseEntities=personEntity.getProfile().getCourses();
+
+        for (int i=0; i<courseEntities.size(); i++) {
+
+            courseEntities.get(i).setId(null);
+            courseEntities.get(i).setProfile(personEntity.getProfile());
+
+        }
+
+        List<WorkplaceEntity> workplaceEntities=personEntity.getProfile().getWorkplaces();
+
+        for (int i=0; i<workplaceEntities.size(); i++) {
+
+            workplaceEntities.get(i).setId(null);
+
+        }
+
+        List<SkillEntity> skillEntities=personEntity.getProfile().getSkills();
+        List<SkillEntity> bufSkills=new ArrayList<>();
+
+        for(int i=0; i<skillEntities.size();i++) {
+
+            if ((skillEntities.get(i).getId()!=null)
+                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
+
+                bufSkills.add(skillEntities.get(i));
+
+            }
+
+        }
+
+        personEntity.getProfile().setSkills(bufSkills);
+
+        personEntity.setPassword(BCrypt.hashpw(personEntity.getPassword(),BCrypt.gensalt()));
+        personEntity.setBlocked(false);
+        personEntity.getProfile().setApproved(false);
+
+        return save(personEntity);
+
+
+
+
+
+    }
+
+    @Override
+    public Boolean update(PersonEntity personEntity) {
+/*
+        PersonEntity personInDatabase=personRepository.findOne(personEntity.getId());
+
+        if (personInDatabase==null) {
+
+            return false;
+
+        }
+
+        if (!personEntity.getLogin().equals(personInDatabase.getLogin())) {
+
+            if (personRepository.findByLogin(personEntity.getLogin())!=null) {
+
+                return false;
+
+
+            }
+
+        }
+
+
+
+     //check educations   ---------------------------------------------------
+
+        List<EducationEntity> educationEntities=personInDatabase.getProfile().getEducations();
+        List<EducationEntity> bufEducations=new ArrayList<>();
+
+        Set<Integer> set=new HashSet<>();
+
+        for(int i=0; i<educationEntities.size(); i++) {
+
+            set.add(educationEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getEducations().size(); i++) {
+
+
+            if ((personEntity.getProfile().getEducations().get(i).getId()==null)
+                ||(set.contains(personEntity.getProfile().getEducations().get(i).getId()))) {
+
+                if (!educationTypeRepository.exists(personEntity.getProfile().getEducations()
+                        .get(i).getEducationTypeEntity().getId())) {
+
+                    return false;
+
+                }
+
+                bufEducations.add(personEntity.getProfile().getEducations().get(i));
+
+            }
+
+        }
+
+   //----------------------------------------------------
+
+        // check course ---------------------------------------------
+
+        List<CourseEntity> courseEntities=personInDatabase.getProfile().getCourses();
+        List<CourseEntity> bufCourses=new ArrayList<>();
+
+        set=new HashSet<>();
+
+        for(int i=0; i<courseEntities.size(); i++) {
+
+            set.add(courseEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getCourses().size(); i++) {
+
+
+            if ((personEntity.getProfile().getCourses().get(i).getId()==null)
+                    ||(set.contains(personEntity.getProfile().getCourses().get(i).getId()))) {
+
+                bufCourses.add(personEntity.getProfile().getCourses().get(i));
+
+            }
+
+        }
+        //----------------------------------------------------
+
+        //check workplaces ----------------------------------
+
+        List<WorkplaceEntity> workplaceEntities=personInDatabase.getProfile().getWorkplaces();
+        List<WorkplaceEntity> bufWorkplaces=new ArrayList<>();
+
+        set=new HashSet<>();
+
+        for(int i=0; i<workplaceEntities.size(); i++) {
+
+            set.add(workplaceEntities.get(i).getId());
+
+        }
+
+        for(int i=0; i<personEntity.getProfile().getWorkplaces().size(); i++) {
+
+
+            if ((personEntity.getProfile().getWorkplaces().get(i).getId()==null)
+                    ||(set.contains(personEntity.getProfile().getWorkplaces().get(i).getId()))) {
+
+                bufWorkplaces.add(personEntity.getProfile().getWorkplaces().get(i));
+
+            }
+
+        }
+        //----------------------------------------------------
+
+        //check skills --------------------------------------
+
+        List<SkillEntity> bufSkills=new ArrayList<>();
+
+        for(int i=0; i<personEntity.getProfile().getSkills().size();i++) {
+
+            if (skillRepository.exists(personEntity.getProfile().getSkills().get(i).getId())) {
+
+                bufSkills.add(personEntity.getProfile().getSkills().get(i));
+
+            }
+
+        }
+
+        //----------------------------------------------------
+
+        personEntity.getProfile().setId(personEntity.getId());
+        personEntity.getProfile().setEducations(bufEducations);
+        personEntity.getProfile().setCourses(bufCourses);
+        personEntity.getProfile().setWorkplaces(bufWorkplaces);
+        personEntity.getProfile().setSkills(bufSkills);
+
+        personEntity.setPassword(personInDatabase.getPassword());
+        personEntity.getProfile().setApproved(personInDatabase.getProfile().getApproved());
+        personEntity.setBlocked(personInDatabase.getBlocked());
+
+        return save(personEntity);*/
+
+
+        return null;
+
     }
 
 

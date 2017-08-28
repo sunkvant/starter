@@ -1,10 +1,5 @@
 package com.itbootcamp.starter.datamodel.impl;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.itbootcamp.starter.datamodel.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "person")
 public class PersonEntity extends AbstractEntityID implements UserDetails {
+
     private String login;
     private String password;
     private Boolean isBlocked;
@@ -101,7 +97,7 @@ public class PersonEntity extends AbstractEntityID implements UserDetails {
         this.password = password;
     }
 
-    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     public ContactEntity getContact() {
         return contact;
     }
@@ -120,7 +116,8 @@ public class PersonEntity extends AbstractEntityID implements UserDetails {
         this.role = role;
     }
 
-    @OneToOne(mappedBy = "person",fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     public ProfileEntity getProfile() {
         return profile;
     }

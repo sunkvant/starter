@@ -10,6 +10,6 @@ import java.util.List;
  * Created by foooox on 21.7.17.
  */
 @Repository
-public interface DirectionRepository extends CrudRepository<DirectionEntity,Long>{
+public interface DirectionRepository extends CrudRepository<DirectionEntity,Integer>{
     List<DirectionEntity> findByNameContains(String containsWord);
 }

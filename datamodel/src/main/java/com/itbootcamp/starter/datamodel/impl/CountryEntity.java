@@ -11,6 +11,8 @@ public class CountryEntity extends AbstractEntityID{
     private String name;
     private List<CityEntity> cities;
     private List<LocationEntity> locations;
+
+
     @Basic
     @Column(name = "name", nullable = false, length = 255)
     public String getName() {
@@ -19,6 +21,7 @@ public class CountryEntity extends AbstractEntityID{
     public void setName(String name) {
         this.name = name;
     }
+
     @OneToMany(mappedBy = "country")
     public List<CityEntity> getCities() {
         return cities;
@@ -26,6 +29,7 @@ public class CountryEntity extends AbstractEntityID{
     public void setCities(List<CityEntity> cities) {
         this.cities = cities;
     }
+
     @OneToMany(mappedBy = "country")
     public List<LocationEntity> getLocations() {
         return locations;

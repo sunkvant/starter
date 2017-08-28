@@ -181,83 +181,71 @@ public class DTOFactory implements IDTOFactory {
 
         profileDTO.setId(personEntity.getId());
         profileDTO.setLogin(personEntity.getLogin());
+        profileDTO.setPassword(personEntity.getPassword());
         profileDTO.setFullName(personEntity.getContact().getFullName());
         profileDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
         profileDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
+
+
         profileDTO.setPhone(personEntity.getContact().getPhone());
         profileDTO.setSkype(personEntity.getContact().getSkype());
         profileDTO.setEmail(personEntity.getContact().getEmail());
         profileDTO.setAbout(personEntity.getContact().getAbout());
         profileDTO.setRole(getRoleDTO(personEntity.getRole()));
         profileDTO.setBlocked(personEntity.getBlocked());
-        profileDTO.setApproved(personEntity.getProfile().getApproved());
 
-        profileDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
+        String currentRole=personEntity.getRole().getName();
 
-
-        profileDTO.setCourses(getCoursesDTO(personEntity.getProfile().getCourses()));
-
-        List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
-
-            workplacesDTO.add(getWorkplaceDTO(personEntity.getProfile().getWorkplaces().get(i)));
-
-        }
-
-        profileDTO.setWorkplaces(workplacesDTO);
+        if ((currentRole.equals(RoleType.ROLE_TRAINEE))||(currentRole.equals(RoleType.ROLE_MENTOR))) {
 
 
-        List<EducationDTO> educationsDTO=new ArrayList<>();
+            profileDTO.setApproved(personEntity.getProfile().getApproved());
 
-        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
-
-            educationsDTO.add(getEducationDTO(personEntity.getProfile().getEducations().get(i)));
-
-        }
-
-        profileDTO.setEducations(educationsDTO);
-
-        List<SkillDTO> skillsDTO=new ArrayList<>();
-
-        for (int i = 0; i < personEntity.getProfile().getSkills().size(); i++) {
-
-            skillsDTO.add(getSkillDTO(personEntity.getProfile().getSkills().get(i)));
-
-        }
-
-        profileDTO.setSkills(skillsDTO);
+            profileDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
 
 
+            profileDTO.setCourses(getCoursesDTO(personEntity.getProfile().getCourses()));
+
+            List<WorkplaceDTO> workplacesDTO = new ArrayList<>();
+
+            for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
+
+                workplacesDTO.add(getWorkplaceDTO(personEntity.getProfile().getWorkplaces().get(i)));
+
+            }
+
+            profileDTO.setWorkplaces(workplacesDTO);
 
 
-        List<ReviewDTO> reviewsDTO=new ArrayList<>();
+            List<EducationDTO> educationsDTO = new ArrayList<>();
 
-        for (int i = 0; i < personEntity.getReceiverReviews().size(); i++) {
+            for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
 
-            reviewsDTO.add(getReviewDTO(personEntity.getReceiverReviews().get(i)));
+                educationsDTO.add(getEducationDTO(personEntity.getProfile().getEducations().get(i)));
 
-        }
+            }
 
-        profileDTO.setReviews(reviewsDTO);
+            profileDTO.setEducations(educationsDTO);
+
+            List<SkillDTO> skillsDTO = new ArrayList<>();
+
+            for (int i = 0; i < personEntity.getProfile().getSkills().size(); i++) {
+
+                skillsDTO.add(getSkillDTO(personEntity.getProfile().getSkills().get(i)));
+
+            }
+
+            profileDTO.setSkills(skillsDTO);
 
 
+            if ((currentRole.equals(RoleType.ROLE_MENTOR))) {
 
+                profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
+                profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());
 
-
-        if (personEntity.getProfile().getMentorInfo()==null) {
-
-            profileDTO.setMentorExp(false);
-            profileDTO.setExperience("");
-
-        } else {
-
-            profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
-            profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());
+            }
 
         }
-
-
 
         return profileDTO;
 
@@ -328,6 +316,7 @@ public class DTOFactory implements IDTOFactory {
         educationDTO.setFaculty(educationEntity.getFaculty());
         educationDTO.setSpeciality(educationEntity.getSpeciality());
         educationDTO.setGraduationYear(educationEntity.getGraduationYear());
+        educationDTO.setEducationType(getEducationTypeDTO(educationEntity.getEducationTypeEntity()));
 
         return educationDTO;
     }
@@ -346,6 +335,17 @@ public class DTOFactory implements IDTOFactory {
         reviewDTO.setText(reviewEntity.getText());
 
         return reviewDTO;
+    }
+
+    @Override
+    public EducationTypeDTO getEducationTypeDTO(EducationTypeEntity educationEntity) {
+
+        EducationTypeDTO educationTypeDTO=new EducationTypeDTO();
+
+        educationTypeDTO.setId(educationEntity.getId());
+        educationTypeDTO.setName(educationEntity.getType());
+
+        return educationTypeDTO;
     }
 
 

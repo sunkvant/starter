@@ -2,7 +2,7 @@ package com.itbootcamp.starter.webapp.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class RoleDTO {
+public class EducationTypeDTO {
 
     private Integer id;
     @NotNull

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,7 +44,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         isApproved = approved;
     }
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile",cascade =CascadeType.ALL,orphanRemoval = true)
     public List<CourseEntity> getCourses() {
         return courses;
     }
@@ -52,7 +53,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.courses = courses;
     }
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL,orphanRemoval = true)
     public List<EducationEntity> getEducations() {
         return educations;
     }
@@ -63,6 +64,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @MapsId
     public PersonEntity getPerson() {
         return person;
     }
@@ -81,7 +83,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.direction = direction;
     }
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile",cascade =  CascadeType.ALL)
     public List<WorkplaceEntity> getWorkplaces() {
         return workplaces;
     }
@@ -90,7 +92,10 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.workplaces = workplaces;
     }
 
-    @ManyToMany(mappedBy = "profiles",fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "profile_to_skill",
+            joinColumns = @JoinColumn(name = "profile_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "skill_id", nullable = false))
     public List<SkillEntity> getSkills() {
         return skills;
     }

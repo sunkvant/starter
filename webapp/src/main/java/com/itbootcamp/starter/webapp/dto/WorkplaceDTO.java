@@ -1,16 +1,24 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class WorkplaceDTO {
 
     private Integer id;
+    @NotNull
     private String company;
+    @NotNull
     private String sphereOfActivity;
+    @NotNull
     private String position;
+    @NotNull
     private String duties;
+    @NotNull
     private Timestamp startWork;
+    @NotNull
     private Timestamp endWork;
+    @NotNull
     private Boolean isWorking;
 
     public Integer getId() {

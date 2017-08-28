@@ -1,21 +1,58 @@
 package com.itbootcamp.starter.services.impl;
 
+import com.itbootcamp.starter.datamodel.impl.PersonEntity;
 import com.itbootcamp.starter.datamodel.impl.RoleEntity;
+import com.itbootcamp.starter.datamodel.impl.SkillEntity;
+import com.itbootcamp.starter.repository.PersonRepository;
+import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.repository.RoleRepository;
+import com.itbootcamp.starter.repository.SkillRepository;
 import com.itbootcamp.starter.services.ISkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by admin on 7/28/2017.
  */
+
+@Service
 public class SkillService implements ISkillService {
+
     @Autowired
-    RoleRepository skillRepository;
+    private SkillRepository skillRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+
 
     @Override
-    public List<RoleEntity> getAll() {
-        return (List<RoleEntity>) skillRepository.findAll();
+    public Boolean add(List<SkillEntity> skillEntities, PersonEntity personEntity) {
+
+
+        List<SkillEntity> bufSkills=new ArrayList<>();
+
+        for(int i=0; i<skillEntities.size();i++) {
+
+            if ((skillEntities.get(i).getId()!=null)
+                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
+
+                bufSkills.add(skillEntities.get(i));
+
+            }
+
+        }
+
+        personEntity.getProfile().setSkills(bufSkills);
+
+        personRepository.save(personEntity);
+
+        return true;
     }
 }

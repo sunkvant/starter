@@ -10,6 +10,6 @@ import java.util.List;
  * Created by foooox on 21.7.17.
  */
 @Repository
-public interface CourseRepository extends CrudRepository<CourseEntity,Long> {
+public interface CourseRepository extends CrudRepository<CourseEntity,Integer> {
     List<CourseEntity> findBySpecialityContains(String containsWord);
 }

@@ -3,7 +3,13 @@ package com.itbootcamp.starter.webapp.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Email;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,32 +19,48 @@ import java.util.List;
 public class ProfileDTO {
 
     private Integer id;
+    @NotNull
     private String login;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    @NotNull
     private String fullName;
+    @NotNull
     private Timestamp dateOfBirth;
+    @NotNull
     private String avatarPath;
+    @NotNull
     private String phone;
+    @NotNull
     private String skype;
+    @NotNull
+    @Email
     private String email;
+    @NotNull
     private String about;
+    @NotNull
     private RoleDTO role;
     private Boolean isBlocked;
     private DirectionDTO direction;
+    @NotNull
     private List<CourseDTO> courses;
+    @NotNull
     private List<WorkplaceDTO> workplaces;
+    @NotNull
     private List<EducationDTO> educations;
+    @NotNull
     private List<SkillDTO> skills;
-    private List<ReviewDTO> reviews;
     private Boolean isApproved;
     private Boolean isMentorExp;
     private String experience;
 
-    public List<ReviewDTO> getReviews() {
-        return reviews;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setReviews(List<ReviewDTO> reviews) {
-        this.reviews = reviews;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public DirectionDTO getDirection() {
@@ -103,9 +125,6 @@ public class ProfileDTO {
 
     public void setExperience(String experience) {
         this.experience = experience;
-    }
-
-    public ProfileDTO() {
     }
 
     public Integer getId() {

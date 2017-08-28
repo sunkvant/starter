@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.datamodel.impl;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -19,6 +20,10 @@ public class ContactEntity extends AbstractEntityID implements Serializable {
     private String about;
     private PersonEntity person;
     private LocationEntity location;
+
+
+  //  @GenericGenerator(name = "generator", strategy = "foreign",
+   //         parameters = @Parameter(name = "property", value = "person"))
 
     @Column(name = "full_name", nullable = false, length = 255)
     public String getFullName() {
@@ -85,6 +90,8 @@ public class ContactEntity extends AbstractEntityID implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    //@PrimaryKeyJoinColumn
+    @MapsId
     public PersonEntity getPerson() {
         return person;
     }
