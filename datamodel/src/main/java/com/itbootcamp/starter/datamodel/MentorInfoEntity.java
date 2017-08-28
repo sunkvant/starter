@@ -33,6 +33,7 @@ public class MentorInfoEntity extends AbstractEntityID{
 
     @OneToOne
     @JoinColumn(name = "id", nullable = false)
+    @MapsId
     public ProfileEntity getProfile() {
         return profile;
     }

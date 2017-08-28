@@ -100,7 +100,7 @@ public class ContactEntity extends AbstractEntityID implements Serializable {
         this.person = person;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     public LocationEntity getLocation() {
         return location;

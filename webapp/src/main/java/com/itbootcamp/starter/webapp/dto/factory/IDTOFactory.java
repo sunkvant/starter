@@ -25,4 +25,5 @@ public interface IDTOFactory {
     LocationDTO getLocationDTO(LocationEntity locationEntity);
     CityDTO getCityDTO(CityEntity cityEntity);
     CountryDTO getCountryDTO(CountryEntity countryEntity);
+    ContactDTO getContactDTO(ContactEntity contactEntity);
 }

@@ -22,6 +22,7 @@ public interface IEntityFactory {
     LocationEntity getLocationEntity(LocationDTO locationDTO);
     CityEntity getCityEntity(CityDTO cityDTO);
     CountryEntity getCountryEntity(CountryDTO countryDTO);
+    ContactEntity getContactEntity(ContactDTO contactDTO);
 
 
 }

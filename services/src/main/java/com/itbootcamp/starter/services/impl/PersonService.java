@@ -224,10 +224,28 @@ public class PersonService implements IPersonService {
 
 
         if ((personEntity.getRole().getId()==null)||(!roleRepository.exists(personEntity.getRole().getId()))
-                || (personEntity.getRole().getId()==1)
-                ||(personEntity.getRole().getId()==2)) {
+                || (personEntity.getRole().getId()==RoleType.ROLE_ADMIN)
+                ||(personEntity.getRole().getId()==RoleType.ROLE_MODER)) {
 
             return false;
+
+
+        }
+
+        if ((personEntity.getRole().getId()!=RoleType.ROLE_MENTOR)) {
+
+            personEntity.getProfile().setMentorInfo(null);
+
+        }
+
+        if (personEntity.getRole().getId()==RoleType.ROLE_MENTOR) {
+
+            if ((personEntity.getProfile().getMentorInfo().getMentorExp()==null)
+                    ||(personEntity.getProfile().getMentorInfo().getExperience()==null)) {
+
+                return false;
+
+            }
 
 
         }
@@ -246,8 +264,21 @@ public class PersonService implements IPersonService {
 
         }
 
-        if (personEntity.getContact().getLocation().getCity().getCountry().getId()
-                ==cityRepository.findOne(personEntity.getContact().getLocation().getCity().getId()).getCountry().getId()) {
+        List<CityEntity> cityEntities=cityRepository.findAllByCountry(personEntity.getContact().getLocation().getCountry());
+        Boolean exist=false;
+
+        for (int i = 0; i < cityEntities.size(); i++) {
+
+            if (personEntity.getContact().getLocation().getCity().getId()==cityEntities.get(i).getId()) {
+
+                exist=true;
+                break;
+
+            }
+
+        }
+
+        if (!exist) {
 
             return false;
 
@@ -363,6 +394,11 @@ public class PersonService implements IPersonService {
 
     @Override
     public Boolean update(PersonEntity personEntity) {
+
+        personEntity.getContact().setId(personEntity.getId());
+
+
+        return save(personEntity);
 /*
         PersonEntity personInDatabase=personRepository.findOne(personEntity.getId());
 
@@ -500,7 +536,7 @@ public class PersonService implements IPersonService {
         return save(personEntity);*/
 
 
-        return null;
+        //return null;
 
     }
 

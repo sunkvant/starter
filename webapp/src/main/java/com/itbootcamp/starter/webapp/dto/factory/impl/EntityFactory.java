@@ -252,6 +252,23 @@ public class EntityFactory implements IEntityFactory {
         return countryEntity;
     }
 
+    @Override
+    public ContactEntity getContactEntity(ContactDTO contactDTO) {
+
+        ContactEntity contactEntity=new ContactEntity();
+
+        contactEntity.setFullName(contactDTO.getFullName());
+        contactEntity.setDateOfBirth(contactDTO.getDateOfBirth());
+        contactEntity.setAvatarPath(contactDTO.getAvatarPath());
+        contactEntity.setPhone(contactDTO.getPhone());
+        contactEntity.setSkype(contactDTO.getSkype());
+        contactEntity.setEmail(contactDTO.getEmail());
+        contactEntity.setAbout(contactDTO.getAbout());
+        contactEntity.setLocation(getLocationEntity(contactDTO.getLocation()));
+
+        return contactEntity;
+    }
+
 
     @Override
     public PersonEntity getPersonEntity(ProfileDTO profileDTO)  {
@@ -264,15 +281,7 @@ public class EntityFactory implements IEntityFactory {
         personEntity.setBlocked(profileDTO.getBlocked());
         personEntity.setRole(getRoleEntity(profileDTO.getRole()));
 
-        ContactEntity contactEntity=new ContactEntity();
-        contactEntity.setFullName(profileDTO.getFullName());
-        contactEntity.setDateOfBirth(profileDTO.getDateOfBirth());
-        contactEntity.setAvatarPath(profileDTO.getAvatarPath());
-        contactEntity.setPhone(profileDTO.getPhone());
-        contactEntity.setSkype(profileDTO.getSkype());
-        contactEntity.setEmail(profileDTO.getEmail());
-        contactEntity.setAbout(profileDTO.getAbout());
-        contactEntity.setLocation(getLocationEntity(profileDTO.getLocation()));
+        ContactEntity contactEntity=getContactEntity(profileDTO.getContact());
 
         personEntity.setContact(contactEntity);
         contactEntity.setPerson(personEntity);
@@ -320,6 +329,13 @@ public class EntityFactory implements IEntityFactory {
         List<SkillEntity> skillEntities=getSkillsEntity(profileDTO.getSkills());
 
 
+        MentorInfoEntity mentorInfoEntity=new MentorInfoEntity();
+
+        mentorInfoEntity.setExperience(profileDTO.getExperience());
+        mentorInfoEntity.setMentorExp(profileDTO.getMentorExp());
+        mentorInfoEntity.setProfile(profileEntity);
+
+        profileEntity.setMentorInfo(mentorInfoEntity);
         profileEntity.setCourses(courseEntities);
         profileEntity.setWorkplaces(workplaceEntities);
         profileEntity.setEducations(educationEntities);

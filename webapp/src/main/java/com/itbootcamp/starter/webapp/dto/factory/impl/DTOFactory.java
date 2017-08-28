@@ -182,22 +182,14 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setId(personEntity.getId());
         profileDTO.setLogin(personEntity.getLogin());
         profileDTO.setPassword(personEntity.getPassword());
-        profileDTO.setFullName(personEntity.getContact().getFullName());
-        profileDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
-        profileDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
-        profileDTO.setLocation(getLocationDTO(personEntity.getContact().getLocation()));
+        profileDTO.setContact(getContactDTO(personEntity.getContact()));
 
-
-        profileDTO.setPhone(personEntity.getContact().getPhone());
-        profileDTO.setSkype(personEntity.getContact().getSkype());
-        profileDTO.setEmail(personEntity.getContact().getEmail());
-        profileDTO.setAbout(personEntity.getContact().getAbout());
         profileDTO.setRole(getRoleDTO(personEntity.getRole()));
         profileDTO.setBlocked(personEntity.getBlocked());
 
         String currentRole=personEntity.getRole().getName();
 
-        if ((currentRole.equals(RoleType.ROLE_TRAINEE))||(currentRole.equals(RoleType.ROLE_MENTOR))) {
+        if ((personEntity.getRole().getId()==RoleType.ROLE_TRAINEE)||(personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
 
 
             profileDTO.setApproved(personEntity.getProfile().getApproved());
@@ -239,7 +231,7 @@ public class DTOFactory implements IDTOFactory {
             profileDTO.setSkills(skillsDTO);
 
 
-            if ((currentRole.equals(RoleType.ROLE_MENTOR))) {
+            if ((personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
 
                 profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
                 profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());
@@ -381,6 +373,23 @@ public class DTOFactory implements IDTOFactory {
         countryDTO.setName(countryEntity.getName());
 
         return countryDTO;
+    }
+
+    @Override
+    public ContactDTO getContactDTO(ContactEntity contactEntity) {
+
+        ContactDTO contactDTO=new ContactDTO();
+
+        contactDTO.setFullName(contactEntity.getFullName());
+        contactDTO.setDateOfBirth(contactEntity.getDateOfBirth());
+        contactDTO.setAvatarPath(contactEntity.getAvatarPath());
+        contactDTO.setPhone(contactEntity.getPhone());
+        contactDTO.setSkype(contactEntity.getSkype());
+        contactDTO.setEmail(contactEntity.getEmail());
+        contactDTO.setAbout(contactEntity.getAbout());
+        contactDTO.setLocation(getLocationDTO(contactEntity.getLocation()));
+
+        return contactDTO;
     }
 
 

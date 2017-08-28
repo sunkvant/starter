@@ -19,30 +19,16 @@ import java.util.List;
 public class ProfileDTO {
 
     private Integer id;
+
     @NotNull
     private String login;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotNull
-    private String fullName;
-    @NotNull
-    private Timestamp dateOfBirth;
-    @NotNull
-    private String avatarPath;
-    @NotNull
-    private String phone;
-    @NotNull
-    private String skype;
-    @NotNull
-    @Email
-    private String email;
-    @NotNull
-    private String about;
+    private ContactDTO contact;
     @NotNull
     private RoleDTO role;
     @NotNull
-    private LocationDTO location;
-    private Boolean isBlocked;
     private DirectionDTO direction;
     @NotNull
     private List<CourseDTO> courses;
@@ -52,16 +38,33 @@ public class ProfileDTO {
     private List<EducationDTO> educations;
     @NotNull
     private List<SkillDTO> skills;
-    private Boolean isApproved;
     private Boolean isMentorExp;
     private String experience;
+    private Boolean isApproved;
+    private Boolean isBlocked;
 
-    public LocationDTO getLocation() {
-        return location;
+    public String getLogin() {
+        return login;
     }
 
-    public void setLocation(LocationDTO location) {
-        this.location = location;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public ContactDTO getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactDTO contact) {
+        this.contact = contact;
+    }
+
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        isBlocked = blocked;
     }
 
     public String getPassword() {
@@ -142,78 +145,6 @@ public class ProfileDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public Boolean getBlocked() {
-        return isBlocked;
-    }
-
-    public void setBlocked(Boolean blocked) {
-        isBlocked = blocked;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Timestamp getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Timestamp dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getAvatarPath() {
-        return avatarPath;
-    }
-
-    public void setAvatarPath(String avatarPath) {
-        this.avatarPath = avatarPath;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getSkype() {
-        return skype;
-    }
-
-    public void setSkype(String skype) {
-        this.skype = skype;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
     }
 
     public RoleDTO getRole() {

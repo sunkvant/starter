@@ -98,7 +98,7 @@ public class ProfileEntity  extends AbstractEntityID implements Serializable {
         this.skills = skills;
     }
 
-    @OneToOne(mappedBy = "profile",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "profile",cascade = CascadeType.ALL)
     public MentorInfoEntity getMentorInfo() {
         return mentorInfo;
     }

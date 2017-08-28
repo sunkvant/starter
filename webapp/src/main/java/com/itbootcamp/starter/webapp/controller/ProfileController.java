@@ -306,8 +306,8 @@ public class ProfileController {
 
     }
 
-/*    @RequestMapping(value = "/api/profile/", method = RequestMethod.PUT)
-    ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
+    @RequestMapping(value = "/api/profile/", method = RequestMethod.PUT)
+    ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ContactDTO contactDTO, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
@@ -317,7 +317,8 @@ public class ProfileController {
         }
 
 
-        PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
+        PersonEntity personEntity = personService.getById(102);  //TODO
+        personEntity.setContact(entityFactory.getContactEntity(contactDTO));
 
         if (!personService.update(personEntity)) {
 
@@ -327,7 +328,7 @@ public class ProfileController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
-    }*/
+    }
 
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.DELETE)
     ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Integer personId) {
