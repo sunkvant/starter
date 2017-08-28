@@ -377,6 +377,7 @@ public class PersonService implements IPersonService {
         for (int i=0; i<workplaceEntities.size(); i++) {
 
             workplaceEntities.get(i).setId(null);
+            workplaceEntities.get(i).setProfile(personEntity.getProfile());
 
         }
 
