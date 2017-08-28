@@ -1,9 +1,8 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectCategoryEntity;
+import com.itbootcamp.starter.datamodel.ProjectCategoryEntity;
 import com.itbootcamp.starter.repository.ProjectCategoryRepository;
 import com.itbootcamp.starter.services.IProjectCategoryService;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

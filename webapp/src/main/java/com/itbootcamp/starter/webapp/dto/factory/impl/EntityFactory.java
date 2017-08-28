@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.webapp.dto.factory.impl;
 
 
-import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.repository.SkillRepository;
 import com.itbootcamp.starter.services.*;
@@ -213,6 +213,45 @@ public class EntityFactory implements IEntityFactory {
 
     }
 
+    @Override
+    public LocationEntity getLocationEntity(LocationDTO locationDTO) {
+
+        if (locationDTO==null) {
+
+            return null;
+
+        }
+
+        LocationEntity locationEntity=new LocationEntity();
+
+        locationEntity.setCity(getCityEntity(locationDTO.getCity()));
+        locationEntity.setCountry(getCountryEntity(locationDTO.getCountry()));
+
+        return locationEntity;
+    }
+
+    @Override
+    public CityEntity getCityEntity(CityDTO cityDTO) {
+
+        CityEntity cityEntity=new CityEntity();
+
+        cityEntity.setId(cityDTO.getId());
+        cityEntity.setName(cityDTO.getName());
+
+        return cityEntity;
+
+    }
+
+    @Override
+    public CountryEntity getCountryEntity(CountryDTO countryDTO) {
+        CountryEntity countryEntity=new CountryEntity();
+
+        countryEntity.setId(countryDTO.getId());
+        countryEntity.setName(countryDTO.getName());
+
+        return countryEntity;
+    }
+
 
     @Override
     public PersonEntity getPersonEntity(ProfileDTO profileDTO)  {
@@ -233,6 +272,7 @@ public class EntityFactory implements IEntityFactory {
         contactEntity.setSkype(profileDTO.getSkype());
         contactEntity.setEmail(profileDTO.getEmail());
         contactEntity.setAbout(profileDTO.getAbout());
+        contactEntity.setLocation(getLocationEntity(profileDTO.getLocation()));
 
         personEntity.setContact(contactEntity);
         contactEntity.setPerson(personEntity);

@@ -40,6 +40,8 @@ public class ProfileDTO {
     private String about;
     @NotNull
     private RoleDTO role;
+    @NotNull
+    private LocationDTO location;
     private Boolean isBlocked;
     private DirectionDTO direction;
     @NotNull
@@ -54,6 +56,13 @@ public class ProfileDTO {
     private Boolean isMentorExp;
     private String experience;
 
+    public LocationDTO getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDTO location) {
+        this.location = location;
+    }
 
     public String getPassword() {
         return password;

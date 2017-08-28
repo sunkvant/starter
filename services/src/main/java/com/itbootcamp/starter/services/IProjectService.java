@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
+import com.itbootcamp.starter.datamodel.ProjectEntity;
 
 import java.util.List;
 

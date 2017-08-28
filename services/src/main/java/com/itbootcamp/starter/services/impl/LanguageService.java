@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.LanguageEntity;
+import com.itbootcamp.starter.datamodel.LanguageEntity;
 import com.itbootcamp.starter.repository.LanguageRepository;
 import com.itbootcamp.starter.services.ILanguageService;
 import org.springframework.beans.factory.annotation.Autowired;

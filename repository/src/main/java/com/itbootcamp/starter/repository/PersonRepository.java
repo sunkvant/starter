@@ -1,8 +1,7 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.RoleEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.RoleEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

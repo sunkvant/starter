@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectCategoryEntity;
+import com.itbootcamp.starter.datamodel.ProjectCategoryEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**

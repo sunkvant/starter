@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.DirectionEntity;
+import com.itbootcamp.starter.datamodel.DirectionEntity;
 import com.itbootcamp.starter.repository.DirectionRepository;
 import com.itbootcamp.starter.services.IDirectionService;
 import org.springframework.beans.factory.annotation.Autowired;

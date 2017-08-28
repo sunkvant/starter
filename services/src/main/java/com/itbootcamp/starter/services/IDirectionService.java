@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.DirectionEntity;
+import com.itbootcamp.starter.datamodel.DirectionEntity;
 
 import java.util.List;
 

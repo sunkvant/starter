@@ -1,10 +1,8 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.ProfileEntity;
+import com.itbootcamp.starter.datamodel.ProfileEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created by foooox on 21.7.17.

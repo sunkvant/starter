@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.SkillEntity;
+import com.itbootcamp.starter.datamodel.SkillEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

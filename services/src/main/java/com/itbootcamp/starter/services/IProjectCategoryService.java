@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectCategoryEntity;
+import com.itbootcamp.starter.datamodel.ProjectCategoryEntity;
 
 /**
  * Created by admin on 8/23/2017.

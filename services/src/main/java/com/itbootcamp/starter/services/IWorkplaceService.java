@@ -1,9 +1,7 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.WorkplaceEntity;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.omg.CORBA.PERSIST_STORE;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.WorkplaceEntity;
 
 public interface IWorkplaceService {
 

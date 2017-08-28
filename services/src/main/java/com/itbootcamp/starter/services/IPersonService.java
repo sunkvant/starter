@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.PositionEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.PositionEntity;
 
 import java.util.List;
 

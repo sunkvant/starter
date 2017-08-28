@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +47,12 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private CountryRepository countryRepository;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -223,6 +229,27 @@ public class PersonService implements IPersonService {
 
             return false;
 
+
+        }
+
+        if ((personEntity.getContact().getLocation().getCity().getId()==null)
+                ||(!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId()))) {
+
+            return false;
+
+        }
+
+        if ((personEntity.getContact().getLocation().getCountry().getId()==null)
+                ||(!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId()))) {
+
+            return false;
+
+        }
+
+        if (personEntity.getContact().getLocation().getCity().getCountry().getId()
+                ==cityRepository.findOne(personEntity.getContact().getLocation().getCity().getId()).getCountry().getId()) {
+
+            return false;
 
         }
 

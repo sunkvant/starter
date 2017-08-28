@@ -1,8 +1,7 @@
 package com.itbootcamp.starter.webapp.controller;
 
 
-import com.itbootcamp.starter.datamodel.impl.LocationEntity;
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.services.IPersonService;
 import com.itbootcamp.starter.webapp.dto.ProfileDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

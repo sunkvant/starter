@@ -1,21 +1,15 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.RoleEntity;
-import com.itbootcamp.starter.datamodel.impl.SkillEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.SkillEntity;
 import com.itbootcamp.starter.repository.PersonRepository;
-import com.itbootcamp.starter.repository.ProfileRepository;
-import com.itbootcamp.starter.repository.RoleRepository;
 import com.itbootcamp.starter.repository.SkillRepository;
 import com.itbootcamp.starter.services.ISkillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by admin on 7/28/2017.

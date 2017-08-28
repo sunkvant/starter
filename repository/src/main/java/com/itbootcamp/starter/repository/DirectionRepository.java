@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.DirectionEntity;
+import com.itbootcamp.starter.datamodel.DirectionEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

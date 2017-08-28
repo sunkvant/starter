@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.webapp.controller;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
-import com.itbootcamp.starter.datamodel.impl.VacancyEntity;
+import com.itbootcamp.starter.datamodel.ProjectEntity;
+import com.itbootcamp.starter.datamodel.VacancyEntity;
 import com.itbootcamp.starter.services.IProjectService;
 import com.itbootcamp.starter.services.IVacancyService;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;

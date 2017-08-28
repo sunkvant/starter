@@ -1,7 +1,5 @@
 package com.itbootcamp.starter.webapp.dto;
 
-import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
-
 import javax.validation.constraints.NotNull;
 
 public class EducationDTO {

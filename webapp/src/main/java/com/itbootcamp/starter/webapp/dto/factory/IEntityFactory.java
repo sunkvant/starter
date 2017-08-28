@@ -1,9 +1,8 @@
 package com.itbootcamp.starter.webapp.dto.factory;
 
 
-import com.itbootcamp.starter.datamodel.impl.ReviewEntity;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.webapp.dto.ReviewDTO;
-import com.itbootcamp.starter.datamodel.impl.*;
 import com.itbootcamp.starter.webapp.dto.*;
 
 
@@ -20,6 +19,9 @@ public interface IEntityFactory {
     CourseEntity getCourseEntity(CourseDTO courseDTO);
     WorkplaceEntity getWorkplaceEntity(WorkplaceDTO workplaceDTO);
     List<SkillEntity> getSkillsEntity(List<SkillDTO> skillsDTO);
+    LocationEntity getLocationEntity(LocationDTO locationDTO);
+    CityEntity getCityEntity(CityDTO cityDTO);
+    CountryEntity getCountryEntity(CountryDTO countryDTO);
 
 
 }

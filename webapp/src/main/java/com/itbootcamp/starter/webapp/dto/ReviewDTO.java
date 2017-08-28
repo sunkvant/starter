@@ -1,8 +1,5 @@
 package com.itbootcamp.starter.webapp.dto;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
-
 import java.sql.Timestamp;
 
 /**

@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

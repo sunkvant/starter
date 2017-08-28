@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.ProjectStatusEntity;
+import com.itbootcamp.starter.datamodel.ProjectStatusEntity;
 import com.itbootcamp.starter.repository.ProjectStatusRepository;
 import com.itbootcamp.starter.services.IProjectStatusService;
 import org.springframework.beans.factory.annotation.Autowired;

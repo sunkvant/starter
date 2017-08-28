@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.datamodel.ProjectEntity;
+import com.itbootcamp.starter.datamodel.TeamEntity;
 import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.services.IProjectService;

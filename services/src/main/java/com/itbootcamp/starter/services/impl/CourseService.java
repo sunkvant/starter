@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.CourseEntity;
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
+import com.itbootcamp.starter.datamodel.CourseEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.repository.CourseRepository;
 import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.services.ICourseService;

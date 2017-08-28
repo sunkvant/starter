@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.ReviewEntity;
+import com.itbootcamp.starter.datamodel.ReviewEntity;
 import com.itbootcamp.starter.repository.ReviewRepository;
 import com.itbootcamp.starter.services.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;

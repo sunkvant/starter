@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.LanguageEntity;
-import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
+import com.itbootcamp.starter.datamodel.LanguageEntity;
+import com.itbootcamp.starter.datamodel.ProjectEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

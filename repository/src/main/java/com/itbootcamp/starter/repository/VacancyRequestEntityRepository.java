@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.VacancyRequestEntity;
+import com.itbootcamp.starter.datamodel.VacancyRequestEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

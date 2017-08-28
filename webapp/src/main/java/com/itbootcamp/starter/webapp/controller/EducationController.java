@@ -1,13 +1,9 @@
 package com.itbootcamp.starter.webapp.controller;
 
 import com.itbootcamp.starter.repository.ProfileRepository;
-import com.itbootcamp.starter.services.IEducationService;
-import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
-import com.itbootcamp.starter.datamodel.impl.ProfileEntity;
-import com.itbootcamp.starter.datamodel.impl.EducationEntity;
+import com.itbootcamp.starter.datamodel.EducationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

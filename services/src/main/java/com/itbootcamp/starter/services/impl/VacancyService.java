@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.VacancyEntity;
+import com.itbootcamp.starter.datamodel.VacancyEntity;
 import com.itbootcamp.starter.repository.VacancyRepository;
 import com.itbootcamp.starter.services.IVacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.RoleEntity;
+import com.itbootcamp.starter.datamodel.RoleEntity;
 
 import java.util.List;
 

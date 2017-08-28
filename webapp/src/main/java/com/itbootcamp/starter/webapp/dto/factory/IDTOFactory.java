@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.webapp.dto.factory;
 
-import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.webapp.dto.*;
 
 import java.util.List;
@@ -22,4 +22,7 @@ public interface IDTOFactory {
     EducationDTO getEducationDTO(EducationEntity educationEntity);
     ReviewDTO getReviewDTO(ReviewEntity reviewEntity);
     EducationTypeDTO getEducationTypeDTO(EducationTypeEntity educationEntity);
+    LocationDTO getLocationDTO(LocationEntity locationEntity);
+    CityDTO getCityDTO(CityEntity cityEntity);
+    CountryDTO getCountryDTO(CountryEntity countryEntity);
 }

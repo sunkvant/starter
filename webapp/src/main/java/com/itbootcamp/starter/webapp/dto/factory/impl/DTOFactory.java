@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.webapp.dto.factory.impl;
 
-import com.itbootcamp.starter.datamodel.impl.*;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
 import com.itbootcamp.starter.webapp.dto.*;
@@ -185,6 +185,7 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setFullName(personEntity.getContact().getFullName());
         profileDTO.setDateOfBirth(personEntity.getContact().getDateOfBirth());
         profileDTO.setAvatarPath(personEntity.getContact().getAvatarPath());
+        profileDTO.setLocation(getLocationDTO(personEntity.getContact().getLocation()));
 
 
         profileDTO.setPhone(personEntity.getContact().getPhone());
@@ -346,6 +347,40 @@ public class DTOFactory implements IDTOFactory {
         educationTypeDTO.setName(educationEntity.getType());
 
         return educationTypeDTO;
+    }
+
+    @Override
+    public LocationDTO getLocationDTO(LocationEntity locationEntity) {
+
+        LocationDTO locationDTO=new LocationDTO();
+
+        locationDTO.setCity(getCityDTO(locationEntity.getCity()));
+        locationDTO.setCountry(getCountryDTO(locationEntity.getCountry()));
+
+        return locationDTO;
+    }
+
+    @Override
+    public CityDTO getCityDTO(CityEntity cityEntity) {
+
+        CityDTO cityDTO=new CityDTO();
+
+        cityDTO.setId(cityEntity.getId());
+        cityDTO.setName(cityEntity.getName());
+
+        return cityDTO;
+
+    }
+
+    @Override
+    public CountryDTO getCountryDTO(CountryEntity countryEntity) {
+
+        CountryDTO countryDTO=new CountryDTO();
+
+        countryDTO.setId(countryEntity.getId());
+        countryDTO.setName(countryEntity.getName());
+
+        return countryDTO;
     }
 
 

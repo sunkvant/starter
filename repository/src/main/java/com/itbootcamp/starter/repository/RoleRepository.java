@@ -1,5 +1,5 @@
 package com.itbootcamp.starter.repository;
-import com.itbootcamp.starter.datamodel.impl.RoleEntity;
+import com.itbootcamp.starter.datamodel.RoleEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package com.itbootcamp.starter.webapp.controller;
 
-import com.itbootcamp.starter.datamodel.impl.CourseEntity;
-import com.itbootcamp.starter.datamodel.impl.EducationEntity;
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.WorkplaceEntity;
+import com.itbootcamp.starter.datamodel.CourseEntity;
+import com.itbootcamp.starter.datamodel.EducationEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.WorkplaceEntity;
 import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.services.impl.*;
 import com.itbootcamp.starter.webapp.dto.*;

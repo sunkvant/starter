@@ -1,14 +1,13 @@
 package com.itbootcamp.starter.webapp.controller;
 
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.ProjectEntity;
-import com.itbootcamp.starter.datamodel.impl.RoleType;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.ProjectEntity;
+import com.itbootcamp.starter.datamodel.RoleType;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
 import com.itbootcamp.starter.webapp.dto.ProjectDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
-import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

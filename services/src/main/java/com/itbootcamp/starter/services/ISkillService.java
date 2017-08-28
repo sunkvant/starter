@@ -1,8 +1,7 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.RoleEntity;
-import com.itbootcamp.starter.datamodel.impl.SkillEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.SkillEntity;
 
 import java.util.List;
 

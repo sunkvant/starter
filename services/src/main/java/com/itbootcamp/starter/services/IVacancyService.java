@@ -1,6 +1,6 @@
 package com.itbootcamp.starter.services;
 
-import com.itbootcamp.starter.datamodel.impl.VacancyEntity;
+import com.itbootcamp.starter.datamodel.VacancyEntity;
 
 import java.util.List;
 

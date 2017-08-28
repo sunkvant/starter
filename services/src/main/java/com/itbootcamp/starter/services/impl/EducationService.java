@@ -1,18 +1,13 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.impl.EducationTypeEntity;
 import com.itbootcamp.starter.repository.EducationRepository;
 import com.itbootcamp.starter.repository.EducationTypeRepository;
 import com.itbootcamp.starter.repository.PersonRepository;
-import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.services.IEducationService;
-import com.itbootcamp.starter.datamodel.impl.EducationEntity;
-import com.itbootcamp.starter.datamodel.impl.PersonEntity;
-import com.itbootcamp.starter.datamodel.impl.ProfileEntity;
+import com.itbootcamp.starter.datamodel.EducationEntity;
+import com.itbootcamp.starter.datamodel.PersonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by admin on 8/11/2017.

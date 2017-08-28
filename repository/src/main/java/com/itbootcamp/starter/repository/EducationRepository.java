@@ -1,7 +1,7 @@
 package com.itbootcamp.starter.repository;
 
-import com.itbootcamp.starter.datamodel.impl.EducationEntity;
-import com.itbootcamp.starter.datamodel.impl.ProfileEntity;
+import com.itbootcamp.starter.datamodel.EducationEntity;
+import com.itbootcamp.starter.datamodel.ProfileEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
