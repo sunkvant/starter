@@ -6,8 +6,8 @@ package com.itbootcamp.starter.webapp.dto;
 public class MemberDTO {
 
     private ProfileDTO profile;
-    private PositionDTO position;
-    private RoleDTO role;
+    private String position;
+    private String role;
     private Boolean isActive;
 
     public void setProfile(ProfileDTO profile) {
@@ -18,19 +18,19 @@ public class MemberDTO {
         return profile;
     }
 
-    public PositionDTO getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(PositionDTO position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
-    public RoleDTO getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleDTO role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

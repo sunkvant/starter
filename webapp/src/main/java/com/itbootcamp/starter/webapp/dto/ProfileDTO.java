@@ -30,8 +30,8 @@ public class ProfileDTO {
     @NotNull
     private ContactDTO contact;
     @NotNull
-    private RoleDTO role;
-    private DirectionDTO direction;
+    private String role;
+    private String direction;
     @NotNull
     private List<CourseDTO> courses;
     @NotNull
@@ -39,7 +39,7 @@ public class ProfileDTO {
     @NotNull
     private List<EducationDTO> educations;
     @NotNull
-    private List<SkillDTO> skills;
+    private List<String> skills;
     private Boolean isMentorExp;
     private String experience;
     private Boolean isApproved;
@@ -77,11 +77,11 @@ public class ProfileDTO {
         this.password = password;
     }
 
-    public DirectionDTO getDirection() {
+    public String getDirection() {
         return direction;
     }
 
-    public void setDirection(DirectionDTO direction) {
+    public void setDirection(String direction) {
         this.direction = direction;
     }
 
@@ -109,11 +109,11 @@ public class ProfileDTO {
         this.educations = educations;
     }
 
-    public List<SkillDTO> getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillDTO> skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
@@ -149,11 +149,11 @@ public class ProfileDTO {
         this.id = id;
     }
 
-    public RoleDTO getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleDTO role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

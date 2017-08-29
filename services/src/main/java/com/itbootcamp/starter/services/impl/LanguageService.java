@@ -6,6 +6,8 @@ import com.itbootcamp.starter.services.ILanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by admin on 8/24/2017.
  */
@@ -17,5 +19,13 @@ public class LanguageService implements ILanguageService {
     @Override
     public LanguageEntity getByName(String name){
         return languageRepository.getByNameIgnoreCase(name);
+    }
+
+    @Override
+    public List<LanguageEntity> getAll() {
+
+
+
+        return (List) languageRepository.findAll();
     }
 }

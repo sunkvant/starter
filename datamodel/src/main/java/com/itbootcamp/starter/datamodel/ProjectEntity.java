@@ -147,7 +147,7 @@ public class ProjectEntity  extends AbstractEntityID{
         this.statuses = statuses;
     }
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",cascade = CascadeType.ALL,orphanRemoval = true)
     public List<VacancyEntity> getVacancies() {
         return vacancies;
     }
@@ -156,7 +156,10 @@ public class ProjectEntity  extends AbstractEntityID{
         this.vacancies = vacancies;
     }
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany
+    @JoinTable(name = "project_to_language",
+            joinColumns = @JoinColumn(name = "project_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "language_id", nullable = false))
     public List<LanguageEntity> getLanguages() {
         return languages;
     }

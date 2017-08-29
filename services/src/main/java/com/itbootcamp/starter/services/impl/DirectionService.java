@@ -17,8 +17,9 @@ public class DirectionService implements IDirectionService {
     @Autowired
     private DirectionRepository directionRepository;
 
+
     @Override
-    public List<DirectionEntity> getAll() {
-        return (List<DirectionEntity>) directionRepository.findAll();
+    public DirectionEntity getByName(String name) {
+        return directionRepository.getByNameIgnoreCase(name);
     }
 }

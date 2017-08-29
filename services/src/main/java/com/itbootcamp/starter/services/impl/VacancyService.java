@@ -1,11 +1,16 @@
 package com.itbootcamp.starter.services.impl;
 
+import com.itbootcamp.starter.datamodel.ProjectEntity;
+import com.itbootcamp.starter.datamodel.RoleType;
 import com.itbootcamp.starter.datamodel.VacancyEntity;
+import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.VacancyRepository;
 import com.itbootcamp.starter.services.IVacancyService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -26,6 +31,11 @@ public class VacancyService implements IVacancyService {
     @Autowired
     private VacancyRepository vacancyRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    private static final Logger logger = Logger.getLogger(Logger.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -40,6 +50,97 @@ public class VacancyService implements IVacancyService {
     public List<VacancyEntity> getAllByProjectId(Integer projectId) {
 
         return vacancyRepository.findByProjectId(projectId);
+    }
+
+    @Override
+    public Boolean add(VacancyEntity vacancyEntity, ProjectEntity projectEntity) {
+
+        if ((vacancyEntity.getPosition()==null)||(vacancyEntity.getRole()==null)) {
+
+            logger.error("Position or role does not exist in database.");
+
+            return false;
+
+
+        }
+
+        if ((vacancyEntity.getRole().getId()!= RoleType.ROLE_MENTOR)
+                &&(vacancyEntity.getRole().getId()!= RoleType.ROLE_TRAINEE)) {
+
+            logger.error("Incorrect role type when adding vacancy.");
+
+            return false;
+
+        }
+
+
+        vacancyEntity.setId(null);
+        vacancyEntity.setProject(projectEntity);
+
+        projectEntity.getVacancies().add(vacancyEntity);
+
+        if (projectRepository.save(projectEntity)!=null) {
+
+            logger.error("Vacancy was save in database.");
+            return true;
+
+        }
+
+        logger.error("Vacancy was not save in database.");
+        return false;
+    }
+
+    @Override
+    public Boolean update(VacancyEntity vacancyEntity,ProjectEntity projectEntity) {
+
+        if ((vacancyEntity.getPosition()==null)||(vacancyEntity.getRole()==null)) {
+
+            logger.error("Position or role does not exist in database.");
+
+            return false;
+
+
+        }
+
+        if ((vacancyEntity.getRole().getId()!= RoleType.ROLE_MENTOR)
+                &&(vacancyEntity.getRole().getId()!= RoleType.ROLE_TRAINEE)) {
+
+            logger.error("Incorrect role type when adding vacancy.");
+
+            return false;
+
+        }
+
+        for(int i=0; i<projectEntity.getVacancies().size(); i++) {
+
+
+            if (vacancyEntity.getId()==projectEntity.getVacancies().get(i).getId()) {
+
+
+                projectEntity.getVacancies().get(i).setPersonNumber(vacancyEntity.getPersonNumber());
+                projectEntity.getVacancies().get(i).setPosition(vacancyEntity.getPosition());
+                projectEntity.getVacancies().get(i).setRole(vacancyEntity.getRole());
+                projectEntity.getVacancies().get(i).setLanguages(vacancyEntity.getLanguages());
+                projectEntity.getVacancies().get(i).setSkills(vacancyEntity.getSkills());
+
+                if (projectRepository.save(projectEntity)!=null) {
+
+                    return true;
+
+                }
+
+            }
+
+
+        }
+
+        logger.error("Vacancy with id="+vacancyEntity.getId()+" does not exist in project with id="+projectEntity.getId());
+        return false;
+    }
+
+    @Override
+    public Boolean delete(VacancyEntity vacancyEntity, ProjectEntity projectEntity) {
+        return null;
     }
 
     @Override

@@ -8,5 +8,5 @@ import java.util.List;
  * Created by admin on 7/28/2017.
  */
 public interface IDirectionService {
-    List<DirectionEntity> getAll();
+    DirectionEntity getByName(String name);
 }

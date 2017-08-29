@@ -5,23 +5,23 @@ import javax.validation.constraints.NotNull;
 public class LocationDTO {
 
     @NotNull
-    private CountryDTO country;
+    private String country;
     @NotNull
-    private CityDTO city;
+    private String city;
 
-    public CountryDTO getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(CountryDTO country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public CityDTO getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(CityDTO city) {
+    public void setCity(String city) {
         this.city = city;
     }
 }

@@ -5,6 +5,7 @@ import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.ProfileRepository;
 import com.itbootcamp.starter.repository.SkillRepository;
 import com.itbootcamp.starter.services.*;
+import com.itbootcamp.starter.services.impl.*;
 import com.itbootcamp.starter.webapp.dto.*;
 import com.itbootcamp.starter.webapp.dto.factory.IEntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,22 @@ public class EntityFactory implements IEntityFactory {
     private ILanguageService languageService;
 
     @Autowired
-    SkillRepository skillRepository;
+    CityService cityService;
 
     @Autowired
-    ProfileRepository profileRepository;
+    private SkillService skillService;
+
+    @Autowired
+    private CountryService countryService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private IDirectionService directionService;
+
+    @Autowired
+    private PositionService positionService;
 
     @Override
     public ReviewEntity getReviewEntity(ReviewDTO reviewDTO) {
@@ -57,42 +70,6 @@ public class EntityFactory implements IEntityFactory {
         return reviewEntity;
     }
 
-
-    public RoleEntity getRoleEntity(RoleDTO roleDTO) {
-
-        if (roleDTO==null) {
-
-            return null;
-
-        }
-
-        RoleEntity roleEntity=new RoleEntity();
-
-        roleEntity.setId(roleDTO.getId());
-        roleEntity.setName(roleDTO.getName());
-
-        return roleEntity;
-
-
-    }
-
-    public DirectionEntity getDirectionEntity(DirectionDTO directionDTO) {
-
-
-
-        if (directionDTO==null) {
-
-            return null;
-
-        }
-
-        DirectionEntity directionEntity=new DirectionEntity();
-
-        directionEntity.setId(directionDTO.getId());
-        directionEntity.setName(directionDTO.getName());
-
-        return directionEntity;
-    }
 
 
     @Override
@@ -168,32 +145,45 @@ public class EntityFactory implements IEntityFactory {
     }
 
     @Override
-    public List<SkillEntity> getSkillsEntity(List<SkillDTO> skillsDTO) {
-
-        if (skillsDTO==null) {
-
-            return null;
-
-        }
+    public List<SkillEntity> getSkillsEntity(List<String> skills) {
 
 
         List<SkillEntity> skillEntities=new ArrayList<>();
 
+        for(int i=0; i<skills.size(); i++) {
 
+            SkillEntity skillEntity=skillService.getByName(skills.get(i));
 
-        for(int i=0; i<skillsDTO.size(); i++) {
+            if (skillEntity!=null) {
 
-            SkillEntity skillEntity=new SkillEntity();
+                skillEntities.add(skillEntity);
 
-            skillEntity.setId(skillsDTO.get(i).getId());
-            skillEntity.setName(skillsDTO.get(i).getName());
-
-            skillEntities.add(skillEntity);
+            }
 
         }
 
         return skillEntities;
 
+    }
+
+    @Override
+    public List<LanguageEntity> getLanguagesEntity(List<String> languages) {
+
+        List<LanguageEntity> languagesEntities=new ArrayList<>();
+
+        for(int i=0; i<languages.size(); i++) {
+
+            LanguageEntity languageEntity=languageService.getByName(languages.get(i));
+
+            if (languageEntity!=null) {
+
+                languagesEntities.add(languageEntity);
+
+            }
+
+        }
+
+        return languagesEntities;
     }
 
     @Override
@@ -207,33 +197,12 @@ public class EntityFactory implements IEntityFactory {
 
         LocationEntity locationEntity=new LocationEntity();
 
-        locationEntity.setCity(getCityEntity(locationDTO.getCity()));
-        locationEntity.setCountry(getCountryEntity(locationDTO.getCountry()));
+        locationEntity.setCity(cityService.getByName(locationDTO.getCity()));
+        locationEntity.setCountry(countryService.getByName(locationDTO.getCountry()));
 
         return locationEntity;
     }
 
-    @Override
-    public CityEntity getCityEntity(CityDTO cityDTO) {
-
-        CityEntity cityEntity=new CityEntity();
-
-        cityEntity.setId(cityDTO.getId());
-        cityEntity.setName(cityDTO.getName());
-
-        return cityEntity;
-
-    }
-
-    @Override
-    public CountryEntity getCountryEntity(CountryDTO countryDTO) {
-        CountryEntity countryEntity=new CountryEntity();
-
-        countryEntity.setId(countryDTO.getId());
-        countryEntity.setName(countryDTO.getName());
-
-        return countryEntity;
-    }
 
     @Override
     public ContactEntity getContactEntity(ContactDTO contactDTO) {
@@ -252,6 +221,37 @@ public class EntityFactory implements IEntityFactory {
         return contactEntity;
     }
 
+    @Override
+    public ProjectEntity getProjectEntity(ProjectDTO projectDTO) {
+
+        ProjectEntity projectEntity=new ProjectEntity();
+
+        projectEntity.setId(projectDTO.getId());
+        projectEntity.setName(projectDTO.getName());
+        projectEntity.setDescription(projectDTO.getDescription());
+        projectEntity.setProjectStatus(projectStatusService.getByName(projectDTO.getProjectStatus()));
+        projectEntity.setProjectCategory(projectCategoryService.getByName(projectDTO.getProjectCategory()));
+        projectEntity.setContactInfo(projectDTO.getContactInfo());
+        projectEntity.setLanguages(getLanguagesEntity(projectDTO.getLanguages()));
+
+        return projectEntity;
+    }
+
+    @Override
+    public VacancyEntity getVacancyEntity(VacancyDTO vacancyDTO) {
+
+        VacancyEntity vacancyEntity=new VacancyEntity();
+
+        vacancyEntity.setId(vacancyDTO.getId());
+        vacancyEntity.setPersonNumber(vacancyDTO.getPersonNumber());
+        vacancyEntity.setPosition(positionService.getByName(vacancyDTO.getPosition()));
+        vacancyEntity.setRole(roleService.getByName(vacancyDTO.getRole()));
+        vacancyEntity.setLanguages(getLanguagesEntity(vacancyDTO.getLanguages()));
+        vacancyEntity.setSkills(getSkillsEntity(vacancyDTO.getSkills()));
+
+        return vacancyEntity;
+    }
+
 
     @Override
     public PersonEntity getPersonEntity(ProfileDTO profileDTO)  {
@@ -262,7 +262,7 @@ public class EntityFactory implements IEntityFactory {
         personEntity.setLogin(profileDTO.getLogin());
         personEntity.setPassword(profileDTO.getPassword());
         personEntity.setBlocked(profileDTO.getBlocked());
-        personEntity.setRole(getRoleEntity(profileDTO.getRole()));
+        personEntity.setRole(roleService.getByName(profileDTO.getRole()));
 
         ContactEntity contactEntity=getContactEntity(profileDTO.getContact());
 
@@ -271,7 +271,7 @@ public class EntityFactory implements IEntityFactory {
 
         ProfileEntity profileEntity=new ProfileEntity();
         profileEntity.setApproved(profileDTO.getApproved());
-        profileEntity.setDirection(getDirectionEntity(profileDTO.getDirection()));
+        profileEntity.setDirection(directionService.getByName(profileDTO.getDirection()));
 
 
 

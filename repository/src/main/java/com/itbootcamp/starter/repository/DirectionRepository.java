@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Repository
 public interface DirectionRepository extends CrudRepository<DirectionEntity,Integer>{
-    List<DirectionEntity> findByNameContains(String containsWord);
+    DirectionEntity getByNameIgnoreCase(String name);
 }

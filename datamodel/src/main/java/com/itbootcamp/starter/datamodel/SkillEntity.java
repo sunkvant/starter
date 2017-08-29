@@ -47,10 +47,7 @@ public class SkillEntity  extends AbstractEntityID{
         this.profiles = profiles;
     }
 
-    @ManyToMany
-    @JsonIgnore
-    @JoinTable(name = "skill_to_vacancy", joinColumns = @JoinColumn(name = "skill_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "vacancy_id", nullable = false))
+    @ManyToMany(mappedBy = "skills")
     public List<VacancyEntity> getVacancies() {
         return vacancies;
     }

@@ -18,11 +18,12 @@ public interface IEntityFactory {
     EducationEntity getEducationEntity(EducationDTO educationDTO);
     CourseEntity getCourseEntity(CourseDTO courseDTO);
     WorkplaceEntity getWorkplaceEntity(WorkplaceDTO workplaceDTO);
-    List<SkillEntity> getSkillsEntity(List<SkillDTO> skillsDTO);
+    List<SkillEntity> getSkillsEntity(List<String> skillsDTO);
+    List<LanguageEntity> getLanguagesEntity(List<String> languages);
     LocationEntity getLocationEntity(LocationDTO locationDTO);
-    CityEntity getCityEntity(CityDTO cityDTO);
-    CountryEntity getCountryEntity(CountryDTO countryDTO);
     ContactEntity getContactEntity(ContactDTO contactDTO);
+    ProjectEntity getProjectEntity(ProjectDTO projectDTO);
+    VacancyEntity getVacancyEntity(VacancyDTO vacancyDTO);
 
 
 }

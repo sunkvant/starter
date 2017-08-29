@@ -9,6 +9,7 @@ import com.itbootcamp.starter.services.impl.*;
 import com.itbootcamp.starter.webapp.dto.*;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,9 @@ public class ProfileController {
 
     @Autowired
     private WorkplaceService workplaceService;
+
+
+
 
 
 //education -----------------------------------------------------------------------
@@ -282,6 +286,32 @@ public class ProfileController {
         return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/profile", method = RequestMethod.GET)
+    ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login,
+                                     @RequestParam(value = "check", required = false) Boolean check) {
+
+        if ((check!=null)&&(check)) {
+            if (personService.getByLogin(login)!=null) {
+
+                return new ResponseEntity<>(new Boolean(true),HttpStatus.OK);
+
+            } else {
+
+
+                return new ResponseEntity<>(new Boolean(false),HttpStatus.OK);
+            }
+
+        }
+        PersonEntity personEntity = personService.getByLogin(login);
+
+        if (personEntity == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
+    }
+
+
+
 
     @RequestMapping(value = "/api/profile/", method = RequestMethod.POST)
     ResponseEntity<ProfileDTO> createProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
@@ -349,7 +379,7 @@ public class ProfileController {
     //skills update,delete,add
 
     @RequestMapping(value = "/api/profile/skills", method = RequestMethod.POST)
-    ResponseEntity<ProfileDTO> addSkills(@RequestBody List<SkillDTO> skillsDTO) {
+    ResponseEntity<ProfileDTO> addSkills(@RequestBody List<String> skills) {
 
         PersonEntity personEntity = personService.getById(85);  //TODO
 
@@ -360,7 +390,7 @@ public class ProfileController {
         }
 
 
-        skillService.add(entityFactory.getSkillsEntity(skillsDTO),personEntity);
+        skillService.add(entityFactory.getSkillsEntity(skills),personEntity);
 
         return new ResponseEntity<>(HttpStatus.OK);
 

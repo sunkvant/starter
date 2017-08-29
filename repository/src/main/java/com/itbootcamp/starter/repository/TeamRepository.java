@@ -17,6 +17,7 @@ public interface TeamRepository extends CrudRepository<TeamEntity,Integer> {
     List<TeamEntity> findAllByProjectId(Integer projectId);
     List<TeamEntity> findAllByPersonIdAndMember(Integer personId, Boolean isMember);
     List<TeamEntity> findAllByProjectIdAndMember(Integer projectId, Boolean isMember);
+    TeamEntity findByProjectIdAndPersonIdAndMember(Integer projectId, Integer personId, Boolean isMember);
     TeamEntity findByPersonIdAndProjectId(Integer personId, Integer projectId);
 
 

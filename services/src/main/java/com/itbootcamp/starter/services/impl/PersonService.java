@@ -38,8 +38,6 @@ public class PersonService implements IPersonService {
     @Autowired
     private DirectionRepository directionRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -219,7 +217,8 @@ public class PersonService implements IPersonService {
     private Boolean save(PersonEntity personEntity) {
 
 
-        if ((!roleRepository.exists(personEntity.getRole().getId()))
+
+        if ((personEntity.getRole()==null)
                 || (personEntity.getRole().getId()==RoleType.ROLE_ADMIN)
                 ||(personEntity.getRole().getId()==RoleType.ROLE_MODER)) {
 
@@ -262,59 +261,42 @@ public class PersonService implements IPersonService {
 
         }
 
-        if (personEntity.getContact().getLocation().getCountry().getId()==null) {
+        if ((personEntity.getContact().getLocation().getCountry()==null)
+                ||(personEntity.getContact().getLocation().getCity()==null)) {
 
-            if (countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName())==null) {
-
-                CountryEntity countryEntity = new CountryEntity();
-                countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
-                personEntity.getContact().getLocation().setCountry(countryRepository.save(countryEntity));
-
-            } else {
-
-                personEntity.getContact().getLocation().setCountry(
-                        countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName()));
-
-            }
-
-        } else {
-
-
-            if (!countryRepository.exists(personEntity.getContact().getLocation().getCountry().getId())) {
-
-                return false;
-
-            }
+            return false;
 
         }
 
-        if (personEntity.getContact().getLocation().getCity().getId()==null) {
 
-            if (cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName())==null) {
+        if (countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName())==null) {
 
-                CityEntity cityEntity = new CityEntity();
-                cityEntity.setName(personEntity.getContact().getLocation().getCity().getName());
-                cityEntity.setCountry(personEntity.getContact().getLocation().getCountry());
-                personEntity.getContact().getLocation().setCity(cityRepository.save(cityEntity));
-
-            } else {
-
-
-
-                    personEntity.getContact().getLocation().setCity(
-                            cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName()));
-
-
-
-            }
+            CountryEntity countryEntity = new CountryEntity();
+            countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
+            personEntity.getContact().getLocation().setCountry(countryRepository.save(countryEntity));
 
         } else {
 
-            if (!cityRepository.exists(personEntity.getContact().getLocation().getCity().getId())) {
+            personEntity.getContact().getLocation().setCountry(
+                    countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName()));
 
-                return false;
+        }
 
-            }
+
+
+        if (cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName())==null) {
+
+            CityEntity cityEntity = new CityEntity();
+            cityEntity.setName(personEntity.getContact().getLocation().getCity().getName());
+            cityEntity.setCountry(personEntity.getContact().getLocation().getCountry());
+            personEntity.getContact().getLocation().setCity(cityRepository.save(cityEntity));
+
+        } else {
+
+
+
+                personEntity.getContact().getLocation().setCity(
+                        cityRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCity().getName()));
 
         }
 
@@ -377,6 +359,7 @@ public class PersonService implements IPersonService {
         for (int i=0; i<workplaceEntities.size(); i++) {
 
             workplaceEntities.get(i).setId(null);
+            workplaceEntities.get(i).setProfile(personEntity.getProfile());
 
         }
 
