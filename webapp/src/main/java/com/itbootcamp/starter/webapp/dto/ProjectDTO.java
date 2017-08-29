@@ -1,6 +1,9 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,15 +14,21 @@ public class ProjectDTO {
 
 
     private Integer id;
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
     private String description;
     private Timestamp dateStart;
     private Timestamp dateEnd;
+    @NotNull
     private String contactInfo;
     private String projectStatus;
+    @NotNull
     private String projectCategory;
     private ProfileDTO customer;
-    private List<LanguageDTO> languages;
+    private List<String> languages;
     private List<VacancyDTO> vacancies;
     private List<MemberDTO> team;
     private List<ReviewDTO> reviews;
@@ -104,11 +113,11 @@ public class ProjectDTO {
         this.projectCategory = projectCategory;
     }
 
-    public List<LanguageDTO> getLanguages() {
+    public List<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguageDTO> languages) {
+    public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
 

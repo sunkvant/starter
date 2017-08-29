@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -8,26 +10,23 @@ import java.util.List;
 public class VacancyDTO {
 
     private Integer id;
-    private Integer projectId;
+    @NotNull
+    @Min(1)
     private Integer personNumber;
-    private PositionDTO position;
-    private RoleDTO role;
-    private List<SkillDTO> skills;
-    private List<LanguageDTO> languages;
+    @NotNull
+    private String position;
+    @NotNull
+    private String role;
+    @NotNull
+    private List<String> skills;
+    @NotNull
+    private List<String> languages;
 
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public List<SkillDTO> getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillDTO> skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
@@ -39,11 +38,11 @@ public class VacancyDTO {
         this.id = id;
     }
 
-    public PositionDTO getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(PositionDTO position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
@@ -55,19 +54,19 @@ public class VacancyDTO {
         this.personNumber = personNumber;
     }
 
-    public RoleDTO getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleDTO role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public List<LanguageDTO> getLanguages() {
+    public List<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguageDTO> languages) {
+    public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
 }

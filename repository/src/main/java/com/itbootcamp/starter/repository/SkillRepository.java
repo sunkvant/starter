@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SkillRepository extends CrudRepository<SkillEntity, Integer> {
+
+    SkillEntity getByNameIgnoreCase(String name);
+
 }

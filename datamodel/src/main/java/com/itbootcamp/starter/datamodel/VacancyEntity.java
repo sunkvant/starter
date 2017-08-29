@@ -56,7 +56,10 @@ public class VacancyEntity extends AbstractEntityID{
         this.vacancyRequests = vacancyRequests;
     }
 
-    @ManyToMany(mappedBy = "vacancies")
+    @ManyToMany
+    @JoinTable(name = "vacancy_to_language",
+            joinColumns = @JoinColumn(name = "vacancy_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "language_id", nullable = false))
     public List<LanguageEntity> getLanguages() {
         return languages;
     }
@@ -65,7 +68,9 @@ public class VacancyEntity extends AbstractEntityID{
         this.languages = languages;
     }
 
-    @ManyToMany(mappedBy = "vacancies")
+    @ManyToMany
+    @JoinTable(name = "skill_to_vacancy", joinColumns = @JoinColumn(name = "vacancy_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "skill_id", nullable = false))
     public List<SkillEntity> getSkills() {
         return skills;
     }

@@ -23,10 +23,7 @@ public class LanguageEntity extends AbstractEntityID{
         this.name = name;
     }
 
-    @ManyToMany
-    @JoinTable(name = "project_to_language",
-            joinColumns = @JoinColumn(name = "language_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "project_id", nullable = false))
+    @ManyToMany(mappedBy = "languages")
     public List<ProjectEntity> getProjects() {
         return projects;
     }
@@ -35,10 +32,7 @@ public class LanguageEntity extends AbstractEntityID{
         this.projects = projects;
     }
 
-    @ManyToMany
-    @JoinTable(name = "vacancy_to_language",
-            joinColumns = @JoinColumn(name = "language_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "vacancy_id", nullable = false))
+    @ManyToMany(mappedBy = "languages")
     public List<VacancyEntity> getVacancies() {
         return vacancies;
     }

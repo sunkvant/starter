@@ -17,4 +17,9 @@ public class ProjectStatusService implements IProjectStatusService {
     public ProjectStatusEntity getByName(String name) {
         return projectStatusRepository.getByStatusIgnoreCase(name);
     }
+
+    @Override
+    public ProjectStatusEntity getById(Integer id) {
+        return projectStatusRepository.findOne(id);
+    }
 }

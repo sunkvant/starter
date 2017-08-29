@@ -14,17 +14,14 @@ import java.util.List;
 @Service
 public class RoleService implements IRoleService {
 
-    @Autowired
-    private ProfileRepository profileRepository;
+
 
     @Autowired
     private RoleRepository roleRepository;
 
+
     @Override
-    public List<RoleEntity> getAllTypeMembers() {
-        //return roleRepository.findByAdminRole(false);
-        //CustomerEntity mentorEntity = new CustomerEntity();
-        //profileRepository.save(mentorEntity);
-        return null;
+    public RoleEntity getByName(String name) {
+        return roleRepository.getByNameIgnoreCase(name);
     }
 }

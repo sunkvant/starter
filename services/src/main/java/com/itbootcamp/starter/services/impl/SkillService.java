@@ -25,6 +25,10 @@ public class SkillService implements ISkillService {
     private PersonRepository personRepository;
 
 
+    @Override
+    public SkillEntity getByName(String name) {
+        return skillRepository.getByNameIgnoreCase(name);
+    }
 
     @Override
     public Boolean add(List<SkillEntity> skillEntities, PersonEntity personEntity) {
@@ -48,5 +52,10 @@ public class SkillService implements ISkillService {
         personRepository.save(personEntity);
 
         return true;
+    }
+
+    @Override
+    public List<SkillEntity> getAll() {
+        return (List) skillRepository.findAll();
     }
 }

@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
+import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.ProjectEntity;
 import com.itbootcamp.starter.datamodel.TeamEntity;
 import com.itbootcamp.starter.repository.ProjectRepository;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,9 @@ public class ProjectService implements IProjectService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private ProjectStatusService projectStatusService;
 
     @Override
     public ProjectEntity getById(Integer projectId) {
@@ -63,6 +68,42 @@ public class ProjectService implements IProjectService {
     @Override
     public Boolean isExist(Integer projectId) {
         return projectRepository.exists(projectId);
+    }
+
+    @Override
+    public Boolean isMember(PersonEntity personEntity, ProjectEntity projectEntity) {
+
+        if (teamRepository.findByProjectIdAndPersonIdAndMember(projectEntity.getId(),personEntity.getId(),true)!=null) {
+
+            return true;
+
+        }
+
+
+        return false;
+    }
+
+    @Override
+    public Boolean create(ProjectEntity projectEntity,PersonEntity personEntity) {
+
+        if ((projectEntity.getProjectCategory()==null)) {
+
+            return false;
+
+        }
+
+        projectEntity.setDateStart(new Timestamp(System.currentTimeMillis()));
+        projectEntity.setDateEnd(null);
+        projectEntity.setProjectStatus(projectStatusService.getById(1));
+        projectEntity.setCustomer(personEntity);
+
+        if (projectRepository.save(projectEntity)!=null) {
+
+            return true;
+
+        }
+
+        return false;
     }
 
     @Override

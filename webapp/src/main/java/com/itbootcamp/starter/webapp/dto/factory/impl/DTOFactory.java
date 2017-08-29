@@ -40,9 +40,10 @@ public class DTOFactory implements IDTOFactory {
         projectDTO.setProjectCategory(projectEntity.getProjectCategory().getCategory());
 
 
-        List<LanguageDTO> languages=new ArrayList<>();
+        List<String> languages=new ArrayList<>();
+
         for(int i=0; i<projectEntity.getLanguages().size(); i++) {
-            languages.add(getLanguageDTO(projectEntity.getLanguages().get(i)));
+            languages.add(projectEntity.getLanguages().get(i).getName());
         }
 
         projectDTO.setLanguages(languages);
@@ -90,64 +91,33 @@ public class DTOFactory implements IDTOFactory {
         VacancyDTO vacancyDTO=new VacancyDTO();
 
         vacancyDTO.setId(vacancyEntity.getId());
-        vacancyDTO.setProjectId(vacancyEntity.getProject().getId());
         vacancyDTO.setPersonNumber(vacancyEntity.getPersonNumber());
-        vacancyDTO.setPosition(getPositionDTO(vacancyEntity.getPosition()));
-        vacancyDTO.setRole(getRoleDTO(vacancyEntity.getRole()));
+        vacancyDTO.setPosition(vacancyEntity.getPosition().getName());
+        vacancyDTO.setRole(vacancyEntity.getRole().getName());
 
 
-        List<SkillDTO> skillsDTO=new ArrayList<>();
+        List<String> skills=new ArrayList<>();
 
         for (int i = 0; i < vacancyEntity.getSkills().size(); i++) {
 
-            skillsDTO.add(getSkillDTO(vacancyEntity.getSkills().get(i)));
+            skills.add(vacancyEntity.getSkills().get(i).getName());
 
         }
-        vacancyDTO.setSkills(skillsDTO);
+        vacancyDTO.setSkills(skills);
 
-        List<LanguageDTO> languagesDTO=new ArrayList<>();
+        List<String> languages=new ArrayList<>();
 
 
         for (int i = 0; i < vacancyEntity.getLanguages().size(); i++) {
 
-            languagesDTO.add(getLanguageDTO(vacancyEntity.getLanguages().get(i)));
+            languages.add(vacancyEntity.getLanguages().get(i).getName());
         }
-        vacancyDTO.setLanguages(languagesDTO);
+        vacancyDTO.setLanguages(languages);
 
         return vacancyDTO;
     }
 
-    @Override
-    public LanguageDTO getLanguageDTO(LanguageEntity languageEntity) {
 
-        LanguageDTO languageDTO =new LanguageDTO();
-
-        languageDTO.setId(languageEntity.getId());
-        languageDTO.setName(languageEntity.getName());
-
-        return languageDTO;
-    }
-
-    @Override
-    public RoleDTO getRoleDTO(RoleEntity roleEntity) {
-
-        RoleDTO roleDTO=new RoleDTO();
-
-        roleDTO.setId(roleEntity.getId());
-        roleDTO.setName(roleEntity.getName());
-
-        return roleDTO;
-    }
-
-    @Override
-    public PositionDTO getPositionDTO(PositionEntity positionEntity) {
-        PositionDTO positionDTO=new PositionDTO();
-
-        positionDTO.setId(positionEntity.getId());
-        positionDTO.setName(positionEntity.getName());
-
-        return positionDTO;
-    }
 
     @Override
     public MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity) {
@@ -155,22 +125,12 @@ public class DTOFactory implements IDTOFactory {
         MemberDTO memberDTO=new MemberDTO();
 
         memberDTO.setProfile(getProfileDTO(personEntity));
-        memberDTO.setPosition(getPositionDTO(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId())));
-        memberDTO.setRole(getRoleDTO(personEntity.getRole()));
+        memberDTO.setPosition(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()).getName());
+        memberDTO.setRole(personEntity.getRole().getName());
         memberDTO.setActive(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()));
 
 
         return memberDTO;
-    }
-
-    @Override
-    public SkillDTO getSkillDTO(SkillEntity skillEntity) {
-        SkillDTO skillDTO=new SkillDTO();
-
-        skillDTO.setId(skillEntity.getId());
-        skillDTO.setName(skillEntity.getName());
-
-        return skillDTO;
     }
 
 
@@ -184,7 +144,7 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setPassword(personEntity.getPassword());
         profileDTO.setContact(getContactDTO(personEntity.getContact()));
 
-        profileDTO.setRole(getRoleDTO(personEntity.getRole()));
+        profileDTO.setRole(personEntity.getRole().getName());
         profileDTO.setBlocked(personEntity.getBlocked());
 
 
@@ -193,7 +153,7 @@ public class DTOFactory implements IDTOFactory {
 
             profileDTO.setApproved(personEntity.getProfile().getApproved());
 
-            profileDTO.setDirection(getDirectionDTO(personEntity.getProfile().getDirection()));
+            profileDTO.setDirection(personEntity.getProfile().getDirection().getName());
 
 
             profileDTO.setCourses(getCoursesDTO(personEntity.getProfile().getCourses()));
@@ -219,15 +179,15 @@ public class DTOFactory implements IDTOFactory {
 
             profileDTO.setEducations(educationsDTO);
 
-            List<SkillDTO> skillsDTO = new ArrayList<>();
+            List<String> skills = new ArrayList<>();
 
             for (int i = 0; i < personEntity.getProfile().getSkills().size(); i++) {
 
-                skillsDTO.add(getSkillDTO(personEntity.getProfile().getSkills().get(i)));
+                skills.add(personEntity.getProfile().getSkills().get(i).getName());
 
             }
 
-            profileDTO.setSkills(skillsDTO);
+            profileDTO.setSkills(skills);
 
 
             if ((personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
@@ -243,16 +203,6 @@ public class DTOFactory implements IDTOFactory {
 
     }
 
-    @Override
-    public DirectionDTO getDirectionDTO(DirectionEntity directionEntity) {
-
-        DirectionDTO directionDTO=new DirectionDTO();
-
-        directionDTO.setId(directionEntity.getId());
-        directionDTO.setName(directionEntity.getName());
-
-        return directionDTO;
-    }
 
     @Override
     public CourseDTO getCourseDTO(CourseEntity courseEntity) {
@@ -335,34 +285,12 @@ public class DTOFactory implements IDTOFactory {
 
         LocationDTO locationDTO=new LocationDTO();
 
-        locationDTO.setCity(getCityDTO(locationEntity.getCity()));
-        locationDTO.setCountry(getCountryDTO(locationEntity.getCountry()));
+        locationDTO.setCity(locationEntity.getCity().getName());
+        locationDTO.setCountry(locationEntity.getCountry().getName());
 
         return locationDTO;
     }
 
-    @Override
-    public CityDTO getCityDTO(CityEntity cityEntity) {
-
-        CityDTO cityDTO=new CityDTO();
-
-        cityDTO.setId(cityEntity.getId());
-        cityDTO.setName(cityEntity.getName());
-
-        return cityDTO;
-
-    }
-
-    @Override
-    public CountryDTO getCountryDTO(CountryEntity countryEntity) {
-
-        CountryDTO countryDTO=new CountryDTO();
-
-        countryDTO.setId(countryEntity.getId());
-        countryDTO.setName(countryEntity.getName());
-
-        return countryDTO;
-    }
 
     @Override
     public ContactDTO getContactDTO(ContactEntity contactEntity) {
@@ -379,6 +307,49 @@ public class DTOFactory implements IDTOFactory {
         contactDTO.setLocation(getLocationDTO(contactEntity.getLocation()));
 
         return contactDTO;
+    }
+
+    @Override
+    public List<String> getLanguages(List<LanguageEntity> languagesEntity) {
+
+        List<String> languages=new ArrayList<>();
+
+        for (int i=0; i<languagesEntity.size(); i++) {
+
+            languages.add(languagesEntity.get(i).getName());
+
+        }
+
+
+        return languages;
+    }
+
+    @Override
+    public List<String> getSkills(List<SkillEntity> skillsEntity) {
+        List<String> skills=new ArrayList<>();
+
+        for (int i=0; i<skillsEntity.size(); i++) {
+
+            skills.add(skillsEntity.get(i).getName());
+
+        }
+
+
+        return skills;
+    }
+
+    @Override
+    public List<String> getCities(List<CityEntity> citiesEntity) {
+        List<String> cities=new ArrayList<>();
+
+        for (int i=0; i<citiesEntity.size(); i++) {
+
+            cities.add(citiesEntity.get(i).getName());
+
+        }
+
+
+        return cities;
     }
 
 

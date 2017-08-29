@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface RoleRepository extends CrudRepository<RoleEntity,Integer>{
 
-    List<RoleEntity> findByName(String name);
+    RoleEntity getByNameIgnoreCase(String name);
+
 }

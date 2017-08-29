@@ -8,11 +8,15 @@ import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
 import com.itbootcamp.starter.webapp.dto.ProjectDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
+import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,31 @@ public class ProjectController {
 
     @Autowired
     private DTOFactory dtoFactory;
+
+    @Autowired
+    private EntityFactory entityFactory;
+
+
+    @RequestMapping(value = "/api/project/", method = RequestMethod.POST)
+    ResponseEntity<ProjectDTO> addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+
+        PersonEntity personEntity = personService.getById(86);
+
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+
+        if (!projectService.create(entityFactory.getProjectEntity(projectDTO),personEntity)) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     //@PreAuthorize("hasAuthority('Admin')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.GET)

@@ -9,20 +9,16 @@ public interface IDTOFactory {
 
     ProjectDTO getProjectDTO(ProjectEntity projectEntity);
     VacancyDTO getVacancyDTO(VacancyEntity vacancyEntity);
-    LanguageDTO getLanguageDTO(LanguageEntity languageEntity);
-    RoleDTO getRoleDTO(RoleEntity roleEntity);
-    PositionDTO getPositionDTO(PositionEntity positionEntity);
     MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity);
-    SkillDTO getSkillDTO(SkillEntity skillEntity);
     ProfileDTO getProfileDTO(PersonEntity personEntity);
-    DirectionDTO getDirectionDTO(DirectionEntity directionEntity);
     CourseDTO getCourseDTO(CourseEntity courseEntity);
     List<CourseDTO> getCoursesDTO(List<CourseEntity> coursesEntity);
     WorkplaceDTO getWorkplaceDTO(WorkplaceEntity workplaceEntity);
     EducationDTO getEducationDTO(EducationEntity educationEntity);
     ReviewDTO getReviewDTO(ReviewEntity reviewEntity);
     LocationDTO getLocationDTO(LocationEntity locationEntity);
-    CityDTO getCityDTO(CityEntity cityEntity);
-    CountryDTO getCountryDTO(CountryEntity countryEntity);
     ContactDTO getContactDTO(ContactEntity contactEntity);
+    List<String> getLanguages(List<LanguageEntity> languagesEntity);
+    List<String> getSkills(List<SkillEntity> skillsEntity);
+    List<String> getCities(List<CityEntity> citiesEntity);
 }
