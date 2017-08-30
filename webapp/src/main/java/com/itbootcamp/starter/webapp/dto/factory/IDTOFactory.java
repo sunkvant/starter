@@ -21,4 +21,5 @@ public interface IDTOFactory {
     List<String> getSkills(List<SkillEntity> skillsEntity);
     List<String> getCities(List<CityEntity> citiesEntity);
     List<String> getCountries(List<CountryEntity> counriesEntity);
+    List<String> getDirections(List<DirectionEntity> directionsEntity);
 }

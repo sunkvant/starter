@@ -22,4 +22,9 @@ public class DirectionService implements IDirectionService {
     public DirectionEntity getByName(String name) {
         return directionRepository.getByNameIgnoreCase(name);
     }
+
+    @Override
+    public List<DirectionEntity> getAll() {
+        return (List) directionRepository.findAll();
+    }
 }

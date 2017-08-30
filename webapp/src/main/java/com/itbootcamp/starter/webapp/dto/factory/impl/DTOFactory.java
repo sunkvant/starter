@@ -360,5 +360,20 @@ public class DTOFactory implements IDTOFactory {
         return countries;
     }
 
+    @Override
+    public List<String> getDirections(List<DirectionEntity> directionsEntity) {
+
+        List<String> directions=new ArrayList<>();
+
+        for (int i=0; i<directionsEntity.size(); i++) {
+
+            directions.add(directionsEntity.get(i).getName());
+
+        }
+
+
+        return directions;
+    }
+
 
 }

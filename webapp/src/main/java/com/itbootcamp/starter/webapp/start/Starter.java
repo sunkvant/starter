@@ -15,8 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableJpaRepositories("com.itbootcamp.starter.repository")
 @EntityScan("com.itbootcamp.starter.datamodel")
 @SpringBootApplication
-@EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Starter extends SpringBootServletInitializer {
 
     @Override

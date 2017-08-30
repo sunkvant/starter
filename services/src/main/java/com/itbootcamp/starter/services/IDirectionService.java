@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface IDirectionService {
     DirectionEntity getByName(String name);
+    List<DirectionEntity> getAll();
 }

@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.requestMatcher(new BasicRequestMatcher())
                 .authorizeRequests()
 
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
 
         http.logout().logoutUrl("/logout").deleteCookies("access_token").permitAll();
