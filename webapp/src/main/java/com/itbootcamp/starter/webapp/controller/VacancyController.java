@@ -115,15 +115,46 @@ public class VacancyController {
 
 
     @RequestMapping(value = "api/project/{projectId}/vacancy/{vacancyId}", method = RequestMethod.DELETE)
-    ResponseEntity deleteVacancy(@PathVariable Integer projectId){
+    ResponseEntity deleteVacancy(@PathVariable Integer projectId,@PathVariable Integer vacancyId){
 
 
+        PersonEntity personEntity=personService.getById(86); //TODO
+
+        ProjectEntity projectEntity=projectService.getById(projectId);
+
+        VacancyEntity vacancyEntity=vacancyService.getById(vacancyId);
+
+        if (projectEntity==null) {
+
+            logger.error("Project with id="+projectId+" does not exist.");
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if (vacancyEntity==null) {
+
+            logger.error("Vacancy with id="+projectId+" does not exist.");
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if ((projectEntity.getCustomer().getId()==personEntity.getId())
+                ||(projectService.isMember(personEntity,projectEntity))) {
+
+            if (vacancyService.delete(vacancyEntity,projectEntity)) {
+
+                return new ResponseEntity<>(HttpStatus.OK);
+
+            }
 
 
+        }
 
 
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-        return null;
     }
 
 

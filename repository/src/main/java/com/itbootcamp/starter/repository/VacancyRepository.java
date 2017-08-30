@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface VacancyRepository extends CrudRepository<VacancyEntity,Integer> {
     List<VacancyEntity> findByProjectId(Integer projectId);
-    List<VacancyEntity> findByPersonNumberBetween(Integer after, Integer before);
+    List<VacancyEntity> findByPositionIdAndRoleIdAndProjectId(Integer positionId,Integer roleId,Integer projectId);
 }

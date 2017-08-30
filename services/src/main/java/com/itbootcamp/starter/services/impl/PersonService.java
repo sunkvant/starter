@@ -219,15 +219,15 @@ public class PersonService implements IPersonService {
 
 
         if ((personEntity.getRole()==null)
-                || (personEntity.getRole().getId()==RoleType.ROLE_ADMIN)
-                ||(personEntity.getRole().getId()==RoleType.ROLE_MODER)) {
+                || (personEntity.getRole().equals(RoleType.ROLE_ADMIN))
+                ||(personEntity.getRole().equals(RoleType.ROLE_MODER))) {
 
             return false;
 
 
         }
 
-        if (personEntity.getRole().getId()==RoleType.ROLE_CUSTOMER) {
+        if (personEntity.getRole().equals(RoleType.ROLE_CUSTOMER)) {
 
             personEntity.setProfile(null);
 
@@ -243,13 +243,13 @@ public class PersonService implements IPersonService {
 
         }
 
-        if ((personEntity.getRole().getId()!=RoleType.ROLE_MENTOR)) {
+        if (!(personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
 
             personEntity.getProfile().setMentorInfo(null);
 
         }
 
-        if (personEntity.getRole().getId()==RoleType.ROLE_MENTOR) {
+        if (personEntity.getRole().equals(RoleType.ROLE_MENTOR)) {
 
             if ((personEntity.getProfile().getMentorInfo().getMentorExp()==null)
                     ||(personEntity.getProfile().getMentorInfo().getExperience()==null)) {

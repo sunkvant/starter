@@ -91,6 +91,7 @@ public class DTOFactory implements IDTOFactory {
         VacancyDTO vacancyDTO=new VacancyDTO();
 
         vacancyDTO.setId(vacancyEntity.getId());
+        vacancyDTO.setProjectId(vacancyEntity.getProject().getId());
         vacancyDTO.setPersonNumber(vacancyEntity.getPersonNumber());
         vacancyDTO.setPosition(vacancyEntity.getPosition().getName());
         vacancyDTO.setRole(vacancyEntity.getRole().getName());
@@ -148,7 +149,7 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setBlocked(personEntity.getBlocked());
 
 
-        if ((personEntity.getRole().getId()==RoleType.ROLE_TRAINEE)||(personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
+        if ((personEntity.getRole().equals(RoleType.ROLE_TRAINEE))||(personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
 
 
             profileDTO.setApproved(personEntity.getProfile().getApproved());
@@ -190,7 +191,7 @@ public class DTOFactory implements IDTOFactory {
             profileDTO.setSkills(skills);
 
 
-            if ((personEntity.getRole().getId()==RoleType.ROLE_MENTOR)) {
+            if ((personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
 
                 profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
                 profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());

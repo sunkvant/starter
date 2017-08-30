@@ -56,6 +56,9 @@ public class EntityFactory implements IEntityFactory {
     @Autowired
     private PositionService positionService;
 
+    @Autowired
+    private VacancyService vacancyService;
+
     @Override
     public ReviewEntity getReviewEntity(ReviewDTO reviewDTO) {
         ReviewEntity reviewEntity = new ReviewEntity();
@@ -251,6 +254,7 @@ public class EntityFactory implements IEntityFactory {
 
         return vacancyEntity;
     }
+
 
 
     @Override

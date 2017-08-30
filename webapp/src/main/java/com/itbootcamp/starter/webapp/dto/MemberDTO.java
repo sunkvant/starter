@@ -1,5 +1,9 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by admin on 8/17/2017.
  */
@@ -9,6 +13,7 @@ public class MemberDTO {
     private String position;
     private String role;
     private Boolean isActive;
+
 
     public void setProfile(ProfileDTO profile) {
         this.profile = profile;

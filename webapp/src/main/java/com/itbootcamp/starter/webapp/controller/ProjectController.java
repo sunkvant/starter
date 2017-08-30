@@ -4,8 +4,11 @@ package com.itbootcamp.starter.webapp.controller;
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.ProjectEntity;
 import com.itbootcamp.starter.datamodel.RoleType;
+import com.itbootcamp.starter.datamodel.VacancyEntity;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.ProjectService;
+import com.itbootcamp.starter.services.impl.VacancyService;
+import com.itbootcamp.starter.webapp.dto.MemberDTO;
 import com.itbootcamp.starter.webapp.dto.ProjectDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
@@ -33,16 +36,90 @@ public class ProjectController {
     private PersonService personService;
 
     @Autowired
+    private VacancyService vacancyService;
+
+    @Autowired
     private DTOFactory dtoFactory;
 
     @Autowired
     private EntityFactory entityFactory;
 
+    @RequestMapping(value = "/api/project/{projectId}/close",method = RequestMethod.POST)
+    ResponseEntity close(@PathVariable Integer projectId) {
+
+        PersonEntity oauthContext=personService.getById(86); //TODO
+
+        ProjectEntity projectEntity=projectService.getById(projectId);
+
+        if (projectEntity==null) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+
+        }
+
+        if (projectEntity.getCustomer().getId()==oauthContext.getId()) {
+
+            if (projectService.closeProject(projectEntity)) {
+
+                return new ResponseEntity<>(HttpStatus.OK);
+
+            }
+
+
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @RequestMapping(value = "/api/project/team/profile/{personId}/vacancy/{vacancyId}/",method = RequestMethod.POST)
+    ResponseEntity addMember(@PathVariable Integer personId, @PathVariable Integer vacancyId) {
+
+        PersonEntity oauthContext=personService.getById(86); //TODO
+
+        PersonEntity personEntity = personService.getById(personId);
+
+        VacancyEntity vacancyEntity= vacancyService.getById(vacancyId);
+
+        if (personEntity==null) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if (vacancyEntity==null) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        ProjectEntity projectEntity=vacancyEntity.getProject();
+
+        if ((projectEntity.getCustomer().getId()==oauthContext.getId())
+                ||(projectService.isMember(oauthContext,projectEntity))) {
+
+            if (projectService.addMember(vacancyEntity,personEntity)) {
+
+                return new ResponseEntity<>(HttpStatus.CREATED);
+
+            }
+
+
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+
+    }
 
     @RequestMapping(value = "/api/project/", method = RequestMethod.POST)
-    ResponseEntity<ProjectDTO> addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+    ResponseEntity addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
 
-        PersonEntity personEntity = personService.getById(86);
+        PersonEntity personEntity = personService.getById(86); //TODO
 
         if (bindingResult.hasErrors()) {
 

@@ -64,8 +64,8 @@ public class VacancyService implements IVacancyService {
 
         }
 
-        if ((vacancyEntity.getRole().getId()!= RoleType.ROLE_MENTOR)
-                &&(vacancyEntity.getRole().getId()!= RoleType.ROLE_TRAINEE)) {
+        if (!(vacancyEntity.getRole().equals(RoleType.ROLE_MENTOR))
+                &&(!vacancyEntity.getRole().equals(RoleType.ROLE_TRAINEE))) {
 
             logger.error("Incorrect role type when adding vacancy.");
 
@@ -102,8 +102,8 @@ public class VacancyService implements IVacancyService {
 
         }
 
-        if ((vacancyEntity.getRole().getId()!= RoleType.ROLE_MENTOR)
-                &&(vacancyEntity.getRole().getId()!= RoleType.ROLE_TRAINEE)) {
+        if (!(vacancyEntity.getRole().equals(RoleType.ROLE_MENTOR))
+                &&(!vacancyEntity.getRole().equals(RoleType.ROLE_TRAINEE))) {
 
             logger.error("Incorrect role type when adding vacancy.");
 
@@ -140,7 +140,24 @@ public class VacancyService implements IVacancyService {
 
     @Override
     public Boolean delete(VacancyEntity vacancyEntity, ProjectEntity projectEntity) {
-        return null;
+
+        for (int i = 0; i < projectEntity.getVacancies().size(); i++) {
+
+            if (vacancyEntity.getId()== projectEntity.getVacancies().get(i).getId()) {
+
+                projectEntity.getVacancies().remove(i);
+                if (projectRepository.save(projectEntity)!=null) {
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+
+        return false;
     }
 
     @Override

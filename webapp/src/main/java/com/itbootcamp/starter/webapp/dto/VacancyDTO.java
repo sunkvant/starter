@@ -12,6 +12,7 @@ public class VacancyDTO {
     private Integer id;
     @NotNull
     @Min(1)
+    private Integer projectId;
     private Integer personNumber;
     @NotNull
     private String position;
@@ -21,6 +22,14 @@ public class VacancyDTO {
     private List<String> skills;
     @NotNull
     private List<String> languages;
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
 
     public List<String> getSkills() {
         return skills;

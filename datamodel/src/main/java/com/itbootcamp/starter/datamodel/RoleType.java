@@ -4,9 +4,9 @@ package com.itbootcamp.starter.datamodel;
  * Created by admin on 8/16/2017.
  */
 public interface RoleType {
-    public static final Integer ROLE_ADMIN =    1;
-    public static final Integer ROLE_MODER =    2;
-    public static final Integer ROLE_CUSTOMER = 3;
-    public static final Integer ROLE_MENTOR =   4;
-    public static final Integer ROLE_TRAINEE =  5;
+    public static final String ROLE_ADMIN =    "Admin";
+    public static final String ROLE_MODER =    "Moder";
+    public static final String ROLE_CUSTOMER = "Customer";
+    public static final String ROLE_MENTOR =   "Mentor";
+    public static final String ROLE_TRAINEE =  "Trainee";
 }

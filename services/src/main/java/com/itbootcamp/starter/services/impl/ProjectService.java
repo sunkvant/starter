@@ -1,13 +1,13 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.PersonEntity;
-import com.itbootcamp.starter.datamodel.ProjectEntity;
-import com.itbootcamp.starter.datamodel.TeamEntity;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
+import com.itbootcamp.starter.repository.VacancyRepository;
 import com.itbootcamp.starter.services.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,6 +34,9 @@ public class ProjectService implements IProjectService {
 
     @Autowired
     private ProjectStatusService projectStatusService;
+
+    @Autowired
+    private VacancyService vacancyService;
 
     @Override
     public ProjectEntity getById(Integer projectId) {
@@ -94,7 +97,7 @@ public class ProjectService implements IProjectService {
 
         projectEntity.setDateStart(new Timestamp(System.currentTimeMillis()));
         projectEntity.setDateEnd(null);
-        projectEntity.setProjectStatus(projectStatusService.getById(1));
+        projectEntity.setProjectStatus(projectStatusService.getByName(ProjectStatus.RECRUITING));
         projectEntity.setCustomer(personEntity);
 
         if (projectRepository.save(projectEntity)!=null) {
@@ -104,6 +107,65 @@ public class ProjectService implements IProjectService {
         }
 
         return false;
+    }
+
+    @Override
+    @Transactional
+    public Boolean addMember(VacancyEntity vacancyEntity, PersonEntity personEntity) {
+
+        TeamEntity teamEntity=new TeamEntity();
+
+        teamEntity.setId(null);
+        teamEntity.setMember(true);
+        teamEntity.setProject(vacancyEntity.getProject());
+        teamEntity.setPosition(vacancyEntity.getPosition());
+        teamEntity.setPerson(personEntity);
+
+        if (vacancyEntity.getPersonNumber()==1) {
+
+            vacancyService.delete(vacancyEntity,vacancyEntity.getProject());
+
+        } else {
+
+            vacancyEntity.setPersonNumber(vacancyEntity.getPersonNumber()-1);
+            vacancyService.update(vacancyEntity,vacancyEntity.getProject());
+
+        }
+
+        teamRepository.save(teamEntity);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean closeProject(ProjectEntity projectEntity) {
+
+
+        for(int i=0; i<projectEntity.getVacancies().size(); i++) {
+
+            vacancyService.delete(projectEntity.getVacancies().get(i),projectEntity);
+
+
+        }
+
+        List<TeamEntity> teamEntities=teamRepository.findAllByProjectId(projectEntity.getId());
+
+        for(int i=0; i<teamEntities.size(); i++) {
+
+            teamEntities.get(i).setMember(false);
+            teamRepository.save(teamEntities.get(i));
+
+        }
+
+        
+
+        //TODO
+
+
+        return null;
+
+
     }
 
     @Override
