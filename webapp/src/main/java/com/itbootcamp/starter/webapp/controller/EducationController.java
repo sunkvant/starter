@@ -11,9 +11,12 @@ import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,8 @@ public class EducationController {
     @Autowired
     private PersonService personService;
 
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/educations", method = RequestMethod.GET)
     ResponseEntity getAllEducations() {
 
@@ -49,11 +54,42 @@ public class EducationController {
 
         }
 
-        return new ResponseEntity<>(educationsDTO,HttpStatus.OK);
+        return new ResponseEntity(educationsDTO,HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/education",method = RequestMethod.POST)
+    ResponseEntity addEducationCustomProfile(@RequestBody @Valid EducationDTO educationDTO, @PathVariable Integer personId, BindingResult bindingResult) {
+
+        return addEducation(educationDTO,personId,bindingResult,null);
+
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/education",method = RequestMethod.PUT)
+    ResponseEntity updateEducationCustomProfile(@RequestBody @Valid EducationDTO educationDTO, @PathVariable Integer personId, BindingResult bindingResult) {
+
+        return updateEducation(educationDTO,personId,bindingResult,null);
+
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/education/{educationId}",method = RequestMethod.DELETE)
+    ResponseEntity deleteEducationCustomProfile(@PathVariable Integer personId, @PathVariable Integer educationId) {
+
+        return deleteEducation(educationId, personId,null);
+
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/education", method = RequestMethod.POST)
-    ResponseEntity addEducation(@RequestBody @Valid EducationDTO educationDTO, BindingResult bindingResult) {
+    ResponseEntity addEducation(@RequestBody @Valid EducationDTO educationDTO, Integer personId, BindingResult bindingResult,
+                                OAuth2Authentication oAuth2Authentication) {
+
+        PersonEntity personEntity;
 
         if (bindingResult.hasErrors()) {
 
@@ -61,24 +97,40 @@ public class EducationController {
 
         }
 
+        if(oAuth2Authentication==null) {
 
-        EducationEntity educationEntity=entityFactory.getEducationEntity(educationDTO);
+            personEntity = personService.getById(personId);
 
-        PersonEntity personEntity = personService.getById(51); //TODO
+        } else {
 
-        if (!educationService.add(educationEntity,personEntity)) {
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
+
+
+        if (personEntity==null) {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
 
+        if (!educationService.add(entityFactory.getEducationEntity(educationDTO),personEntity)) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/education", method = RequestMethod.PUT)
-    ResponseEntity updateEducation(@RequestBody @Valid EducationDTO educationDTO,BindingResult bindingResult) {
+    ResponseEntity updateEducation(@RequestBody @Valid EducationDTO educationDTO, Integer personId, BindingResult bindingResult,
+                                   OAuth2Authentication oAuth2Authentication) {
 
+
+        PersonEntity personEntity;
 
         if (bindingResult.hasErrors()) {
 
@@ -86,13 +138,26 @@ public class EducationController {
 
         }
 
-        EducationEntity educationEntity=entityFactory.getEducationEntity(educationDTO);
+        if(oAuth2Authentication==null) {
 
-        PersonEntity personEntity = personService.getById(51);   //TODO
+            personEntity = personService.getById(personId);
 
-        if (!educationService.update(educationEntity,personEntity)) {
+        } else {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
+
+
+        if (personEntity==null) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if (!educationService.update(entityFactory.getEducationEntity(educationDTO),personEntity)) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
@@ -100,26 +165,46 @@ public class EducationController {
 
     }
 
+
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/education/{educationId}", method = RequestMethod.DELETE)
-    ResponseEntity deleteEducation(@PathVariable Integer educationId) {
+    ResponseEntity deleteEducation(@PathVariable Integer educationId, Integer personId, OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity personEntity = personService.getById(54);  //TODO
+        PersonEntity personEntity;
+        EducationEntity educationEntity;
 
-        EducationEntity educationEntity=educationService.getById(educationId);
+        if(oAuth2Authentication==null) {
+
+            personEntity = personService.getById(personId);
+
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
+
+
+        if (personEntity==null) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        educationEntity=educationService.getById(educationId);
 
         if (educationEntity==null) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
         if (!educationService.delete(educationEntity,personEntity)) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
 
     }
 

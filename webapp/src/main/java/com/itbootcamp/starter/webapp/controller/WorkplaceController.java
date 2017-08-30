@@ -6,16 +6,20 @@ import com.itbootcamp.starter.datamodel.WorkplaceEntity;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.WorkplaceService;
 import com.itbootcamp.starter.webapp.dto.CourseDTO;
+import com.itbootcamp.starter.webapp.dto.EducationDTO;
 import com.itbootcamp.starter.webapp.dto.WorkplaceDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,8 @@ public class WorkplaceController {
     private DTOFactory dtoFactory;
 
 
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/workplaces", method = RequestMethod.GET)
     ResponseEntity getAllWorkplaces() {
 
@@ -50,44 +56,106 @@ public class WorkplaceController {
         return new ResponseEntity<>(workplacesDTO,HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/workplace",method = RequestMethod.POST)
+    ResponseEntity addWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, BindingResult bindingResult) {
+
+        return addWorkplace(workplaceDTO,personId,bindingResult,null);
+
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/workplace",method = RequestMethod.PUT)
+    ResponseEntity updateWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, BindingResult bindingResult) {
+
+        return updateWorkplace(workplaceDTO,personId,bindingResult,null);
+
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/workplace/{workplaceId}",method = RequestMethod.DELETE)
+    ResponseEntity deleteWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, @PathVariable Integer workplaceId) {
+
+        return deleteWorkplace(workplaceId,personId,null);
+
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/workplace", method = RequestMethod.POST)
-    ResponseEntity addCourse(@RequestBody @Valid WorkplaceDTO workplaceDTO, BindingResult bindingResult) {
+    ResponseEntity addWorkplace(@RequestBody @Valid WorkplaceDTO workplaceDTO, Integer personId, BindingResult bindingResult,
+                                OAuth2Authentication oAuth2Authentication) {
+
+        PersonEntity personEntity;
 
         if (bindingResult.hasErrors()) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if(oAuth2Authentication==null) {
+
+            personEntity = personService.getById(personId);
+
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         }
 
 
-        PersonEntity personEntity = personService.getById(83); //TODO
+        if (personEntity==null) {
 
-        WorkplaceEntity workplaceEntity=entityFactory.getWorkplaceEntity(workplaceDTO);
-
-
-        if (!workplaceService.add(workplaceEntity,personEntity)) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
 
-        return new ResponseEntity<CourseDTO>(HttpStatus.OK);
+        if (!workplaceService.add(entityFactory.getWorkplaceEntity(workplaceDTO),personEntity)) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/api/profile/workplace", method = RequestMethod.PUT)
-    ResponseEntity updateWorkplace(@RequestBody @Valid WorkplaceDTO workplaceDTO) {
+    ResponseEntity updateWorkplace(@RequestBody @Valid WorkplaceDTO workplaceDTO, Integer personId, BindingResult bindingResult,
+                                   OAuth2Authentication oAuth2Authentication) {
 
 
+        PersonEntity personEntity;
+
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if(oAuth2Authentication==null) {
+
+            personEntity = personService.getById(personId);
+
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
 
 
-        PersonEntity personEntity = personService.getById(54);  //TODO
+        if (personEntity==null) {
 
-        WorkplaceEntity workplaceEntity=entityFactory.getWorkplaceEntity(workplaceDTO);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
+        }
 
-        if (!workplaceService.update(workplaceEntity,personEntity)) {
+        if (!workplaceService.update(entityFactory.getWorkplaceEntity(workplaceDTO),personEntity)) {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -99,12 +167,31 @@ public class WorkplaceController {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/workplace/{workplaceId}", method = RequestMethod.DELETE)
-    ResponseEntity deleteWorkplace(@PathVariable Integer workplaceId) {
+    ResponseEntity deleteWorkplace(@PathVariable Integer workplaceId, Integer personId,
+                                   OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity personEntity = personService.getById(54);  //TODO
+        PersonEntity personEntity;
+        WorkplaceEntity workplaceEntity;
 
-        WorkplaceEntity workplaceEntity=workplaceService.getById(workplaceId);
+        if(oAuth2Authentication==null) {
+
+            personEntity = personService.getById(personId);
+
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
+
+        if (personEntity==null) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        workplaceEntity=workplaceService.getById(workplaceId);
 
         if (workplaceEntity==null) {
 
