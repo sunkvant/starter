@@ -349,8 +349,22 @@ public class DTOFactory implements IDTOFactory {
 
         }
 
-
         return cities;
+    }
+
+    @Override
+    public List<String> getCountries(List<CountryEntity> countriesEntity) {
+
+        List<String> countries=new ArrayList<>();
+
+        for (int i=0; i<countriesEntity.size(); i++) {
+
+            countries.add(countriesEntity.get(i).getName());
+
+        }
+
+
+        return countries;
     }
 
 

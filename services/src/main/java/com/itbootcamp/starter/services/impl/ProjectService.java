@@ -110,6 +110,15 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
+    public Boolean update(ProjectEntity projectEntity, PersonEntity personEntity) {
+
+        
+
+
+        return null;
+    }
+
+    @Override
     @Transactional
     public Boolean addMember(VacancyEntity vacancyEntity, PersonEntity personEntity) {
 
