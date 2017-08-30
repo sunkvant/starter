@@ -12,7 +12,6 @@ public interface IDTOFactory {
     MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity);
     ProfileDTO getProfileDTO(PersonEntity personEntity);
     CourseDTO getCourseDTO(CourseEntity courseEntity);
-    List<CourseDTO> getCoursesDTO(List<CourseEntity> coursesEntity);
     WorkplaceDTO getWorkplaceDTO(WorkplaceEntity workplaceEntity);
     EducationDTO getEducationDTO(EducationEntity educationEntity);
     ReviewDTO getReviewDTO(ReviewEntity reviewEntity);

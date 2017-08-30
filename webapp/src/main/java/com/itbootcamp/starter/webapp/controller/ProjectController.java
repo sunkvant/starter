@@ -116,6 +116,7 @@ public class ProjectController {
 
     }
 
+
     @RequestMapping(value = "/api/project/", method = RequestMethod.POST)
     ResponseEntity addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
 
@@ -135,6 +136,41 @@ public class ProjectController {
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.PUT)
+    ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+
+        PersonEntity personEntity = personService.getById(86); //TODO
+
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        ProjectEntity projectEntity=projectService.getById(projectId);
+
+        if (projectEntity==null) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if (personEntity.getId()!=projectEntity.getCustomer().getId()) {
+
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        }
+
+        if (!projectService.update(entityFactory.getProjectEntity(projectDTO),projectEntity)) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //@PreAuthorize("hasAuthority('Admin')")

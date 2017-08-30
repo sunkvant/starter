@@ -18,7 +18,7 @@ public interface IProjectService {
     Boolean isExist(Integer projectId);
     Boolean isMember(PersonEntity personEntity, ProjectEntity projectEntity);
     Boolean create(ProjectEntity projectEntity,PersonEntity personEntity);
-    Boolean update(ProjectEntity projectEntity,PersonEntity personEntity);
+    Boolean update(ProjectEntity projectEntity,ProjectEntity projectEntityOld);
     Boolean addMember(VacancyEntity vacancyEntity, PersonEntity personEntity);
     Boolean closeProject(ProjectEntity projectEntity);
 

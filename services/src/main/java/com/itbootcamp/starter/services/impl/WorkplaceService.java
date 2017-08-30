@@ -8,6 +8,8 @@ import com.itbootcamp.starter.services.IWorkplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WorkplaceService implements IWorkplaceService {
 
@@ -100,6 +102,11 @@ public class WorkplaceService implements IWorkplaceService {
     @Override
     public WorkplaceEntity getById(Integer workplaceId) {
         return workPlaceRepository.findOne(workplaceId);
+    }
+
+    @Override
+    public List<WorkplaceEntity> getAll() {
+        return (List) workPlaceRepository.findAll();
     }
 
 }

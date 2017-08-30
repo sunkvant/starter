@@ -8,6 +8,8 @@ import com.itbootcamp.starter.services.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseService implements ICourseService {
 
@@ -104,6 +106,11 @@ public class CourseService implements ICourseService {
 
         return false;
 
+    }
+
+    @Override
+    public List<CourseEntity> getAll() {
+        return (List)courseRepository.findAll();
     }
 
 }

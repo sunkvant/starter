@@ -8,6 +8,8 @@ import com.itbootcamp.starter.datamodel.PersonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by admin on 8/11/2017.
  */
@@ -104,6 +106,11 @@ public class EducationService implements IEducationService {
 
 
         return false;
+    }
+
+    @Override
+    public List<EducationEntity> getAll() {
+        return (List)educationRepository.findAll();
     }
 
 }

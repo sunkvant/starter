@@ -6,6 +6,7 @@ import com.itbootcamp.starter.datamodel.EducationEntity;
 import com.itbootcamp.starter.services.impl.EducationService;
 import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.webapp.dto.EducationDTO;
+import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +32,25 @@ public class EducationController {
     private EntityFactory entityFactory;
 
     @Autowired
+    private DTOFactory dtoFactory;
+
+    @Autowired
     private PersonService personService;
+
+    @RequestMapping(value = "/api/educations", method = RequestMethod.GET)
+    ResponseEntity getAllEducations() {
+
+        List<EducationDTO> educationsDTO=new ArrayList<>();
+        List<EducationEntity> educationsEntity=educationService.getAll();
+
+        for(int i=0; i<educationsEntity.size(); i++) {
+
+            educationsDTO.add(dtoFactory.getEducationDTO(educationsEntity.get(i)));
+
+        }
+
+        return new ResponseEntity<>(educationsDTO,HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/api/profile/education", method = RequestMethod.POST)
     ResponseEntity addEducation(@RequestBody @Valid EducationDTO educationDTO, BindingResult bindingResult) {

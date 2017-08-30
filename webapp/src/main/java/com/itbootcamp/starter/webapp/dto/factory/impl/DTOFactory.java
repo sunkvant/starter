@@ -157,7 +157,13 @@ public class DTOFactory implements IDTOFactory {
             profileDTO.setDirection(personEntity.getProfile().getDirection().getName());
 
 
-            profileDTO.setCourses(getCoursesDTO(personEntity.getProfile().getCourses()));
+            List<CourseDTO> courseDTO = new ArrayList<>();
+
+            for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
+
+                courseDTO.add(getCourseDTO(personEntity.getProfile().getCourses().get(i)));
+
+            }
 
             List<WorkplaceDTO> workplacesDTO = new ArrayList<>();
 
@@ -207,29 +213,16 @@ public class DTOFactory implements IDTOFactory {
 
     @Override
     public CourseDTO getCourseDTO(CourseEntity courseEntity) {
-        return null;
-    }
 
-    @Override
-    public List<CourseDTO> getCoursesDTO(List<CourseEntity> coursesEntity) {
+        CourseDTO courseDTO=new CourseDTO();
 
-        List<CourseDTO> coursesDTO=new ArrayList<>();
+        courseDTO.setId(courseEntity.getId());
+        courseDTO.setName(courseEntity.getName());
+        courseDTO.setOrganization(courseEntity.getOrganization());
+        courseDTO.setSpeciality(courseEntity.getSpeciality());
+        courseDTO.setGraduationYear(courseEntity.getGraduationYear());
 
-        for (int i = 0; i < coursesEntity.size(); i++) {
-
-            CourseDTO courseDTO=new CourseDTO();
-
-            courseDTO.setId(coursesEntity.get(i).getId());
-            courseDTO.setName(coursesEntity.get(i).getName());
-            courseDTO.setOrganization(coursesEntity.get(i).getOrganization());
-            courseDTO.setSpeciality(coursesEntity.get(i).getSpeciality());
-            courseDTO.setGraduationYear(coursesEntity.get(i).getGraduationYear());
-
-            coursesDTO.add(courseDTO);
-
-        }
-
-        return coursesDTO;
+        return courseDTO;
     }
 
     @Override

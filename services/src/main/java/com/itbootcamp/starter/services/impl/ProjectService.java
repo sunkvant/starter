@@ -110,12 +110,29 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Boolean update(ProjectEntity projectEntity, PersonEntity personEntity) {
+    @Transactional
+    public Boolean update(ProjectEntity projectEntity,ProjectEntity projectEntityOld) {
 
-        
 
+        if ((projectEntity.getProjectStatus()==null)||(projectEntity.getProjectCategory()==null)) {
 
-        return null;
+            return false;
+
+        }
+
+        projectEntityOld.setName(projectEntity.getName());
+        projectEntityOld.setContactInfo(projectEntity.getContactInfo());
+        projectEntityOld.setLanguages(projectEntity.getLanguages());
+        projectEntityOld.setDescription(projectEntity.getDescription());
+        projectEntityOld.setProjectStatus(projectEntity.getProjectStatus());
+
+        if (projectRepository.save(projectEntityOld)!=null) {
+
+            return true;
+
+        }
+
+        return false;
     }
 
     @Override
@@ -151,9 +168,9 @@ public class ProjectService implements IProjectService {
     public Boolean closeProject(ProjectEntity projectEntity) {
 
 
-        for(int i=0; i<projectEntity.getVacancies().size(); i++) {
+        while(!projectEntity.getVacancies().isEmpty()) {
 
-            vacancyService.delete(projectEntity.getVacancies().get(i),projectEntity);
+            vacancyService.delete(projectEntity.getVacancies().get(0),projectEntity);
 
 
         }
@@ -167,12 +184,14 @@ public class ProjectService implements IProjectService {
 
         }
 
-        
 
-        //TODO
+        projectEntity.setProjectStatus(projectStatusService.getByName(ProjectStatus.CLOSE));
+        projectEntity.setDateEnd(new Timestamp(System.currentTimeMillis()));
+
+        projectRepository.save(projectEntity);
 
 
-        return null;
+        return true;
 
 
     }

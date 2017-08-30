@@ -7,6 +7,7 @@ import com.itbootcamp.starter.services.impl.PersonService;
 import com.itbootcamp.starter.services.impl.WorkplaceService;
 import com.itbootcamp.starter.webapp.dto.CourseDTO;
 import com.itbootcamp.starter.webapp.dto.WorkplaceDTO;
+import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class WorkplaceController {
@@ -27,6 +30,25 @@ public class WorkplaceController {
 
     @Autowired
     private WorkplaceService workplaceService;
+
+    @Autowired
+    private DTOFactory dtoFactory;
+
+
+    @RequestMapping(value = "/api/workplaces", method = RequestMethod.GET)
+    ResponseEntity getAllWorkplaces() {
+
+        List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
+        List<WorkplaceEntity> workplacesEntity=workplaceService.getAll();
+
+        for(int i=0; i<workplacesEntity.size(); i++) {
+
+            workplacesDTO.add(dtoFactory.getWorkplaceDTO(workplacesEntity.get(i)));
+
+        }
+
+        return new ResponseEntity<>(workplacesDTO,HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/api/profile/workplace", method = RequestMethod.POST)
     ResponseEntity addCourse(@RequestBody @Valid WorkplaceDTO workplaceDTO, BindingResult bindingResult) {
