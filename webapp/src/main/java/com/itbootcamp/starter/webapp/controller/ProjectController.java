@@ -15,6 +15,8 @@ import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +46,11 @@ public class ProjectController {
     @Autowired
     private EntityFactory entityFactory;
 
+    @PreAuthorize("hasAnyAuthority('Admin','Moder','Customer')")
     @RequestMapping(value = "/api/project/{projectId}/close",method = RequestMethod.POST)
-    ResponseEntity close(@PathVariable Integer projectId) {
+    ResponseEntity close(@PathVariable Integer projectId, OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity oauthContext=personService.getById(86); //TODO
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         ProjectEntity projectEntity=projectService.getById(projectId);
 
@@ -58,11 +61,11 @@ public class ProjectController {
 
         }
 
-        if (projectEntity.getCustomer().getId()==oauthContext.getId()) {
+        if (projectEntity.getCustomer().getId()==personEntity.getId()) {
 
-            if (projectService.closeProject(projectEntity)) {
+            if (!projectService.closeProject(projectEntity)) {
 
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             }
 
@@ -70,21 +73,22 @@ public class ProjectController {
         }
 
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Mentor','Customer')")
     @RequestMapping(value = "/api/project/team/profile/{personId}/vacancy/{vacancyId}/",method = RequestMethod.POST)
-    ResponseEntity addMember(@PathVariable Integer personId, @PathVariable Integer vacancyId) {
+    ResponseEntity addMember(@PathVariable Integer personId, @PathVariable Integer vacancyId,
+                             OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity oauthContext=personService.getById(86); //TODO
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
-        PersonEntity personEntity = personService.getById(personId);
+        PersonEntity member = personService.getById(personId);
 
         VacancyEntity vacancyEntity= vacancyService.getById(vacancyId);
 
-        if (personEntity==null) {
+        if (member==null) {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -98,12 +102,12 @@ public class ProjectController {
 
         ProjectEntity projectEntity=vacancyEntity.getProject();
 
-        if ((projectEntity.getCustomer().getId()==oauthContext.getId())
-                ||(projectService.isMember(oauthContext,projectEntity))) {
+        if ((projectEntity.getCustomer().getId()==personEntity.getId())
+                ||(projectService.isMember(personEntity,projectEntity))) {
 
-            if (projectService.addMember(vacancyEntity,personEntity)) {
+            if (!projectService.addMember(vacancyEntity,member)) {
 
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             }
 
@@ -111,16 +115,17 @@ public class ProjectController {
         }
 
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
 
     }
 
-
+    @PreAuthorize("hasAuthority('Customer')")
     @RequestMapping(value = "/api/project/", method = RequestMethod.POST)
-    ResponseEntity addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+    ResponseEntity addProject(@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult,
+                              OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity personEntity = personService.getById(86); //TODO
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         if (bindingResult.hasErrors()) {
 
@@ -138,11 +143,12 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.PUT)
-    ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+    ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult,
+                                 OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity personEntity = personService.getById(86); //TODO
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         if (bindingResult.hasErrors()) {
 
@@ -158,7 +164,9 @@ public class ProjectController {
 
         }
 
-        if (personEntity.getId()!=projectEntity.getCustomer().getId()) {
+        if ((personEntity.getId()!=projectEntity.getCustomer().getId())
+                ||(!personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))
+                ||(!personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
@@ -173,7 +181,7 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.GET)
     ResponseEntity<ProjectDTO> getProject(@PathVariable Integer projectId) {
 
@@ -187,6 +195,7 @@ public class ProjectController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/{personId}/projects", method = RequestMethod.GET)
     ResponseEntity<List<ProjectDTO>> getProjects(@PathVariable Integer personId) {
 
@@ -213,7 +222,7 @@ public class ProjectController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/project/search", method = RequestMethod.GET)
     ResponseEntity<List<ProjectDTO>> searchProject(
             @RequestParam(value = "name", required = false) String projectName,

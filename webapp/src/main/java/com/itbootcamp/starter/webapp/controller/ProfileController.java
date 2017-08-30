@@ -117,7 +117,7 @@ public class ProfileController {
 
             }
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity (HttpStatus.CREATED);
 
     }
 
