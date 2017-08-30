@@ -157,12 +157,12 @@ public class WorkplaceController {
 
         if (!workplaceService.update(entityFactory.getWorkplaceEntity(workplaceDTO),personEntity)) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
 
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
 
     }
 
@@ -195,18 +195,18 @@ public class WorkplaceController {
 
         if (workplaceEntity==null) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         }
 
         if (!workplaceService.delete(workplaceEntity,personEntity)) {
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
 
         }
 
-        return new ResponseEntity<CourseDTO>(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
 
     }
 

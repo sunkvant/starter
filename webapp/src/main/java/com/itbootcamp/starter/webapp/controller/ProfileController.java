@@ -13,9 +13,12 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -37,13 +40,11 @@ public class ProfileController {
     @Autowired
     private PersonRepository personRepository;
 
-    @Autowired
-    private SkillService skillService;
 
 
-
+    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.GET)
-    ResponseEntity<ProfileDTO> getProfile(@PathVariable Integer personId) {
+    ResponseEntity getProfile(@PathVariable Integer personId) {
 
         PersonEntity personEntity = personService.getById(personId);
 
@@ -53,27 +54,46 @@ public class ProfileController {
         return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
 
+    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile", method = RequestMethod.GET)
     ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login,
-                                     @RequestParam(value = "check", required = false) Boolean check) {
+                                     @RequestParam(value = "check", required = false) Boolean check,
+                                     OAuth2Authentication oAuth2Authentication) {
+
+        PersonEntity personEntity;
 
         if ((check!=null)&&(check)) {
             if (personService.getByLogin(login)!=null) {
 
-                return new ResponseEntity<>(new Boolean(true),HttpStatus.OK);
+                return new ResponseEntity<>(true,HttpStatus.OK);
 
             } else {
 
 
-                return new ResponseEntity<>(new Boolean(false),HttpStatus.OK);
+                return new ResponseEntity<>(false,HttpStatus.OK);
             }
 
         }
-        PersonEntity personEntity = personService.getByLogin(login);
+
+        if (login!=null) {
+
+            personEntity = personService.getByLogin(login);
+
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        }
+
+
 
         if (personEntity == null) {
+
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
         }
+
+
         return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
 
@@ -81,7 +101,7 @@ public class ProfileController {
 
 
     @RequestMapping(value = "/api/profile/", method = RequestMethod.POST)
-    ResponseEntity<ProfileDTO> createProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
+    ResponseEntity createProfile(@RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
@@ -91,9 +111,7 @@ public class ProfileController {
         }
 
 
-            PersonEntity personEntity = entityFactory.getPersonEntity(profileDTO);
-
-            if (!personService.create(personEntity)) {
+            if (!personService.create(entityFactory.getPersonEntity(profileDTO))) {
 
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -104,17 +122,18 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/api/profile/", method = RequestMethod.PUT)
-    ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ContactDTO contactDTO, BindingResult bindingResult) {
-
+    ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ContactDTO contactDTO, BindingResult bindingResult,
+                                             OAuth2Authentication oAuth2Authentication) {
+        PersonEntity personEntity;
 
         if (bindingResult.hasErrors()) {
 
-            return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
 
 
-        PersonEntity personEntity = personService.getById(102);  //TODO
+        personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
         personEntity.setContact(entityFactory.getContactEntity(contactDTO));
 
         if (!personService.update(personEntity)) {

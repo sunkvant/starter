@@ -168,7 +168,8 @@ public class EducationController {
 
     @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/education/{educationId}", method = RequestMethod.DELETE)
-    ResponseEntity deleteEducation(@PathVariable Integer educationId, Integer personId, OAuth2Authentication oAuth2Authentication) {
+    ResponseEntity deleteEducation(@PathVariable Integer educationId, Integer personId,
+                                   OAuth2Authentication oAuth2Authentication) {
 
         PersonEntity personEntity;
         EducationEntity educationEntity;

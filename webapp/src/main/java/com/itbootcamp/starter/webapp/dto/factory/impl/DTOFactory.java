@@ -21,8 +21,7 @@ public class DTOFactory implements IDTOFactory {
     @Autowired
     private PersonService personService;
 
-    @Autowired
-    private ProjectService projectService;
+
 
     @Override
     public ProjectDTO getProjectDTO(ProjectEntity projectEntity) {

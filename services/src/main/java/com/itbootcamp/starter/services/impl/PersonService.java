@@ -38,10 +38,6 @@ public class PersonService implements IPersonService {
     @Autowired
     private DirectionRepository directionRepository;
 
-
-    @Autowired
-    private SkillRepository skillRepository;
-
     @Autowired
     private CityRepository cityRepository;
 
@@ -219,37 +215,15 @@ public class PersonService implements IPersonService {
 
 
         if ((personEntity.getRole()==null)
-                || (personEntity.getRole().equals(RoleType.ROLE_ADMIN))
-                ||(personEntity.getRole().equals(RoleType.ROLE_MODER))) {
+                || (personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
             return false;
 
 
         }
 
-        if (personEntity.getRole().equals(RoleType.ROLE_CUSTOMER)) {
-
-            personEntity.setProfile(null);
-
-        } else {
-
-
-            if (!directionRepository.exists(personEntity.getProfile().getDirection().getId())) {
-
-                return false;
-
-
-            }
-
-        }
-
-        if (!(personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
-
-            personEntity.getProfile().setMentorInfo(null);
-
-        }
-
-        if (personEntity.getRole().equals(RoleType.ROLE_MENTOR)) {
+        if (personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR)) {
 
             if ((personEntity.getProfile().getMentorInfo().getMentorExp()==null)
                     ||(personEntity.getProfile().getMentorInfo().getExperience()==null)) {
@@ -259,12 +233,27 @@ public class PersonService implements IPersonService {
             }
 
 
+        } else {
+
+            personEntity.getProfile().setMentorInfo(null);
+
         }
 
-        if ((personEntity.getContact().getLocation().getCountry()==null)
-                ||(personEntity.getContact().getLocation().getCity()==null)) {
 
-            return false;
+        if (personEntity.getRole().getName().equals(RoleType.ROLE_CUSTOMER)) {
+
+            personEntity.setProfile(null);
+
+        } else {
+
+
+            if ((personEntity.getProfile().getDirection()==null)
+                    ||(!directionRepository.exists(personEntity.getProfile().getDirection().getId()))) {
+
+                return false;
+
+
+            }
 
         }
 
@@ -363,21 +352,7 @@ public class PersonService implements IPersonService {
 
         }
 
-        List<SkillEntity> skillEntities=personEntity.getProfile().getSkills();
-        List<SkillEntity> bufSkills=new ArrayList<>();
-
-        for(int i=0; i<skillEntities.size();i++) {
-
-            if ((skillEntities.get(i).getId()!=null)
-                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
-
-                bufSkills.add(skillEntities.get(i));
-
-            }
-
-        }
-
-        personEntity.getProfile().setSkills(bufSkills);
+        personEntity.getProfile().setSkills(personEntity.getProfile().getSkills());
 
         personEntity.setPassword(BCrypt.hashpw(personEntity.getPassword(),BCrypt.gensalt()));
         personEntity.setBlocked(false);
@@ -395,7 +370,6 @@ public class PersonService implements IPersonService {
     public Boolean update(PersonEntity personEntity) {
 
         personEntity.getContact().setId(personEntity.getId());
-
 
         return save(personEntity);
 /*

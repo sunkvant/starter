@@ -200,8 +200,14 @@ public class EntityFactory implements IEntityFactory {
 
         LocationEntity locationEntity=new LocationEntity();
 
-        locationEntity.setCity(cityService.getByName(locationDTO.getCity()));
-        locationEntity.setCountry(countryService.getByName(locationDTO.getCountry()));
+        CityEntity cityEntity=new CityEntity();
+        CountryEntity countryEntity=new CountryEntity();
+
+        cityEntity.setName(locationDTO.getCity());
+        countryEntity.setName(locationDTO.getCountry());
+
+        locationEntity.setCity(cityEntity);
+        locationEntity.setCountry(countryEntity);
 
         return locationEntity;
     }

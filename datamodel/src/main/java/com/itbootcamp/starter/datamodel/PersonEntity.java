@@ -78,7 +78,7 @@ public class PersonEntity extends AbstractEntityID implements UserDetails {
     @Transient
     @Override
     public boolean isAccountNonLocked() {
-        return !isBlocked;
+        return isBlocked;
     }
 
     @Transient
