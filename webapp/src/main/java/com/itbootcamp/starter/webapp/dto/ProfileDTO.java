@@ -1,10 +1,8 @@
 package com.itbootcamp.starter.webapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -23,9 +21,9 @@ public class ProfileDTO {
     private Integer id;
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String login;
-    @NotEmpty
+    @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotNull
@@ -34,8 +32,10 @@ public class ProfileDTO {
     private String role;
     private String direction;
     @NotNull
+    @Valid
     private List<CourseDTO> courses;
     @NotNull
+    @Valid
     private List<WorkplaceDTO> workplaces;
     @NotNull
     @Valid

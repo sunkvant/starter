@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,17 +16,18 @@ public class ProjectDTO {
 
     private Integer id;
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String name;
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String description;
     private Timestamp dateStart;
     private Timestamp dateEnd;
-    @NotNull
+    @NotBlank
     private String contactInfo;
     private String projectStatus;
     @NotNull
+    @NotBlank
     private String projectCategory;
     private ProfileDTO customer;
     private List<String> languages;

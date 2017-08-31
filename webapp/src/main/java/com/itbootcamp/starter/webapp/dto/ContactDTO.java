@@ -3,17 +3,19 @@ package com.itbootcamp.starter.webapp.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.itbootcamp.starter.datamodel.LocationEntity;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class ContactDTO {
 
     @NotNull
+    @NotBlank
     private String fullName;
     @NotNull
     private Timestamp dateOfBirth;
-    @NotNull
     private String avatarPath;
     @NotNull
     private String phone;
@@ -25,6 +27,7 @@ public class ContactDTO {
     @NotNull
     private String about;
     @NotNull
+    @Valid
     private LocationDTO location;
 
 

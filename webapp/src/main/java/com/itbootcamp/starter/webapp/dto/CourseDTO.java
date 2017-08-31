@@ -15,7 +15,6 @@ public class CourseDTO {
     @NotNull
     private String speciality;
     @NotNull
-    @NotEmpty
     private Integer graduationYear;
 
 

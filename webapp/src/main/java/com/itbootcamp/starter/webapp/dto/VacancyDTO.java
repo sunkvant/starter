@@ -1,5 +1,7 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -11,11 +13,13 @@ public class VacancyDTO {
 
     private Integer id;
     @NotNull
-    @Min(1)
     private Integer projectId;
+    @Min(1)
     private Integer personNumber;
     @NotNull
+    @NotBlank
     private String position;
+    @NotBlank
     @NotNull
     private String role;
     @NotNull

@@ -1,25 +1,33 @@
 package com.itbootcamp.starter.webapp.controller;
 
-import com.itbootcamp.starter.datamodel.CourseEntity;
-import com.itbootcamp.starter.datamodel.EducationEntity;
-import com.itbootcamp.starter.datamodel.PersonEntity;
-import com.itbootcamp.starter.datamodel.WorkplaceEntity;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.services.impl.*;
 import com.itbootcamp.starter.webapp.dto.*;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.catalina.core.ApplicationContext;
+import org.apache.catalina.core.StandardContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.crypto.spec.OAEPParameterSpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -40,7 +48,41 @@ public class ProfileController {
     @Autowired
     private PersonRepository personRepository;
 
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public ModelAndView test(Model model) {
 
+        String ans="World";
+
+        model.addAttribute("ans","World");
+
+        return new ModelAndView("welcome");
+
+    }
+
+
+    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    public ResponseEntity handleFileUpload(@RequestParam("name") String name,MultipartFile file){
+
+        String str=name;
+
+
+
+        if (!file.isEmpty()) {
+
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File("D:\\VS\\"+file.getName())));
+                stream.write(bytes);
+                stream.close();
+                return new ResponseEntity(HttpStatus.ACCEPTED);
+            } catch (Exception e) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.GET)
@@ -86,7 +128,7 @@ public class ProfileController {
 
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/checklogin/{login}", method = RequestMethod.GET)
-    ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login) {
+    ResponseEntity getProfileByLogin(@PathVariable String login) {
 
 
         if (personService.getByLogin(login)!=null) {
