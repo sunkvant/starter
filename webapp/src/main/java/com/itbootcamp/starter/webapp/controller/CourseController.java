@@ -16,8 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class CourseController {
@@ -35,22 +34,21 @@ public class CourseController {
     private DTOFactory dtoFactory;
 
 
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/courses", method = RequestMethod.GET)
     ResponseEntity getAllCourses() {
 
-
-
-        List<CourseDTO> coursesDTO=new ArrayList<>();
         List<CourseEntity> coursesEntity=courseService.getAll();
+
+        Set<CourseDTO> set=new HashSet<>();
 
         for(int i=0; i<coursesEntity.size(); i++) {
 
-            coursesDTO.add(dtoFactory.getCourseDTO(coursesEntity.get(i)));
+            set.add(dtoFactory.getCourseDTO(coursesEntity.get(i)));
 
         }
 
-        return new ResponseEntity<>(coursesDTO,HttpStatus.OK);
+        return new ResponseEntity(set,HttpStatus.OK);
 
     }
 

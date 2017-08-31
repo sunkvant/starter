@@ -84,4 +84,28 @@ public class WorkplaceDTO {
     public void setWorking(Boolean working) {
         isWorking = working;
     }
+
+    @Override
+    public int hashCode() {
+
+        int result=17;
+
+        result=37 * result + (company == null ? 0 : company.hashCode());
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        WorkplaceDTO workplaceDTO=(WorkplaceDTO) obj;
+
+        if (this.company.equals(workplaceDTO.getCompany())) {
+
+            return true;
+
+        }
+
+        return false;
+    }
 }

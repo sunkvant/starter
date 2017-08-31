@@ -1,5 +1,8 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class CourseDTO {
@@ -12,6 +15,7 @@ public class CourseDTO {
     @NotNull
     private String speciality;
     @NotNull
+    @NotEmpty
     private Integer graduationYear;
 
 
@@ -53,5 +57,30 @@ public class CourseDTO {
 
     public void setGraduationYear(Integer graduationYear) {
         this.graduationYear = graduationYear;
+    }
+
+
+    @Override
+    public int hashCode() {
+
+        int result=17;
+
+        result=37 * result + (organization == null ? 0 : organization.hashCode());
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        CourseDTO courseDTO=(CourseDTO) obj;
+
+        if (this.organization.equals(courseDTO.getName())) {
+
+            return true;
+
+        }
+
+        return false;
     }
 }

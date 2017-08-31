@@ -52,4 +52,5 @@ public class CityEntity extends AbstractEntityID {
     public void setLocations(List<LocationEntity> locations) {
         this.locations = locations;
     }
+
 }

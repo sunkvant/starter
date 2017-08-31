@@ -57,23 +57,9 @@ public class ProfileController {
     //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile", method = RequestMethod.GET)
     ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login,
-                                     @RequestParam(value = "check", required = false) Boolean check,
                                      OAuth2Authentication oAuth2Authentication) {
 
         PersonEntity personEntity;
-
-        if ((check!=null)&&(check)) {
-            if (personService.getByLogin(login)!=null) {
-
-                return new ResponseEntity<>(true,HttpStatus.OK);
-
-            } else {
-
-
-                return new ResponseEntity<>(false,HttpStatus.OK);
-            }
-
-        }
 
         if (login!=null) {
 
@@ -97,6 +83,24 @@ public class ProfileController {
         return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
 
+
+    //@PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/api/checklogin/{login}", method = RequestMethod.GET)
+    ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login) {
+
+
+        if (personService.getByLogin(login)!=null) {
+
+            return new ResponseEntity<>(true,HttpStatus.OK);
+
+        } else {
+
+
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+
+
+    }
 
 
 

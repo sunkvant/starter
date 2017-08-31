@@ -148,7 +148,7 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setBlocked(personEntity.getBlocked());
 
 
-        if ((personEntity.getRole().equals(RoleType.ROLE_TRAINEE))||(personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
+        if ((personEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE))||(personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))) {
 
 
             profileDTO.setApproved(personEntity.getProfile().getApproved());
@@ -156,13 +156,15 @@ public class DTOFactory implements IDTOFactory {
             profileDTO.setDirection(personEntity.getProfile().getDirection().getName());
 
 
-            List<CourseDTO> courseDTO = new ArrayList<>();
+            List<CourseDTO> coursesDTO = new ArrayList<>();
 
-            for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
+            for (int i = 0; i < personEntity.getProfile().getCourses().size(); i++) {
 
-                courseDTO.add(getCourseDTO(personEntity.getProfile().getCourses().get(i)));
+                coursesDTO.add(getCourseDTO(personEntity.getProfile().getCourses().get(i)));
 
             }
+
+            profileDTO.setCourses(coursesDTO);
 
             List<WorkplaceDTO> workplacesDTO = new ArrayList<>();
 
@@ -196,7 +198,7 @@ public class DTOFactory implements IDTOFactory {
             profileDTO.setSkills(skills);
 
 
-            if ((personEntity.getRole().equals(RoleType.ROLE_MENTOR))) {
+            if ((personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))) {
 
                 profileDTO.setMentorExp(personEntity.getProfile().getMentorInfo().getMentorExp());
                 profileDTO.setExperience(personEntity.getProfile().getMentorInfo().getExperience());

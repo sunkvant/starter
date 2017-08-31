@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.webapp.controller;
 
+import com.itbootcamp.starter.datamodel.CityEntity;
 import com.itbootcamp.starter.services.impl.CityService;
 import com.itbootcamp.starter.services.impl.CountryService;
 import com.itbootcamp.starter.services.impl.SkillService;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class CityConroller {
@@ -29,18 +33,36 @@ public class CityConroller {
     @RequestMapping(value = "api/cities",method = RequestMethod.GET)
     public ResponseEntity<List<String>> getAll(@RequestParam(value = "country", required = false) String countryName) {
 
+        List<CityEntity> citiesEntity=new ArrayList<>();
+
         if (countryName==null) {
 
-            return new ResponseEntity<>(dtoFactory.getCities(cityService.getAll()), HttpStatus.OK);
+            citiesEntity=cityService.getAll();
 
         } else {
 
+            if (countryService.getByName(countryName)!=null) {
 
-            return new ResponseEntity<>(dtoFactory.getCities(cityService.getAllByCountryId(countryService.getByName(countryName).getId())), HttpStatus.OK);
+                citiesEntity=cityService.getAllByCountryId(countryService.getByName(countryName).getId());
+
+            } else {
+
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            }
 
         }
 
 
+        Set<String> set=new HashSet<>();
+
+        for(int i=0; i<citiesEntity.size(); i++) {
+
+            set.add(citiesEntity.get(i).getName());
+
+        }
+
+        return new ResponseEntity(set,HttpStatus.OK);
 
     }
 

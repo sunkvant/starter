@@ -93,4 +93,5 @@ public class WorkplaceEntity  extends AbstractEntityID{
     public void setProfile(ProfileEntity profile) {
         this.profile = profile;
     }
+
 }

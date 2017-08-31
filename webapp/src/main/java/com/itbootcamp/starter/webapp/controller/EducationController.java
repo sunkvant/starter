@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by admin on 8/11/2017.
@@ -41,21 +40,23 @@ public class EducationController {
     private PersonService personService;
 
 
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/educations", method = RequestMethod.GET)
     ResponseEntity getAllEducations() {
 
-        List<EducationDTO> educationsDTO=new ArrayList<>();
         List<EducationEntity> educationsEntity=educationService.getAll();
+
+        Set<EducationDTO> set=new HashSet<>();
 
         for(int i=0; i<educationsEntity.size(); i++) {
 
-            educationsDTO.add(dtoFactory.getEducationDTO(educationsEntity.get(i)));
+            set.add(dtoFactory.getEducationDTO(educationsEntity.get(i)));
 
         }
 
-        return new ResponseEntity(educationsDTO,HttpStatus.OK);
+        return new ResponseEntity(set,HttpStatus.OK);
     }
+
 
 
     @PreAuthorize("hasAnyAuthority('Admin','Moder')")

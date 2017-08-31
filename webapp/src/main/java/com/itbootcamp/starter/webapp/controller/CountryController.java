@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.webapp.controller;
 
+import com.itbootcamp.starter.datamodel.CountryEntity;
 import com.itbootcamp.starter.services.impl.CountryService;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class CountryController {
@@ -25,8 +28,18 @@ public class CountryController {
     public ResponseEntity<List<String>> getAll() {
 
 
-            return new ResponseEntity<>(dtoFactory.getCountries(countryService.getAll()), HttpStatus.OK);
+        List<CountryEntity> countriesEntity=countryService.getAll();
 
+
+        Set<String> set=new HashSet<>();
+
+        for(int i=0; i<countriesEntity.size(); i++) {
+
+            set.add(countriesEntity.get(i).getName());
+
+        }
+
+        return new ResponseEntity(set,HttpStatus.OK);
 
     }
 

@@ -37,4 +37,5 @@ public class CountryEntity extends AbstractEntityID{
     public void setLocations(List<LocationEntity> locations) {
         this.locations = locations;
     }
+
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class ProfileDTO {
     @NotNull
     private List<WorkplaceDTO> workplaces;
     @NotNull
+    @Valid
     private List<EducationDTO> educations;
     @NotNull
     private List<String> skills;

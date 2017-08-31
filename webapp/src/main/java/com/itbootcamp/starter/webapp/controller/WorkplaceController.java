@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.Inet4Address;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class WorkplaceController {
@@ -44,16 +43,17 @@ public class WorkplaceController {
     @RequestMapping(value = "/api/workplaces", method = RequestMethod.GET)
     ResponseEntity getAllWorkplaces() {
 
-        List<WorkplaceDTO> workplacesDTO=new ArrayList<>();
         List<WorkplaceEntity> workplacesEntity=workplaceService.getAll();
+
+        Set<WorkplaceDTO> set=new HashSet<>();
 
         for(int i=0; i<workplacesEntity.size(); i++) {
 
-            workplacesDTO.add(dtoFactory.getWorkplaceDTO(workplacesEntity.get(i)));
+            set.add(dtoFactory.getWorkplaceDTO(workplacesEntity.get(i)));
 
         }
 
-        return new ResponseEntity<>(workplacesDTO,HttpStatus.OK);
+        return new ResponseEntity(set,HttpStatus.OK);
     }
 
 

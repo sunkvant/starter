@@ -60,4 +60,5 @@ public class CourseEntity extends AbstractEntityID{
     public void setProfile(ProfileEntity profile) {
         this.profile = profile;
     }
+
 }
