@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Configuration
 @EnableWebSecurity
-//@Order(2)
+@Order(2)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable();
         http
-                //.requestMatcher(new BasicRequestMatcher())
+                .requestMatcher(new BasicRequestMatcher())
                 .authorizeRequests()
 
                 .anyRequest().permitAll();
