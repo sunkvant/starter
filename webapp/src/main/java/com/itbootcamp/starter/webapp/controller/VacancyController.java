@@ -6,16 +6,13 @@ import com.itbootcamp.starter.datamodel.VacancyEntity;
 import com.itbootcamp.starter.services.IProjectService;
 import com.itbootcamp.starter.services.IVacancyService;
 import com.itbootcamp.starter.services.impl.PersonService;
-import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.VacancyDTO;
+import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
