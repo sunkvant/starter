@@ -3,6 +3,7 @@ package com.itbootcamp.starter.services.impl;
 import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IPersonService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,8 @@ public class PersonService implements IPersonService {
 
     @Autowired
     private CountryRepository countryRepository;
+
+    private static final Logger logger = Logger.getLogger(Logger.class);
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -356,6 +359,7 @@ public class PersonService implements IPersonService {
 
         personEntity.getProfile().setSkills(personEntity.getProfile().getSkills());
 
+        personEntity.getContact().setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/default-avatar.png");
         personEntity.setPassword(BCrypt.hashpw(personEntity.getPassword(),BCrypt.gensalt()));
         personEntity.setBlocked(false);
         personEntity.getProfile().setApproved(false);
@@ -372,6 +376,9 @@ public class PersonService implements IPersonService {
     public Boolean update(PersonEntity personEntity) {
 
         personEntity.getContact().setId(personEntity.getId());
+
+        logger.info(personEntity.getContact().getLocation().getCountry()+" "+
+                personEntity.getContact().getLocation().getCity()+" "+personEntity.getContact().getId());
 
         return save(personEntity);
 /*

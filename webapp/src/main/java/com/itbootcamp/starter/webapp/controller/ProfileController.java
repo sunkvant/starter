@@ -9,6 +9,7 @@ import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.catalina.core.ApplicationContext;
 import org.apache.catalina.core.StandardContext;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -48,6 +50,8 @@ public class ProfileController {
     @Autowired
     private PersonRepository personRepository;
 
+    private static final Logger logger = Logger.getLogger(Logger.class);
+
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public ModelAndView test(Model model) {
 
@@ -59,22 +63,24 @@ public class ProfileController {
 
     }
 
+    //@PreAuthorize("isAuthenticated()")
+    @RequestMapping(value="/api/avatar/upload", method=RequestMethod.POST)
+    public ResponseEntity handleFileUpload(@RequestPart MultipartFile file) throws URISyntaxException {
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public ResponseEntity handleFileUpload(@RequestParam("name") String name,MultipartFile file){
-
-        String str=name;
-
-
+                //PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+                File pathToAvatar=new File(getClass().getClassLoader().getResource("static/avatar/").toURI().getPath()+System.currentTimeMillis()+".jpg");
 
         if (!file.isEmpty()) {
 
             try {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File("D:\\VS\\"+file.getName())));
+                        new BufferedOutputStream(new FileOutputStream(pathToAvatar));
                 stream.write(bytes);
                 stream.close();
+                logger.info("https://starter-itbootcamp.herokuapp.com/avatar/"+pathToAvatar.getName());
+                //personEntity.getContact().setAvatarPath();
+                //personService.update(personEntity);
                 return new ResponseEntity(HttpStatus.ACCEPTED);
             } catch (Exception e) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -167,6 +173,7 @@ public class ProfileController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/", method = RequestMethod.PUT)
     ResponseEntity<ProfileDTO> updateProfile(@RequestBody @Valid ContactDTO contactDTO, BindingResult bindingResult,
                                              OAuth2Authentication oAuth2Authentication) {
@@ -180,6 +187,8 @@ public class ProfileController {
 
 
         personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        logger.info("PUT: "+oAuth2Authentication.getUserAuthentication().getName());
         personEntity.setContact(entityFactory.getContactEntity(contactDTO));
 
         if (!personService.update(personEntity)) {
