@@ -54,7 +54,7 @@ public class ProjectEntity  extends AbstractEntityID{
         this.dateStart = dateStart;
     }
 
-    @Column(name = "date_end", nullable = false)
+    @Column(name = "date_end")
     public Timestamp getDateEnd() {
         return dateEnd;
     }

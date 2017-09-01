@@ -6,24 +6,22 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 import javax.servlet.MultipartConfigElement;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 @ComponentScan({"com.itbootcamp.starter.webapp.controller","com.itbootcamp.starter.services","com.itbootcamp.starter.webapp.dto","com.itbootcamp.starter.security"})
 @EnableJpaRepositories("com.itbootcamp.starter.repository")
 @EntityScan("com.itbootcamp.starter.datamodel")
 @SpringBootApplication
-@Configuration
 public class Starter extends SpringBootServletInitializer {
 
     @Override
@@ -32,9 +30,39 @@ public class Starter extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext app = SpringApplication.run(Starter.class, args);
+        SpringApplication.run(Starter.class, args);
 
     }
+
+    @Bean(name = "dataSource")
+    public DriverManagerDataSource dataSource() throws URISyntaxException {
+
+
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//heroku environment
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+
+
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+
+//localhost environment----------------------------
+        dataSource.setDriverClassName("org.postgresql.Driver");
+
+
+/*        dataSource.setUrl("jdbc:postgresql://localhost:5432/starter");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("admin");*/
+
+        return dataSource;
+    }
+
 
     @Bean(name = "commonsMultipartResolver")
     public MultipartResolver multipartResolver() {
