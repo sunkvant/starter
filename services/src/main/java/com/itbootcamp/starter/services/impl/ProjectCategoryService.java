@@ -6,6 +6,8 @@ import com.itbootcamp.starter.services.IProjectCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by admin on 8/23/2017.
  */
@@ -23,5 +25,10 @@ public class ProjectCategoryService implements IProjectCategoryService {
     @Override
     public ProjectCategoryEntity getByName(String name){
         return projectCategoryRepository.findByCategoryIgnoreCase(name);
+    }
+
+    @Override
+    public List<ProjectCategoryEntity> getAll() {
+        return (List) projectCategoryRepository.findAll() ;
     }
 }

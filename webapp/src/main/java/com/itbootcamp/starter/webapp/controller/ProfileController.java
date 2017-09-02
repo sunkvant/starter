@@ -89,7 +89,7 @@ public class ProfileController {
         }
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.GET)
     ResponseEntity getProfile(@PathVariable Integer personId) {
 
@@ -101,7 +101,7 @@ public class ProfileController {
         return new ResponseEntity<>(dtoFactory.getProfileDTO(personEntity), HttpStatus.OK);
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile", method = RequestMethod.GET)
     ResponseEntity getProfileByLogin(@RequestParam(value = "login", required = false) String login,
                                      OAuth2Authentication oAuth2Authentication) {
@@ -199,6 +199,7 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
 
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.DELETE)
     ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Integer personId) {

@@ -358,8 +358,13 @@ public class PersonService implements IPersonService {
         }
 
         personEntity.getProfile().setSkills(personEntity.getProfile().getSkills());
+        if ((personEntity.getContact().getAvatarPath()==null)
+                ||(personEntity.getContact().getAvatarPath().isEmpty())) {
 
-        personEntity.getContact().setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/default-avatar.png");
+            personEntity.getContact().setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/default-avatar.png");
+
+        }
+
         personEntity.setPassword(BCrypt.hashpw(personEntity.getPassword(),BCrypt.gensalt()));
         personEntity.setBlocked(false);
         personEntity.getProfile().setApproved(false);
