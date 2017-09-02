@@ -63,11 +63,11 @@ public class ProfileController {
 
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value="/api/avatar/upload", method=RequestMethod.POST)
-    public ResponseEntity handleFileUpload(@RequestPart MultipartFile file) throws URISyntaxException {
+    public ResponseEntity handleFileUpload(@RequestPart MultipartFile file,OAuth2Authentication oAuth2Authentication) throws URISyntaxException {
 
-                //PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+                PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
                 File pathToAvatar=new File(getClass().getClassLoader().getResource("static/avatar/").toURI().getPath()+System.currentTimeMillis()+".jpg");
 
         if (!file.isEmpty()) {
@@ -78,9 +78,8 @@ public class ProfileController {
                         new BufferedOutputStream(new FileOutputStream(pathToAvatar));
                 stream.write(bytes);
                 stream.close();
-                logger.info("https://starter-itbootcamp.herokuapp.com/avatar/"+pathToAvatar.getName());
-                //personEntity.getContact().setAvatarPath();
-                //personService.update(personEntity);
+                personEntity.getContact().setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/"+pathToAvatar.getName());
+                personService.update(personEntity);
                 return new ResponseEntity(HttpStatus.ACCEPTED);
             } catch (Exception e) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
