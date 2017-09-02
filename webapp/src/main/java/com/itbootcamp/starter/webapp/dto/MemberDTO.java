@@ -14,7 +14,6 @@ public class MemberDTO {
     private String role;
     private Boolean isActive;
 
-
     public void setProfile(ProfileDTO profile) {
         this.profile = profile;
     }
