@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by foooox on 21.7.17.
  */
 @Repository
-public interface ReviewRepository extends CrudRepository<ReviewEntity,Long> {
+public interface ReviewRepository extends CrudRepository<ReviewEntity,Integer> {
 
 
 }

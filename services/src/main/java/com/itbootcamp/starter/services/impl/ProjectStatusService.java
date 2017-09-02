@@ -6,6 +6,8 @@ import com.itbootcamp.starter.services.IProjectStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by admin on 8/24/2017.
  */
@@ -21,5 +23,10 @@ public class ProjectStatusService implements IProjectStatusService {
     @Override
     public ProjectStatusEntity getById(Integer id) {
         return projectStatusRepository.findOne(id);
+    }
+
+    @Override
+    public List<ProjectStatusEntity> getAll() {
+        return (List) projectStatusRepository.findAll();
     }
 }

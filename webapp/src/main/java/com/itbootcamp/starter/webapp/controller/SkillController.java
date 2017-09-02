@@ -9,10 +9,9 @@ import com.itbootcamp.starter.webapp.dto.factory.impl.EntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,19 +38,36 @@ public class SkillController {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @RequestMapping(value = "api/profile/{personId}/skills",method = RequestMethod.POST)
+    ResponseEntity addEducationCustomProfile(@RequestBody List<String> skills, @PathVariable Integer personId) {
+
+        return addSkillsToProfile(skills,personId,null);
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/skills", method = RequestMethod.POST)
-    ResponseEntity<ProfileDTO> addSkillsToProject(@RequestBody List<String> skills) {
+    ResponseEntity<ProfileDTO> addSkillsToProfile(@RequestBody List<String> skills, Integer personId,
+                                                  OAuth2Authentication oAuth2Authentication) {
 
-        PersonEntity personEntity = personService.getById(85);  //TODO
+        PersonEntity personEntity;
 
+        if(oAuth2Authentication==null) {
 
+            personEntity = personService.getById(personId);
 
-        if (personEntity == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+
+            personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
         }
 
+        if(!skillService.add(entityFactory.getSkillsEntity(skills),personEntity)) {
 
-        skillService.add(entityFactory.getSkillsEntity(skills),personEntity);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
 

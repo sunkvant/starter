@@ -34,7 +34,6 @@ public class CourseController {
     private DTOFactory dtoFactory;
 
 
-    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/courses", method = RequestMethod.GET)
     ResponseEntity getAllCourses() {
 

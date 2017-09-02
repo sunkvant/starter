@@ -63,11 +63,9 @@ public class EntityFactory implements IEntityFactory {
     public ReviewEntity getReviewEntity(ReviewDTO reviewDTO) {
         ReviewEntity reviewEntity = new ReviewEntity();
 
-        reviewEntity.setDate(reviewDTO.getDate());
         reviewEntity.setProject(projectService.getById(reviewDTO.getProjectId()));
         reviewEntity.setRating(reviewDTO.getRating());
         reviewEntity.setText(reviewDTO.getText());
-        reviewEntity.setSenderPerson(personService.getById(reviewDTO.getSenderPersonId()));
         reviewEntity.setReceiverPerson(personService.getById(reviewDTO.getReceiverPersonId()));
 
         return reviewEntity;

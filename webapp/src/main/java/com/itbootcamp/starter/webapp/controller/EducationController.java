@@ -40,7 +40,6 @@ public class EducationController {
     private PersonService personService;
 
 
-    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/educations", method = RequestMethod.GET)
     ResponseEntity getAllEducations() {
 

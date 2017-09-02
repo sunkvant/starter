@@ -1,5 +1,10 @@
 package com.itbootcamp.starter.webapp.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**
@@ -9,10 +14,17 @@ public class ReviewDTO {
 
     private Integer id;
     private Timestamp date;
+    @Min(1)
+    @Max(10)
+    @NotNull
     private Integer rating;
+    @NotBlank
+    @NotNull
     private String text;
     private Integer senderPersonId;
+    @NotNull
     private Integer receiverPersonId;
+    @NotNull
     private Integer projectId;
 
     public Integer getId() {

@@ -131,7 +131,6 @@ public class ProfileController {
     }
 
 
-    //@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/checklogin/{login}", method = RequestMethod.GET)
     ResponseEntity getProfileByLogin(@PathVariable String login) {
 
@@ -186,8 +185,6 @@ public class ProfileController {
 
 
         personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
-
-        logger.info("PUT: "+oAuth2Authentication.getUserAuthentication().getName());
         personEntity.setContact(entityFactory.getContactEntity(contactDTO));
 
         if (!personService.update(personEntity)) {

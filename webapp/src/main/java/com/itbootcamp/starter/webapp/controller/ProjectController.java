@@ -146,7 +146,8 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
+    //@PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
+    @PreAuthorize("hasAuthority('Customer')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.PUT)
     ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult,
                                  OAuth2Authentication oAuth2Authentication) {
