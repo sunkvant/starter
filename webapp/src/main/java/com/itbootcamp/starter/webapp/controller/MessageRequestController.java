@@ -4,6 +4,7 @@ import com.itbootcamp.starter.datamodel.MessageRequestEntity;
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.services.IMessageRequestService;
 import com.itbootcamp.starter.services.IPersonService;
+import com.itbootcamp.starter.webapp.dto.MessageRequestDTO;
 import com.itbootcamp.starter.webapp.dto.factory.IEntityFactory;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,19 @@ public class MessageRequestController {
     private IPersonService personService;
 
     @RequestMapping(value = "/api/message/messageRequest", method = RequestMethod.POST)
-    public ResponseEntity sendMessageRequest(@RequestParam Integer receiverId,
-                                             @RequestParam String title,
-                                             @RequestParam String text,
+    public ResponseEntity sendMessageRequest(@RequestBody @Valid MessageRequestDTO messageRequestDTO,
+                                             BindingResult bindingResult,
                                              OAuth2Authentication oAuth2Authentication) {
+
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
 
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
-        if (!messageRequestService.save(receiverId, title, text, personEntity)) {
+        if (!messageRequestService.save(messageRequestDTO.getReceiverId(), messageRequestDTO.getTitle(), messageRequestDTO.getText(), personEntity)) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 

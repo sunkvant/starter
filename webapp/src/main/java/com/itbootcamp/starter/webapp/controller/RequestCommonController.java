@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +32,9 @@ public class RequestCommonController {
     DTOFactory dtoFactory;
 
 
-    @RequestMapping(value = "/api/message", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/message/{messageId}", method = RequestMethod.GET)
     public ResponseEntity<RequestDTO> getMessage(
-            @RequestParam(value = "messageId", required = false) Integer requestId,
+            @PathVariable(value = "messageId", required = false) Integer requestId,
             OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
         RequestEntity requestEntity = requestService.getByRequestIdAndPerson(requestId,personEntity);
@@ -51,9 +48,9 @@ public class RequestCommonController {
         return new ResponseEntity<>(abstractRequestDTO, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/message", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/message/{messageId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteMessage(
-            @RequestParam(value = "messageId", required = false) Integer requestId,
+            @PathVariable(value = "messageId", required = false) Integer requestId,
             OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
@@ -64,9 +61,9 @@ public class RequestCommonController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/message/setRead", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/message/setRead/{messageId}", method = RequestMethod.POST)
     public ResponseEntity readMessage(
-            @RequestParam(value = "messageId", required = false) Integer requestId,
+            @PathVariable(value = "messageId", required = false) Integer requestId,
             OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 

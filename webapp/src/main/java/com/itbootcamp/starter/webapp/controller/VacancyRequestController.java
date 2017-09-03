@@ -28,8 +28,8 @@ public class VacancyRequestController {
     @Autowired
     private IVacancyService vacancyService;
 
-    @RequestMapping(value = "/api/message/vacancyRequest", method = RequestMethod.POST)
-    public ResponseEntity sendVacancyRequest(@RequestParam Integer vacancyId,
+    @RequestMapping(value = "/api/message/vacancyRequest/{vacancyId}", method = RequestMethod.POST)
+    public ResponseEntity sendVacancyRequest(@PathVariable Integer vacancyId,
                                              OAuth2Authentication oAuth2Authentication) {
         PersonEntity senderPerson = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
@@ -50,8 +50,8 @@ public class VacancyRequestController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/api/message/vacancyRequest/answer", method = RequestMethod.POST)
-    public ResponseEntity answerVacancyRequest(@RequestParam(value = "messageId") Integer vacancyRequestId,
+    @RequestMapping(value = "/api/message/vacancyRequest/answer/{messageId}", method = RequestMethod.POST)
+    public ResponseEntity answerVacancyRequest(@PathVariable(value = "messageId") Integer vacancyRequestId,
                                              OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 

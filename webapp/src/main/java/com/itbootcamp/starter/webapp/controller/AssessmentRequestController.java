@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by admin on 9/3/2017.
@@ -24,8 +21,8 @@ public class AssessmentRequestController {
     @Autowired
     private IPersonService personService;
 
-    @RequestMapping(value = "/api/message/assessmentRequest", method = RequestMethod.POST)
-    public ResponseEntity sendAssessmentRequest(@RequestParam Integer receiverId,
+    @RequestMapping(value = "/api/message/assessmentRequest/{receiverId}", method = RequestMethod.POST)
+    public ResponseEntity sendAssessmentRequest(@PathVariable Integer receiverId,
                                              OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
@@ -36,8 +33,8 @@ public class AssessmentRequestController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/api/message/assessmentRequest/answer", method = RequestMethod.POST)
-    public ResponseEntity answerAssessmentRequest(@RequestParam(value = "messageId") Integer assessmentRequestId,
+    @RequestMapping(value = "/api/message/assessmentRequest/answer/{messageId}", method = RequestMethod.POST)
+    public ResponseEntity answerAssessmentRequest(@PathVariable(value = "messageId") Integer assessmentRequestId,
                                                OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 

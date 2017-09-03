@@ -30,13 +30,13 @@ public class MessageRequestService implements IMessageRequestService {
 
 
     @Override
-    public Boolean save(Integer receiverId, String title, String text, PersonEntity personEntity){
+    public Boolean save(Integer receiverId, String title, String text, PersonEntity senderEntity){
 
         if (receiverId == null || personRepository.findOne(receiverId) == null){
             return false;
         }
 
-        if (personRepository.findOne(receiverId).getId().equals(personEntity.getId())){
+        if (personRepository.findOne(receiverId).getId().equals(senderEntity.getId())){
             return false;
         }
 
@@ -47,7 +47,7 @@ public class MessageRequestService implements IMessageRequestService {
         messageRequestEntity.setRequestType(requestTypeRepository.findByType(RequestType.REQUEST_MESSAGE));
         messageRequestEntity.setRead(false);
         messageRequestEntity.setDate(Timestamp.valueOf(LocalDate.now().atStartOfDay()));
-        messageRequestEntity.setSenderPerson(personEntity);
+        messageRequestEntity.setSenderPerson(senderEntity);
         messageRequestEntity.setSenderVisible(true);
         messageRequestEntity.setReceiverPerson(personRepository.findOne(receiverId));
         messageRequestEntity.setReceiverVisible(true);
