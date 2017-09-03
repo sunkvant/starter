@@ -59,15 +59,15 @@ public class CourseService implements ICourseService {
         }
 
 
-        for (int i = 0; i < personEntity.getProfile().getCourses().size(); i++) {
+        for(CourseEntity course:personEntity.getProfile().getCourses()) {
 
-            if (courseEntity.getId() == personEntity.getProfile().getCourses().get(i).getId()) {
+            if (courseEntity.getId() == course.getId()) {
 
 
-                personEntity.getProfile().getCourses().get(i).setName(courseEntity.getName());
-                personEntity.getProfile().getCourses().get(i).setSpeciality(courseEntity.getSpeciality());
-                personEntity.getProfile().getCourses().get(i).setOrganization(courseEntity.getOrganization());
-                personEntity.getProfile().getCourses().get(i).setGraduationYear(courseEntity.getGraduationYear());
+                course.setName(courseEntity.getName());
+                course.setSpeciality(courseEntity.getSpeciality());
+                course.setOrganization(courseEntity.getOrganization());
+                course.setGraduationYear(courseEntity.getGraduationYear());
 
                 if (personRepository.save(personEntity) != null) {
 
@@ -88,11 +88,11 @@ public class CourseService implements ICourseService {
     public Boolean delete(CourseEntity courseEntity, PersonEntity personEntity) {
 
 
-        for (int i = 0; i < personEntity.getProfile().getCourses().size(); i++) {
+        for(CourseEntity course:personEntity.getProfile().getCourses()) {
 
-            if (courseEntity.getId()==personEntity.getProfile().getCourses().get(i).getId()) {
+            if (courseEntity.getId()==course.getId()) {
 
-                personEntity.getProfile().getCourses().remove(i);
+                personEntity.getProfile().getCourses().remove(course);
                 if (personRepository.save(personEntity)!=null) {
 
                     return true;

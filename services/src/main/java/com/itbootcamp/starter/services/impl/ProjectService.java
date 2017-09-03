@@ -49,8 +49,8 @@ public class ProjectService implements IProjectService {
         List<TeamEntity> teamEntities = teamRepository.findAllByPersonId(personId);
         List<ProjectEntity> projectEntityList = new ArrayList<>();
 
-        for (int i = 0; i < teamEntities.size(); i++) {
-            projectEntityList.add(projectRepository.findOne(teamEntities.get(i).getProject().getId()));
+        for (TeamEntity team:teamEntities) {
+            projectEntityList.add(projectRepository.findOne(team.getProject().getId()));
         }
         return projectEntityList;
     }
@@ -61,8 +61,8 @@ public class ProjectService implements IProjectService {
         List<TeamEntity> teamEntities = teamRepository.findAllByPersonIdAndMember(personId, isMember);
         List<ProjectEntity> projectEntityList = new ArrayList<>();
 
-        for (int i = 0; i < teamEntities.size(); i++) {
-            projectEntityList.add(projectRepository.findOne(teamEntities.get(i).getProject().getId()));
+        for (TeamEntity team:teamEntities) {
+            projectEntityList.add(projectRepository.findOne(team.getProject().getId()));
         }
 
         return projectEntityList;
@@ -177,10 +177,10 @@ public class ProjectService implements IProjectService {
 
         List<TeamEntity> teamEntities=teamRepository.findAllByProjectId(projectEntity.getId());
 
-        for(int i=0; i<teamEntities.size(); i++) {
+        for (TeamEntity team:teamEntities) {
 
-            teamEntities.get(i).setMember(false);
-            teamRepository.save(teamEntities.get(i));
+            team.setMember(false);
+            teamRepository.save(team);
 
         }
 

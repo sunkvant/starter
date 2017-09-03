@@ -33,9 +33,9 @@ public class CountryController {
 
         Set<String> set=new HashSet<>();
 
-        for(int i=0; i<countriesEntity.size(); i++) {
+        for(CountryEntity countryEntity:countriesEntity) {
 
-            set.add(countriesEntity.get(i).getName());
+            set.add(countryEntity.getName());
 
         }
 

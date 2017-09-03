@@ -52,18 +52,18 @@ public class WorkplaceService implements IWorkplaceService {
         }
 
 
-        for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
+        for (WorkplaceEntity workplace:personEntity.getProfile().getWorkplaces()) {
 
-            if (workplaceEntity.getId() == personEntity.getProfile().getWorkplaces().get(i).getId()) {
+            if (workplaceEntity.getId().equals(workplace.getId()) ) {
 
 
-                personEntity.getProfile().getWorkplaces().get(i).setCompany(workplaceEntity.getCompany());
-                personEntity.getProfile().getWorkplaces().get(i).setSphereOfActivity(workplaceEntity.getSphereOfActivity());
-                personEntity.getProfile().getWorkplaces().get(i).setPosition(workplaceEntity.getPosition());
-                personEntity.getProfile().getWorkplaces().get(i).setDuties(workplaceEntity.getDuties());
-                personEntity.getProfile().getWorkplaces().get(i).setStartWork(workplaceEntity.getStartWork());
-                personEntity.getProfile().getWorkplaces().get(i).setEndWork(workplaceEntity.getEndWork());
-                personEntity.getProfile().getWorkplaces().get(i).setWorking(workplaceEntity.getWorking());
+                workplace.setCompany(workplaceEntity.getCompany());
+                workplace.setSphereOfActivity(workplaceEntity.getSphereOfActivity());
+                workplace.setPosition(workplaceEntity.getPosition());
+                workplace.setDuties(workplaceEntity.getDuties());
+                workplace.setStartWork(workplaceEntity.getStartWork());
+                workplace.setEndWork(workplaceEntity.getEndWork());
+                workplace.setWorking(workplaceEntity.getWorking());
 
                 if (personRepository.save(personEntity) != null) {
 
@@ -80,11 +80,11 @@ public class WorkplaceService implements IWorkplaceService {
     @Override
     public Boolean delete(WorkplaceEntity workplaceEntity, PersonEntity personEntity) {
 
-        for (int i = 0; i < personEntity.getProfile().getWorkplaces().size(); i++) {
+        for (WorkplaceEntity workplace:personEntity.getProfile().getWorkplaces()) {
 
-            if (workplaceEntity.getId()==personEntity.getProfile().getWorkplaces().get(i).getId()) {
+            if (workplaceEntity.getId().equals(workplace.getId()) ) {
 
-                personEntity.getProfile().getWorkplaces().remove(i);
+                personEntity.getProfile().getWorkplaces().remove(workplace);
                 if (personRepository.save(personEntity)!=null) {
 
                     return true;

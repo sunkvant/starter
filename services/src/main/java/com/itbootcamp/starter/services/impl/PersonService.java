@@ -333,30 +333,25 @@ public class PersonService implements IPersonService {
         personEntity.getProfile().setPerson(personEntity);
 
 
-        List<EducationEntity> educationEntities=personEntity.getProfile().getEducations();
+        for (EducationEntity educationEntity:personEntity.getProfile().getEducations()) {
 
-        for (int i=0; i<educationEntities.size(); i++) {
-
-            educationEntities.get(i).setId(null);
-            educationEntities.get(i).setProfile(personEntity.getProfile());
+            educationEntity.setId(null);
+            educationEntity.setProfile(personEntity.getProfile());
 
         }
 
-        List<CourseEntity> courseEntities=personEntity.getProfile().getCourses();
+        for (CourseEntity courseEntity:personEntity.getProfile().getCourses()) {
 
-        for (int i=0; i<courseEntities.size(); i++) {
-
-            courseEntities.get(i).setId(null);
-            courseEntities.get(i).setProfile(personEntity.getProfile());
+            courseEntity.setId(null);
+            courseEntity.setProfile(personEntity.getProfile());
 
         }
 
-        List<WorkplaceEntity> workplaceEntities=personEntity.getProfile().getWorkplaces();
 
-        for (int i=0; i<workplaceEntities.size(); i++) {
+        for (WorkplaceEntity workplaceEntity:personEntity.getProfile().getWorkplaces()) {
 
-            workplaceEntities.get(i).setId(null);
-            workplaceEntities.get(i).setProfile(personEntity.getProfile());
+            workplaceEntity.setId(null);
+            workplaceEntity.setProfile(personEntity.getProfile());
 
         }
 

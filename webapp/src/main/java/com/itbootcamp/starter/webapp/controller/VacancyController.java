@@ -195,8 +195,9 @@ public class VacancyController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<VacancyDTO> vacancies=new ArrayList<>();
-        for (int i = 0; i < projectEntity.getVacancies().size(); i++) {
-            vacancies.add(dtoFactory.getVacancyDTO(projectEntity.getVacancies().get(i)));
+
+        for (VacancyEntity vacancyEntity:projectEntity.getVacancies()) {
+            vacancies.add(dtoFactory.getVacancyDTO(vacancyEntity));
         }
         return new ResponseEntity<>(vacancies,HttpStatus.OK);
     }
@@ -228,8 +229,8 @@ public class VacancyController {
                 vacancyService.searchVacancies(positions, role, skills, languages);
         List<VacancyDTO> vacancyDTOList = new ArrayList<>();
 
-        for (int i = 0; i < vacancyEntityList.size(); i++) {
-            vacancyDTOList.add(dtoFactory.getVacancyDTO(vacancyEntityList.get(i)));
+        for (VacancyEntity vacancyEntity:vacancyEntityList) {
+            vacancyDTOList.add(dtoFactory.getVacancyDTO(vacancyEntity));
         }
         return new ResponseEntity<>(vacancyDTOList, HttpStatus.OK);
     }

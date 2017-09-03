@@ -56,9 +56,9 @@ public class CityConroller {
 
         Set<String> set=new HashSet<>();
 
-        for(int i=0; i<citiesEntity.size(); i++) {
+        for(CityEntity city:citiesEntity) {
 
-            set.add(citiesEntity.get(i).getName());
+            set.add(city.getName());
 
         }
 

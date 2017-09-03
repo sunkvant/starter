@@ -29,9 +29,9 @@ public class ProjectCategoryController {
         List<ProjectCategoryEntity> projectCategoriesEntity=projectCategoryService.getAll();
         List<String> categories=new ArrayList<>();
 
-        for(int i=0; i<projectCategoriesEntity.size(); i++) {
+        for(ProjectCategoryEntity projectCategoryEntity:projectCategoriesEntity) {
 
-            categories.add(projectCategoriesEntity.get(i).getCategory());
+            categories.add(projectCategoryEntity.getCategory());
 
         }
 

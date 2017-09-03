@@ -97,9 +97,8 @@ public class ReviewController {
         }
 
         List<ReviewDTO> reviewsDTO=new ArrayList<>();
-        List<ReviewEntity> reviewsEntity=personEntity.getReceiverReviews();
 
-        for(ReviewEntity reviewEntity:reviewsEntity) {
+        for(ReviewEntity reviewEntity:personEntity.getReceiverReviews()) {
 
             reviewsDTO.add(dtoFactory.getReviewDTO(reviewEntity));
 

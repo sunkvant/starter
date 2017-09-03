@@ -23,12 +23,12 @@ public class ProjectStatusController {
     public ResponseEntity<List<String>> getAll() {
 
 
-        List<ProjectStatusEntity> projectCategoriesEntity=projectStatusService.getAll();
+        List<ProjectStatusEntity> projectStatusesEntity=projectStatusService.getAll();
         List<String> categories=new ArrayList<>();
 
-        for(int i=0; i<projectCategoriesEntity.size(); i++) {
+        for(ProjectStatusEntity projectStatusEntity:projectStatusesEntity) {
 
-            categories.add(projectCategoriesEntity.get(i).getStatus());
+            categories.add(projectStatusEntity.getStatus());
 
         }
 

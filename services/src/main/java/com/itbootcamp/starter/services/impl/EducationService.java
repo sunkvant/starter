@@ -65,14 +65,14 @@ public class EducationService implements IEducationService {
         }
 
 
-        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
+        for (EducationEntity education:personEntity.getProfile().getEducations()) {
 
-            if (educationEntity.getId() == personEntity.getProfile().getEducations().get(i).getId()) {
+            if (educationEntity.getId().equals(education.getId())) {
 
 
-                personEntity.getProfile().getEducations().get(i).setName(educationEntity.getName());
-                personEntity.getProfile().getEducations().get(i).setFaculty(educationEntity.getFaculty());
-                personEntity.getProfile().getEducations().get(i).setGraduationYear(educationEntity.getGraduationYear());
+                education.setName(educationEntity.getName());
+                education.setFaculty(educationEntity.getFaculty());
+                education.setGraduationYear(educationEntity.getGraduationYear());
 
 
                 if (personRepository.save(personEntity) != null) {
@@ -90,11 +90,11 @@ public class EducationService implements IEducationService {
     @Override
     public Boolean delete(EducationEntity educationEntity, PersonEntity personEntity) {
 
-        for (int i = 0; i < personEntity.getProfile().getEducations().size(); i++) {
+        for (EducationEntity education:personEntity.getProfile().getEducations()) {
 
-            if (educationEntity.getId()==personEntity.getProfile().getEducations().get(i).getId()) {
+            if (educationEntity.getId().equals(education.getId())) {
 
-                personEntity.getProfile().getEducations().remove(i);
+                personEntity.getProfile().getEducations().remove(education);
                 if (personRepository.save(personEntity)!=null) {
 
                     return true;

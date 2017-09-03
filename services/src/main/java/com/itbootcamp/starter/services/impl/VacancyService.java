@@ -111,17 +111,17 @@ public class VacancyService implements IVacancyService {
 
         }
 
-        for(int i=0; i<projectEntity.getVacancies().size(); i++) {
+        for(VacancyEntity vacancy:projectEntity.getVacancies()) {
 
 
-            if (vacancyEntity.getId()==projectEntity.getVacancies().get(i).getId()) {
+            if (vacancyEntity.getId().equals(vacancy.getId())) {
 
 
-                projectEntity.getVacancies().get(i).setPersonNumber(vacancyEntity.getPersonNumber());
-                projectEntity.getVacancies().get(i).setPosition(vacancyEntity.getPosition());
-                projectEntity.getVacancies().get(i).setRole(vacancyEntity.getRole());
-                projectEntity.getVacancies().get(i).setLanguages(vacancyEntity.getLanguages());
-                projectEntity.getVacancies().get(i).setSkills(vacancyEntity.getSkills());
+                vacancy.setPersonNumber(vacancyEntity.getPersonNumber());
+                vacancy.setPosition(vacancyEntity.getPosition());
+                vacancy.setRole(vacancyEntity.getRole());
+                vacancy.setLanguages(vacancyEntity.getLanguages());
+                vacancy.setSkills(vacancyEntity.getSkills());
 
                 if (projectRepository.save(projectEntity)!=null) {
 
@@ -141,11 +141,11 @@ public class VacancyService implements IVacancyService {
     @Override
     public Boolean delete(VacancyEntity vacancyEntity, ProjectEntity projectEntity) {
 
-        for (int i = 0; i < projectEntity.getVacancies().size(); i++) {
+        for(VacancyEntity vacancy:projectEntity.getVacancies()) {
 
-            if (vacancyEntity.getId()== projectEntity.getVacancies().get(i).getId()) {
+            if (vacancyEntity.getId().equals(vacancy.getId())) {
 
-                projectEntity.getVacancies().remove(i);
+                projectEntity.getVacancies().remove(vacancy);
                 if (projectRepository.save(projectEntity)!=null) {
 
                     return true;

@@ -36,12 +36,12 @@ public class SkillService implements ISkillService {
 
         List<SkillEntity> bufSkills=new ArrayList<>();
 
-        for(int i=0; i<skillEntities.size();i++) {
+        for(SkillEntity skill:skillEntities) {
 
-            if ((skillEntities.get(i).getId()!=null)
-                    &&(skillRepository.exists(skillEntities.get(i).getId()))) {
+            if ((skill.getId()!=null)
+                    &&(skillRepository.exists(skill.getId()))) {
 
-                bufSkills.add(skillEntities.get(i));
+                bufSkills.add(skill);
 
             }
 

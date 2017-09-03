@@ -8,6 +8,7 @@ import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ public class UserController {
     @Autowired
     private DTOFactory dtoFactory;
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/profile/search", method = RequestMethod.GET)
     ResponseEntity<List<ProfileDTO>> searchUsers(
             @RequestParam(required = false) String role,
@@ -43,8 +45,8 @@ public class UserController {
 
         List<ProfileDTO> profileDTOList = new ArrayList<>();
 
-        for (int i = 0; i < personEntityList.size(); i++) {
-            profileDTOList.add(dtoFactory.getProfileDTO(personEntityList.get(i)));
+        for (PersonEntity personEntity:personEntityList) {
+            profileDTOList.add(dtoFactory.getProfileDTO(personEntity));
         }
 
         return new ResponseEntity<>(profileDTOList, HttpStatus.OK);
