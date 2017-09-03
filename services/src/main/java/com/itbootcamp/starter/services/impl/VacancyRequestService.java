@@ -2,10 +2,9 @@ package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.RequestType;
+import com.itbootcamp.starter.datamodel.RoleType;
 import com.itbootcamp.starter.datamodel.VacancyRequestEntity;
-import com.itbootcamp.starter.repository.RequestTypeRepository;
-import com.itbootcamp.starter.repository.VacancyRepository;
-import com.itbootcamp.starter.repository.VacancyRequestRepository;
+import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IVacancyRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,15 @@ public class VacancyRequestService implements IVacancyRequestService {
 
     @Autowired
     private RequestTypeRepository requestTypeRepository;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @Override
     public Boolean save(Integer vacancyId, PersonEntity personEntity, PersonEntity receiverPerson){

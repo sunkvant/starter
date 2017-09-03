@@ -77,7 +77,6 @@ public class RequestCommonController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/api/messages/getReceived", method = RequestMethod.GET)
     public ResponseEntity<List<RequestDTO>> getReceivedMessages(OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());

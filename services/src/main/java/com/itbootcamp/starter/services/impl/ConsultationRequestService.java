@@ -1,9 +1,6 @@
 package com.itbootcamp.starter.services.impl;
 
-import com.itbootcamp.starter.datamodel.ConsultationRequestEntity;
-import com.itbootcamp.starter.datamodel.PersonEntity;
-import com.itbootcamp.starter.datamodel.RequestType;
-import com.itbootcamp.starter.datamodel.VacancyRequestEntity;
+import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.repository.*;
 import com.itbootcamp.starter.services.IConsultationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,9 @@ import java.time.LocalDate;
  */
 @Service
 public class ConsultationRequestService implements IConsultationRequestService {
+
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
     private ConsultationRequestRepository consultationRequestRepository;
@@ -36,9 +36,19 @@ public class ConsultationRequestService implements IConsultationRequestService {
         if (projectId == null || !projectRepository.exists(projectId)) {
             return false;
         }
+
         if (receiverPersonId == null || !personRepository.exists(receiverPersonId)) {
             return false;
         }
+
+        if (!projectService.isMember(personRepository.findOne(receiverPersonId), projectRepository.findOne(projectId))){
+            return false;
+        }
+
+        if (!personRepository.findOne(receiverPersonId).getRole().getName().equals(RoleType.ROLE_MENTOR)){
+            return false;
+        }
+
         if (receiverPersonId.equals(personEntity.getId())) {
             return false;
         }
