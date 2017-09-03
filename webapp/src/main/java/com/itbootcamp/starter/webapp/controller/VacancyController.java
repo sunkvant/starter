@@ -2,6 +2,7 @@ package com.itbootcamp.starter.webapp.controller;
 
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.ProjectEntity;
+import com.itbootcamp.starter.datamodel.RoleType;
 import com.itbootcamp.starter.datamodel.VacancyEntity;
 import com.itbootcamp.starter.services.IProjectService;
 import com.itbootcamp.starter.services.IVacancyService;
@@ -13,6 +14,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,11 +46,21 @@ public class VacancyController {
 
     private static final Logger logger = Logger.getLogger(Logger.class);
 
+    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy", method = RequestMethod.PUT)
-    ResponseEntity updateVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO){
+    ResponseEntity updateVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO,
+                                 BindingResult bindingResult,OAuth2Authentication oAuth2Authentication){
 
+        PersonEntity personEntity;
 
-        PersonEntity personEntity=personService.getById(86); //TODO
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+        personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
 
         ProjectEntity projectEntity=projectService.getById(projectId);
 
@@ -58,8 +72,9 @@ public class VacancyController {
 
         }
 
-        if ((projectEntity.getCustomer().getId()==personEntity.getId())
-                ||(projectService.isMember(personEntity,projectEntity))) {
+        if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
+                ||(projectService.isMember(personEntity,projectEntity))
+                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
 
             if (vacancyService.update(entityFactory.getVacancyEntity(vacancyDTO),projectEntity)) {
 
@@ -76,13 +91,22 @@ public class VacancyController {
 
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy", method = RequestMethod.POST)
-    ResponseEntity addVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO){
+    ResponseEntity addVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO,BindingResult bindingResult,
+                              OAuth2Authentication oAuth2Authentication){
 
 
 
-        PersonEntity personEntity=personService.getById(86); //TODO
+
+        if (bindingResult.hasErrors()) {
+
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        }
+
+
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         ProjectEntity projectEntity=projectService.getById(projectId);
 
@@ -94,8 +118,9 @@ public class VacancyController {
 
         }
 
-        if ((projectEntity.getCustomer().getId()==personEntity.getId())
-                ||(projectService.isMember(personEntity,projectEntity))) {
+        if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
+                ||(projectService.isMember(personEntity,projectEntity))
+                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
 
             if (vacancyService.add(entityFactory.getVacancyEntity(vacancyDTO),projectEntity)) {
 
@@ -110,12 +135,13 @@ public class VacancyController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy/{vacancyId}", method = RequestMethod.DELETE)
-    ResponseEntity deleteVacancy(@PathVariable Integer projectId,@PathVariable Integer vacancyId){
+    ResponseEntity deleteVacancy(@PathVariable Integer projectId,@PathVariable Integer vacancyId,
+                                 OAuth2Authentication oAuth2Authentication){
 
 
-        PersonEntity personEntity=personService.getById(86); //TODO
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
         ProjectEntity projectEntity=projectService.getById(projectId);
 
@@ -137,8 +163,9 @@ public class VacancyController {
 
         }
 
-        if ((projectEntity.getCustomer().getId()==personEntity.getId())
-                ||(projectService.isMember(personEntity,projectEntity))) {
+        if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
+                ||(projectService.isMember(personEntity,projectEntity))
+                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
 
             if (vacancyService.delete(vacancyEntity,projectEntity)) {
 
@@ -155,7 +182,7 @@ public class VacancyController {
     }
 
 
-
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "api/project/{projectId}/vacancies", method = RequestMethod.GET)
     ResponseEntity<List<VacancyDTO>> getVacancyByProject(@PathVariable Integer projectId){
 
@@ -174,7 +201,7 @@ public class VacancyController {
         return new ResponseEntity<>(vacancies,HttpStatus.OK);
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "api/vacancy/{vacancyId}", method = RequestMethod.GET)
     ResponseEntity<VacancyDTO> getVacancy(@PathVariable Integer vacancyId){
 
@@ -189,6 +216,7 @@ public class VacancyController {
         return new ResponseEntity<>(dtoFactory.getVacancyDTO(vacancyEntity),HttpStatus.OK);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/api/vacancy/search", method = RequestMethod.GET)
     ResponseEntity<List<VacancyDTO>> searchUsers(
             @RequestParam(required = false) List<String> positions,

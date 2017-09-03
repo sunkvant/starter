@@ -105,7 +105,7 @@ public class ProjectController {
 
         ProjectEntity projectEntity=vacancyEntity.getProject();
 
-        if ((projectEntity.getCustomer().getId()==personEntity.getId())
+        if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))) {
 
             if (!projectService.addMember(vacancyEntity,member)) {

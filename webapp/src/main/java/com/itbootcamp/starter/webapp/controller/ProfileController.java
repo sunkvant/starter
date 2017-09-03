@@ -200,6 +200,7 @@ public class ProfileController {
     }
 
 
+    @PreAuthorize("hasAuthority('Admin')")
     @RequestMapping(value = "/api/profile/{personId}", method = RequestMethod.DELETE)
     ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Integer personId) {
 

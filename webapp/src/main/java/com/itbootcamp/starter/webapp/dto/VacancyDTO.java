@@ -12,7 +12,6 @@ import java.util.List;
 public class VacancyDTO {
 
     private Integer id;
-    @NotNull
     private Integer projectId;
     @Min(1)
     private Integer personNumber;

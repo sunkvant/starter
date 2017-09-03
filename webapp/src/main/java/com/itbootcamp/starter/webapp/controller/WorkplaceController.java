@@ -39,7 +39,7 @@ public class WorkplaceController {
 
 
 
-    @PreAuthorize("isAuthenticated()")
+
     @RequestMapping(value = "/api/workplaces", method = RequestMethod.GET)
     ResponseEntity getAllWorkplaces() {
 
@@ -124,7 +124,7 @@ public class WorkplaceController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('Mentor','Trainee')")
     @RequestMapping(value = "/api/profile/workplace", method = RequestMethod.PUT)
     ResponseEntity updateWorkplace(@RequestBody @Valid WorkplaceDTO workplaceDTO, Integer personId, BindingResult bindingResult,
                                    OAuth2Authentication oAuth2Authentication) {

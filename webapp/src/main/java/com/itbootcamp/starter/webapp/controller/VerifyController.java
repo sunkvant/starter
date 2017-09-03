@@ -11,7 +11,7 @@ public class VerifyController {
     @RequestMapping(value = "api/registration/verify",method = RequestMethod.GET)
     public void verify() {
 
-        Sender sender=new Sender("sun.kvant@gmail.com","26a01b95c");
+        Sender sender=new Sender("sun.kvant@gmail.com","");
 
         sender.send("Subject","Secret key: ecvvrrbrb","sun.kvant@gmail.com","sun.kvant@gmail.com");
 
