@@ -263,24 +263,6 @@ public class EntityFactory implements IEntityFactory {
     }
 
     @Override
-    public MessageRequestEntity getMessageRequestEntity(MessageRequestDTO messageRequestDTO) {
-
-        MessageRequestEntity messageRequestEntity = new MessageRequestEntity();
-
-        messageRequestEntity.setId(messageRequestDTO.getId());
-        messageRequestEntity.setRequestType(requestTypeService.get(messageRequestDTO.getRequestType()));
-        messageRequestEntity.setText(messageRequestDTO.getText());
-        messageRequestEntity.setRead(messageRequestDTO.getRead());
-        messageRequestEntity.setTitle(messageRequestDTO.getTitle());
-        messageRequestEntity.setDate(messageRequestDTO.getDate());
-        messageRequestEntity.setReceiverPerson(getPersonEntity(messageRequestDTO.getReceiverPerson()));
-        messageRequestEntity.setSenderPerson(getPersonEntity(messageRequestDTO.getSenderPerson()));
-        messageRequestEntity.setReceiverVisible(messageRequestDTO.getReceiverVisible());
-        messageRequestEntity.setSenderVisible(messageRequestDTO.getSenderVisible());
-        return messageRequestEntity;
-    }
-
-    @Override
     public PersonEntity getPersonEntity(ProfileDTO profileDTO)  {
 
         PersonEntity personEntity=new PersonEntity();

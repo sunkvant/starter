@@ -26,7 +26,7 @@ public interface IEntityFactory {
     ContactEntity getContactEntity(ContactDTO contactDTO);
     ProjectEntity getProjectEntity(ProjectDTO projectDTO);
     VacancyEntity getVacancyEntity(VacancyDTO vacancyDTO);
-    MessageRequestEntity getMessageRequestEntity(MessageRequestDTO messageRequestDTO);
+
 
 
 }

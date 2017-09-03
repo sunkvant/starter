@@ -5,6 +5,7 @@ import com.itbootcamp.starter.datamodel.RequestEntity;
 import com.itbootcamp.starter.services.IPersonService;
 import com.itbootcamp.starter.services.IRequestService;
 import com.itbootcamp.starter.webapp.dto.AbstractRequestDTO;
+import com.itbootcamp.starter.webapp.dto.RequestDTO;
 import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class RequestCommonController {
 
 
     @RequestMapping(value = "/api/message", method = RequestMethod.GET)
-    public ResponseEntity<AbstractRequestDTO> getMessage(
+    public ResponseEntity<RequestDTO> getMessage(
             @RequestParam(value = "messageId", required = false) Integer requestId,
             OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
@@ -45,7 +46,7 @@ public class RequestCommonController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        AbstractRequestDTO abstractRequestDTO = dtoFactory.getRequestDTO(requestEntity);
+        RequestDTO abstractRequestDTO = dtoFactory.getRequestDTO(requestEntity);
 
         return new ResponseEntity<>(abstractRequestDTO, HttpStatus.OK);
     }
@@ -78,45 +79,45 @@ public class RequestCommonController {
 
 
     @RequestMapping(value = "/api/messages/getReceived", method = RequestMethod.GET)
-    public ResponseEntity<List<AbstractRequestDTO>> getReceivedMessages(OAuth2Authentication oAuth2Authentication) {
+    public ResponseEntity<List<RequestDTO>> getReceivedMessages(OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
         List<RequestEntity> requestEntityList = requestService.getReceivedRequests(personEntity);
 
-        List<AbstractRequestDTO> abstractRequestDTOList = new ArrayList<>();
+        List<RequestDTO> requestDTOList = new ArrayList<>();
 
         for (RequestEntity requestEntity : requestEntityList) {
-            abstractRequestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
+            requestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
         }
 
-        return new ResponseEntity<>(abstractRequestDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(requestDTOList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/messages/getSent", method = RequestMethod.GET)
-    public ResponseEntity<List<AbstractRequestDTO>> getSentMessages(OAuth2Authentication oAuth2Authentication) {
+    public ResponseEntity<List<RequestDTO>> getSentMessages(OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
         List<RequestEntity> requestEntityList = requestService.getSentRequests(personEntity);
 
-        List<AbstractRequestDTO> abstractRequestDTOList = new ArrayList<>();
+        List<RequestDTO> requestDTOList = new ArrayList<>();
 
         for (RequestEntity requestEntity : requestEntityList) {
-            abstractRequestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
+            requestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
         }
 
-        return new ResponseEntity<>(abstractRequestDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(requestDTOList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/messages/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<AbstractRequestDTO>> getAllMessages(OAuth2Authentication oAuth2Authentication) {
+    public ResponseEntity<List<RequestDTO>> getAllMessages(OAuth2Authentication oAuth2Authentication) {
         PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
         List<RequestEntity> requestEntityList = requestService.getAll(personEntity);
 
-        List<AbstractRequestDTO> abstractRequestDTOList = new ArrayList<>();
+        List<RequestDTO> requestDTOList = new ArrayList<>();
 
         for (RequestEntity requestEntity : requestEntityList) {
-            abstractRequestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
+            requestDTOList.add(dtoFactory.getRequestDTO(requestEntity));
         }
 
-        return new ResponseEntity<>(abstractRequestDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(requestDTOList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/messages/getCountNotRead", method = RequestMethod.GET)

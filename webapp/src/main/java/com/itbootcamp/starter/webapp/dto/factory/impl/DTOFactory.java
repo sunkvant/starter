@@ -373,88 +373,87 @@ public class DTOFactory implements IDTOFactory {
     }
 
     @Override
-    public MessageRequestDTO getMessageRequestDTO(MessageRequestEntity messageRequestEntity) {
-        MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
+    public RequestDTO getMessageRequestDTO(MessageRequestEntity messageRequestEntity) {
+        RequestDTO requestDTO = new RequestDTO();
 
-        messageRequestDTO.setId(messageRequestEntity.getId());
-        messageRequestDTO.setText(messageRequestEntity.getText());
-        messageRequestDTO.setTitle(messageRequestEntity.getTitle());
-        messageRequestDTO.setDate(messageRequestEntity.getDate());
-        messageRequestDTO.setRead(messageRequestEntity.getRead());
-        messageRequestDTO.setReceiverPerson(getProfileDTO(messageRequestEntity.getReceiverPerson()));
-        messageRequestDTO.setSenderPerson(getProfileDTO(messageRequestEntity.getSenderPerson()));
-        messageRequestDTO.setRequestType(messageRequestEntity.getRequestType().getType());
-        messageRequestDTO.setReceiverVisible(messageRequestEntity.getReceiverVisible());
-        messageRequestDTO.setSenderVisible(messageRequestEntity.getSenderVisible());
+        requestDTO.setId(messageRequestEntity.getId());
+        requestDTO.setText(messageRequestEntity.getText());
+        requestDTO.setTitle(messageRequestEntity.getTitle());
+        requestDTO.setDate(messageRequestEntity.getDate());
+        requestDTO.setRead(messageRequestEntity.getRead());
+        requestDTO.setReceiverPerson(getProfileDTO(messageRequestEntity.getReceiverPerson()));
+        requestDTO.setSenderPerson(getProfileDTO(messageRequestEntity.getSenderPerson()));
+        requestDTO.setRequestType(messageRequestEntity.getRequestType().getType());
+        requestDTO.setReceiverVisible(messageRequestEntity.getReceiverVisible());
+        requestDTO.setSenderVisible(messageRequestEntity.getSenderVisible());
 
-        return messageRequestDTO;
+        return requestDTO;
     }
 
     @Override
-    public VacancyRequestDTO getVacancyRequestDTO(VacancyRequestEntity vacancyRequestEntity) {
-        VacancyRequestDTO vacancyRequestDTO = new VacancyRequestDTO();
+    public RequestDTO getVacancyRequestDTO(VacancyRequestEntity vacancyRequestEntity) {
+        RequestDTO requestDTO = new RequestDTO();
 
-        vacancyRequestDTO.setId(vacancyRequestEntity.getId());
-        vacancyRequestDTO.setAnswered(vacancyRequestEntity.getAnswered());
-        vacancyRequestDTO.setVacancyDTO(getVacancyDTO(vacancyRequestEntity.getVacancy()));
-        vacancyRequestDTO.setDate(vacancyRequestEntity.getDate());
-        vacancyRequestDTO.setRead(vacancyRequestEntity.getRead());
-        vacancyRequestDTO.setReceiverPerson(getProfileDTO(vacancyRequestEntity.getReceiverPerson()));
-        vacancyRequestDTO.setSenderPerson(getProfileDTO(vacancyRequestEntity.getSenderPerson()));
-        vacancyRequestDTO.setRequestType(vacancyRequestEntity.getRequestType().getType());
-        vacancyRequestDTO.setReceiverVisible(vacancyRequestEntity.getReceiverVisible());
-        vacancyRequestDTO.setSenderVisible(vacancyRequestEntity.getSenderVisible());
+        requestDTO.setId(vacancyRequestEntity.getId());
+        requestDTO.setAnswered(vacancyRequestEntity.getAnswered());
+        requestDTO.setVacancyDTO(getVacancyDTO(vacancyRequestEntity.getVacancy()));
+        requestDTO.setDate(vacancyRequestEntity.getDate());
+        requestDTO.setRead(vacancyRequestEntity.getRead());
+        requestDTO.setReceiverPerson(getProfileDTO(vacancyRequestEntity.getReceiverPerson()));
+        requestDTO.setSenderPerson(getProfileDTO(vacancyRequestEntity.getSenderPerson()));
+        requestDTO.setRequestType(vacancyRequestEntity.getRequestType().getType());
+        requestDTO.setReceiverVisible(vacancyRequestEntity.getReceiverVisible());
+        requestDTO.setSenderVisible(vacancyRequestEntity.getSenderVisible());
 
-        return vacancyRequestDTO;
+        return requestDTO;
     }
 
     @Override
-    public ConsultationRequestDTO getConsultationRequestDTO(ConsultationRequestEntity consultationRequestEntity) {
-        ConsultationRequestDTO consultationRequestDTO = new ConsultationRequestDTO();
+    public RequestDTO getConsultationRequestDTO(ConsultationRequestEntity consultationRequestEntity) {
+        RequestDTO requestDTO = new RequestDTO();
 
-        consultationRequestDTO.setId(consultationRequestEntity.getId());
-        consultationRequestDTO.setSingle(consultationRequestEntity.getSingle());
-        consultationRequestDTO.setProjectDTO(getProjectDTO(consultationRequestEntity.getProject()));
-        consultationRequestDTO.setTitle(consultationRequestEntity.getTitle());
-        consultationRequestDTO.setDate(consultationRequestEntity.getDate());
-        consultationRequestDTO.setRead(consultationRequestEntity.getRead());
-        consultationRequestDTO.setReceiverPerson(getProfileDTO(consultationRequestEntity.getReceiverPerson()));
-        consultationRequestDTO.setSenderPerson(getProfileDTO(consultationRequestEntity.getSenderPerson()));
-        consultationRequestDTO.setRequestType(consultationRequestEntity.getRequestType().getType());
-        consultationRequestDTO.setReceiverVisible(consultationRequestEntity.getReceiverVisible());
-        consultationRequestDTO.setSenderVisible(consultationRequestEntity.getSenderVisible());
+        requestDTO.setId(consultationRequestEntity.getId());
+        requestDTO.setSingle(consultationRequestEntity.getSingle());
+        requestDTO.setProjectDTO(getProjectDTO(consultationRequestEntity.getProject()));
+        requestDTO.setTitle(consultationRequestEntity.getTitle());
+        requestDTO.setDate(consultationRequestEntity.getDate());
+        requestDTO.setRead(consultationRequestEntity.getRead());
+        requestDTO.setReceiverPerson(getProfileDTO(consultationRequestEntity.getReceiverPerson()));
+        requestDTO.setSenderPerson(getProfileDTO(consultationRequestEntity.getSenderPerson()));
+        requestDTO.setRequestType(consultationRequestEntity.getRequestType().getType());
+        requestDTO.setReceiverVisible(consultationRequestEntity.getReceiverVisible());
+        requestDTO.setSenderVisible(consultationRequestEntity.getSenderVisible());
 
-        return consultationRequestDTO;
+        return requestDTO;
     }
 
     @Override
-    public AssessmentRequestDTO getAssessmentRequestDTO(AssessmentRequestEntity assessmentRequestEntity) {
-        AssessmentRequestDTO assessmentRequestDTO = new AssessmentRequestDTO();
+    public RequestDTO getAssessmentRequestDTO(AssessmentRequestEntity assessmentRequestEntity) {
+        RequestDTO requestDTO = new RequestDTO();
 
-        assessmentRequestDTO.setId(assessmentRequestEntity.getId());
-        assessmentRequestDTO.setAnswered(assessmentRequestEntity.getAnswered());
-        assessmentRequestDTO.setDate(assessmentRequestEntity.getDate());
-        assessmentRequestDTO.setRead(assessmentRequestEntity.getRead());
-        assessmentRequestDTO.setReceiverPerson(getProfileDTO(assessmentRequestEntity.getReceiverPerson()));
-        assessmentRequestDTO.setSenderPerson(getProfileDTO(assessmentRequestEntity.getSenderPerson()));
-        assessmentRequestDTO.setRequestType(assessmentRequestEntity.getRequestType().getType());
-        assessmentRequestDTO.setReceiverVisible(assessmentRequestEntity.getReceiverVisible());
-        assessmentRequestDTO.setSenderVisible(assessmentRequestEntity.getSenderVisible());
-
-        return assessmentRequestDTO;
+        requestDTO.setId(assessmentRequestEntity.getId());
+        requestDTO.setAnswered(assessmentRequestEntity.getAnswered());
+        requestDTO.setDate(assessmentRequestEntity.getDate());
+        requestDTO.setRead(assessmentRequestEntity.getRead());
+        requestDTO.setReceiverPerson(getProfileDTO(assessmentRequestEntity.getReceiverPerson()));
+        requestDTO.setSenderPerson(getProfileDTO(assessmentRequestEntity.getSenderPerson()));
+        requestDTO.setRequestType(assessmentRequestEntity.getRequestType().getType());
+        requestDTO.setReceiverVisible(assessmentRequestEntity.getReceiverVisible());
+        requestDTO.setSenderVisible(assessmentRequestEntity.getSenderVisible());
+        return requestDTO;
     }
 
     @Override
-    public AbstractRequestDTO getRequestDTO(RequestEntity requestEntity) {
-        AbstractRequestDTO abstractRequestDTO = new AbstractRequestDTO();
+    public RequestDTO getRequestDTO(RequestEntity requestEntity) {
+        RequestDTO requestDTO = new RequestDTO();
 
         switch (requestEntity.getRequestType().getType()){
-            case RequestType.REQUEST_MESSAGE: abstractRequestDTO = getMessageRequestDTO((MessageRequestEntity) requestEntity); break;
-            case RequestType.REQUEST_VACANCY: abstractRequestDTO = getVacancyRequestDTO((VacancyRequestEntity) requestEntity); break;
-            case RequestType.REQUEST_CONSULTATION: abstractRequestDTO = getConsultationRequestDTO((ConsultationRequestEntity) requestEntity); break;
-            case RequestType.REQUEST_ASSESSMENT: abstractRequestDTO = getAssessmentRequestDTO((AssessmentRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_MESSAGE: requestDTO = getMessageRequestDTO((MessageRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_VACANCY: requestDTO = getVacancyRequestDTO((VacancyRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_CONSULTATION: requestDTO = getConsultationRequestDTO((ConsultationRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_ASSESSMENT: requestDTO = getAssessmentRequestDTO((AssessmentRequestEntity) requestEntity); break;
         }
 
-        return abstractRequestDTO;
+        return requestDTO;
     }
 }

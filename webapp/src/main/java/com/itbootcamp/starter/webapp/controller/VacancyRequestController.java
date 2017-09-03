@@ -1,15 +1,17 @@
 package com.itbootcamp.starter.webapp.controller;
 
 import com.itbootcamp.starter.datamodel.PersonEntity;
+import com.itbootcamp.starter.datamodel.RoleType;
 import com.itbootcamp.starter.services.IPersonService;
 import com.itbootcamp.starter.services.IVacancyRequestService;
-import com.itbootcamp.starter.webapp.dto.factory.IEntityFactory;
-import com.itbootcamp.starter.webapp.dto.factory.impl.DTOFactory;
+import com.itbootcamp.starter.services.IVacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by admin on 9/3/2017.
@@ -23,13 +25,26 @@ public class VacancyRequestController {
     @Autowired
     private IPersonService personService;
 
+    @Autowired
+    private IVacancyService vacancyService;
+
     @RequestMapping(value = "/api/message/vacancyRequest", method = RequestMethod.POST)
     public ResponseEntity sendVacancyRequest(@RequestParam Integer vacancyId,
                                              OAuth2Authentication oAuth2Authentication) {
-        PersonEntity personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+        PersonEntity senderPerson = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
 
-        if (!vacancyRequestService.save(vacancyId, personEntity)){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        //send all members
+
+        List<PersonEntity> personEntityList =
+                personService.getAllPersonsByProjectId(vacancyService.getById(vacancyId).getProject().getId(), true);
+
+        for (PersonEntity receiverPerson : personEntityList) {
+            if (receiverPerson.getRole().getName().equals(RoleType.ROLE_MENTOR) || receiverPerson.getRole().getName().equals(RoleType.ROLE_CUSTOMER)) {
+                if (!vacancyRequestService.save(vacancyId, senderPerson, receiverPerson)) {
+                    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                }
+            }
+
         }
 
         return new ResponseEntity(HttpStatus.CREATED);

@@ -2,10 +2,8 @@ package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.RequestType;
-import com.itbootcamp.starter.datamodel.TeamEntity;
 import com.itbootcamp.starter.datamodel.VacancyRequestEntity;
 import com.itbootcamp.starter.repository.RequestTypeRepository;
-import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.repository.VacancyRepository;
 import com.itbootcamp.starter.repository.VacancyRequestRepository;
 import com.itbootcamp.starter.services.IVacancyRequestService;
@@ -31,7 +29,7 @@ public class VacancyRequestService implements IVacancyRequestService {
     private RequestTypeRepository requestTypeRepository;
 
     @Override
-    public Boolean save(Integer vacancyId, PersonEntity personEntity){
+    public Boolean save(Integer vacancyId, PersonEntity personEntity, PersonEntity receiverPerson){
 
         VacancyRequestEntity vacancyRequestEntity = new VacancyRequestEntity();
 
@@ -44,7 +42,7 @@ public class VacancyRequestService implements IVacancyRequestService {
         vacancyRequestEntity.setDate(Timestamp.valueOf(LocalDate.now().atStartOfDay()));
         vacancyRequestEntity.setRead(false);
         vacancyRequestEntity.setSenderPerson(personEntity);
-        vacancyRequestEntity.setReceiverPerson(vacancyRepository.findOne(vacancyId).getProject().getCustomer());
+        vacancyRequestEntity.setReceiverPerson(receiverPerson);
         vacancyRequestEntity.setSenderVisible(true);
         vacancyRequestEntity.setReceiverVisible(true);
         vacancyRequestEntity.setRequestType(requestTypeRepository.findByType(RequestType.REQUEST_VACANCY));
