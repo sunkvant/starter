@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "vacancy_request")
-public class VacancyRequestEntity extends AbstractEntityID {
+public class VacancyRequestEntity extends RequestEntity {
     private Boolean isAnswered;
     private VacancyEntity vacancy;
 

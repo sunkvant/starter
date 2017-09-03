@@ -14,6 +14,8 @@ import java.util.List;
 public interface IEntityFactory {
 
     ReviewEntity getReviewEntity(ReviewDTO reviewDTO);
+
+
     PersonEntity getPersonEntity(ProfileDTO profileDTO);
     EducationEntity getEducationEntity(EducationDTO educationDTO);
     CourseEntity getCourseEntity(CourseDTO courseDTO);
@@ -24,6 +26,7 @@ public interface IEntityFactory {
     ContactEntity getContactEntity(ContactDTO contactDTO);
     ProjectEntity getProjectEntity(ProjectDTO projectDTO);
     VacancyEntity getVacancyEntity(VacancyDTO vacancyDTO);
+    MessageRequestEntity getMessageRequestEntity(MessageRequestDTO messageRequestDTO);
 
 
 }

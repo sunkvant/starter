@@ -1,17 +1,16 @@
-package com.itbootcamp.starter.datamodel;
+package com.itbootcamp.starter.webapp.dto;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
 /**
- * Created by admin on 8/8/2017.
+ * Created by admin on 9/2/2017.
  */
-@Entity
-@Table(name = "message_request")
-public class MessageRequestEntity extends RequestEntity{
+public class MessageRequestDTO extends AbstractRequestDTO {
+
     private String title;
     private String text;
 
-    @Column(name = "title", nullable = false, length = 255)
     public String getTitle() {
         return title;
     }
@@ -20,7 +19,6 @@ public class MessageRequestEntity extends RequestEntity{
         this.title = title;
     }
 
-    @Column(name = "text", nullable = false, length = 255)
     public String getText() {
         return text;
     }
@@ -28,6 +26,4 @@ public class MessageRequestEntity extends RequestEntity{
     public void setText(String text) {
         this.text = text;
     }
-
-
 }

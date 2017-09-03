@@ -2,7 +2,6 @@ package com.itbootcamp.starter.webapp.dto.factory.impl;
 
 import com.itbootcamp.starter.datamodel.*;
 import com.itbootcamp.starter.services.impl.PersonService;
-import com.itbootcamp.starter.services.impl.ProjectService;
 import com.itbootcamp.starter.webapp.dto.*;
 import com.itbootcamp.starter.webapp.dto.factory.IDTOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,10 @@ public class DTOFactory implements IDTOFactory {
     private PersonService personService;
 
 
-
     @Override
     public ProjectDTO getProjectDTO(ProjectEntity projectEntity) {
 
-        ProjectDTO projectDTO=new ProjectDTO();
+        ProjectDTO projectDTO = new ProjectDTO();
 
         projectDTO.setId(projectEntity.getId());
         projectDTO.setCustomer(getProfileDTO(projectEntity.getCustomer()));
@@ -39,15 +37,15 @@ public class DTOFactory implements IDTOFactory {
         projectDTO.setProjectCategory(projectEntity.getProjectCategory().getCategory());
 
 
-        List<String> languages=new ArrayList<>();
+        List<String> languages = new ArrayList<>();
 
-        for(int i=0; i<projectEntity.getLanguages().size(); i++) {
+        for (int i = 0; i < projectEntity.getLanguages().size(); i++) {
             languages.add(projectEntity.getLanguages().get(i).getName());
         }
 
         projectDTO.setLanguages(languages);
 
-        List<VacancyDTO> vacanciesDTO=new ArrayList<>();
+        List<VacancyDTO> vacanciesDTO = new ArrayList<>();
 
         for (int i = 0; i < projectEntity.getVacancies().size(); i++) {
 
@@ -57,20 +55,19 @@ public class DTOFactory implements IDTOFactory {
 
         projectDTO.setVacancies(vacanciesDTO);
 
-        List<MemberDTO> membersDTO=new ArrayList<>();
+        List<MemberDTO> membersDTO = new ArrayList<>();
 
         for (int i = 0; i < personService.getAllPersonsByProjectId(projectEntity.getId()).size(); i++) {
 
 
-            membersDTO.add(getMemberDTO(personService.getAllPersonsByProjectId(projectEntity.getId()).get(i),projectEntity));
+            membersDTO.add(getMemberDTO(personService.getAllPersonsByProjectId(projectEntity.getId()).get(i), projectEntity));
 
         }
 
         projectDTO.setTeam(membersDTO);
 
 
-
-        List<ReviewDTO> reviewsDTO=new ArrayList<>();
+        List<ReviewDTO> reviewsDTO = new ArrayList<>();
 
         for (int i = 0; i < projectEntity.getReviews().size(); i++) {
 
@@ -87,7 +84,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public VacancyDTO getVacancyDTO(VacancyEntity vacancyEntity) {
 
-        VacancyDTO vacancyDTO=new VacancyDTO();
+        VacancyDTO vacancyDTO = new VacancyDTO();
 
         vacancyDTO.setId(vacancyEntity.getId());
         vacancyDTO.setProjectId(vacancyEntity.getProject().getId());
@@ -96,7 +93,7 @@ public class DTOFactory implements IDTOFactory {
         vacancyDTO.setRole(vacancyEntity.getRole().getName());
 
 
-        List<String> skills=new ArrayList<>();
+        List<String> skills = new ArrayList<>();
 
         for (int i = 0; i < vacancyEntity.getSkills().size(); i++) {
 
@@ -105,7 +102,7 @@ public class DTOFactory implements IDTOFactory {
         }
         vacancyDTO.setSkills(skills);
 
-        List<String> languages=new ArrayList<>();
+        List<String> languages = new ArrayList<>();
 
 
         for (int i = 0; i < vacancyEntity.getLanguages().size(); i++) {
@@ -118,16 +115,15 @@ public class DTOFactory implements IDTOFactory {
     }
 
 
-
     @Override
-    public MemberDTO getMemberDTO(PersonEntity personEntity,ProjectEntity projectEntity) {
+    public MemberDTO getMemberDTO(PersonEntity personEntity, ProjectEntity projectEntity) {
 
-        MemberDTO memberDTO=new MemberDTO();
+        MemberDTO memberDTO = new MemberDTO();
 
         memberDTO.setProfile(getProfileDTO(personEntity));
-        memberDTO.setPosition(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()).getName());
+        memberDTO.setPosition(personService.getPositionOnProjectByPersonIdAndByProjectId(personEntity.getId(), projectEntity.getId()).getName());
         memberDTO.setRole(personEntity.getRole().getName());
-        memberDTO.setActive(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(),projectEntity.getId()));
+        memberDTO.setActive(personService.getStatusOnProjectByPersonIdAndByProjectId(personEntity.getId(), projectEntity.getId()));
 
 
         return memberDTO;
@@ -137,7 +133,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public ProfileDTO getProfileDTO(PersonEntity personEntity) {
 
-        ProfileDTO profileDTO =new ProfileDTO();
+        ProfileDTO profileDTO = new ProfileDTO();
 
         profileDTO.setId(personEntity.getId());
         profileDTO.setLogin(personEntity.getLogin());
@@ -148,7 +144,7 @@ public class DTOFactory implements IDTOFactory {
         profileDTO.setBlocked(personEntity.getBlocked());
 
 
-        if ((personEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE))||(personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))) {
+        if ((personEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE)) || (personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))) {
 
 
             profileDTO.setApproved(personEntity.getProfile().getApproved());
@@ -215,7 +211,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public CourseDTO getCourseDTO(CourseEntity courseEntity) {
 
-        CourseDTO courseDTO=new CourseDTO();
+        CourseDTO courseDTO = new CourseDTO();
 
         courseDTO.setId(courseEntity.getId());
         courseDTO.setName(courseEntity.getName());
@@ -229,7 +225,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public WorkplaceDTO getWorkplaceDTO(WorkplaceEntity workplaceEntity) {
 
-        WorkplaceDTO workplaceDTO=new WorkplaceDTO();
+        WorkplaceDTO workplaceDTO = new WorkplaceDTO();
 
         workplaceDTO.setId(workplaceEntity.getId());
         workplaceDTO.setCompany(workplaceEntity.getCompany());
@@ -246,7 +242,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public EducationDTO getEducationDTO(EducationEntity educationEntity) {
 
-        EducationDTO educationDTO=new EducationDTO();
+        EducationDTO educationDTO = new EducationDTO();
 
         educationDTO.setId(educationEntity.getId());
         educationDTO.setName(educationEntity.getName());
@@ -261,7 +257,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public ReviewDTO getReviewDTO(ReviewEntity reviewEntity) {
 
-        ReviewDTO reviewDTO=new ReviewDTO();
+        ReviewDTO reviewDTO = new ReviewDTO();
 
         reviewDTO.setId(reviewEntity.getId());
         reviewDTO.setProjectId(reviewEntity.getProject().getId());
@@ -278,7 +274,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public LocationDTO getLocationDTO(LocationEntity locationEntity) {
 
-        LocationDTO locationDTO=new LocationDTO();
+        LocationDTO locationDTO = new LocationDTO();
 
         locationDTO.setCity(locationEntity.getCity().getName());
         locationDTO.setCountry(locationEntity.getCountry().getName());
@@ -290,7 +286,7 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public ContactDTO getContactDTO(ContactEntity contactEntity) {
 
-        ContactDTO contactDTO=new ContactDTO();
+        ContactDTO contactDTO = new ContactDTO();
 
         contactDTO.setFullName(contactEntity.getFullName());
         contactDTO.setDateOfBirth(contactEntity.getDateOfBirth());
@@ -307,9 +303,9 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public List<String> getLanguages(List<LanguageEntity> languagesEntity) {
 
-        List<String> languages=new ArrayList<>();
+        List<String> languages = new ArrayList<>();
 
-        for (int i=0; i<languagesEntity.size(); i++) {
+        for (int i = 0; i < languagesEntity.size(); i++) {
 
             languages.add(languagesEntity.get(i).getName());
 
@@ -321,9 +317,9 @@ public class DTOFactory implements IDTOFactory {
 
     @Override
     public List<String> getSkills(List<SkillEntity> skillsEntity) {
-        List<String> skills=new ArrayList<>();
+        List<String> skills = new ArrayList<>();
 
-        for (int i=0; i<skillsEntity.size(); i++) {
+        for (int i = 0; i < skillsEntity.size(); i++) {
 
             skills.add(skillsEntity.get(i).getName());
 
@@ -335,9 +331,9 @@ public class DTOFactory implements IDTOFactory {
 
     @Override
     public List<String> getCities(List<CityEntity> citiesEntity) {
-        List<String> cities=new ArrayList<>();
+        List<String> cities = new ArrayList<>();
 
-        for (int i=0; i<citiesEntity.size(); i++) {
+        for (int i = 0; i < citiesEntity.size(); i++) {
 
             cities.add(citiesEntity.get(i).getName());
 
@@ -349,9 +345,9 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public List<String> getCountries(List<CountryEntity> countriesEntity) {
 
-        List<String> countries=new ArrayList<>();
+        List<String> countries = new ArrayList<>();
 
-        for (int i=0; i<countriesEntity.size(); i++) {
+        for (int i = 0; i < countriesEntity.size(); i++) {
 
             countries.add(countriesEntity.get(i).getName());
 
@@ -364,9 +360,9 @@ public class DTOFactory implements IDTOFactory {
     @Override
     public List<String> getDirections(List<DirectionEntity> directionsEntity) {
 
-        List<String> directions=new ArrayList<>();
+        List<String> directions = new ArrayList<>();
 
-        for (int i=0; i<directionsEntity.size(); i++) {
+        for (int i = 0; i < directionsEntity.size(); i++) {
 
             directions.add(directionsEntity.get(i).getName());
 
@@ -376,5 +372,89 @@ public class DTOFactory implements IDTOFactory {
         return directions;
     }
 
+    @Override
+    public MessageRequestDTO getMessageRequestDTO(MessageRequestEntity messageRequestEntity) {
+        MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
 
+        messageRequestDTO.setId(messageRequestEntity.getId());
+        messageRequestDTO.setText(messageRequestEntity.getText());
+        messageRequestDTO.setTitle(messageRequestEntity.getTitle());
+        messageRequestDTO.setDate(messageRequestEntity.getDate());
+        messageRequestDTO.setRead(messageRequestEntity.getRead());
+        messageRequestDTO.setReceiverPerson(getProfileDTO(messageRequestEntity.getReceiverPerson()));
+        messageRequestDTO.setSenderPerson(getProfileDTO(messageRequestEntity.getSenderPerson()));
+        messageRequestDTO.setRequestType(messageRequestEntity.getRequestType().getType());
+        messageRequestDTO.setReceiverVisible(messageRequestEntity.getReceiverVisible());
+        messageRequestDTO.setSenderVisible(messageRequestEntity.getSenderVisible());
+
+        return messageRequestDTO;
+    }
+
+    @Override
+    public VacancyRequestDTO getVacancyRequestDTO(VacancyRequestEntity vacancyRequestEntity) {
+        VacancyRequestDTO vacancyRequestDTO = new VacancyRequestDTO();
+
+        vacancyRequestDTO.setId(vacancyRequestEntity.getId());
+        vacancyRequestDTO.setAnswered(vacancyRequestEntity.getAnswered());
+        vacancyRequestDTO.setVacancyDTO(getVacancyDTO(vacancyRequestEntity.getVacancy()));
+        vacancyRequestDTO.setDate(vacancyRequestEntity.getDate());
+        vacancyRequestDTO.setRead(vacancyRequestEntity.getRead());
+        vacancyRequestDTO.setReceiverPerson(getProfileDTO(vacancyRequestEntity.getReceiverPerson()));
+        vacancyRequestDTO.setSenderPerson(getProfileDTO(vacancyRequestEntity.getSenderPerson()));
+        vacancyRequestDTO.setRequestType(vacancyRequestEntity.getRequestType().getType());
+        vacancyRequestDTO.setReceiverVisible(vacancyRequestEntity.getReceiverVisible());
+        vacancyRequestDTO.setSenderVisible(vacancyRequestEntity.getSenderVisible());
+
+        return vacancyRequestDTO;
+    }
+
+    @Override
+    public ConsultationRequestDTO getConsultationRequestDTO(ConsultationRequestEntity consultationRequestEntity) {
+        ConsultationRequestDTO consultationRequestDTO = new ConsultationRequestDTO();
+
+        consultationRequestDTO.setId(consultationRequestEntity.getId());
+        consultationRequestDTO.setSingle(consultationRequestEntity.getSingle());
+        consultationRequestDTO.setProjectDTO(getProjectDTO(consultationRequestEntity.getProject()));
+        consultationRequestDTO.setTitle(consultationRequestEntity.getTitle());
+        consultationRequestDTO.setDate(consultationRequestEntity.getDate());
+        consultationRequestDTO.setRead(consultationRequestEntity.getRead());
+        consultationRequestDTO.setReceiverPerson(getProfileDTO(consultationRequestEntity.getReceiverPerson()));
+        consultationRequestDTO.setSenderPerson(getProfileDTO(consultationRequestEntity.getSenderPerson()));
+        consultationRequestDTO.setRequestType(consultationRequestEntity.getRequestType().getType());
+        consultationRequestDTO.setReceiverVisible(consultationRequestEntity.getReceiverVisible());
+        consultationRequestDTO.setSenderVisible(consultationRequestEntity.getSenderVisible());
+
+        return consultationRequestDTO;
+    }
+
+    @Override
+    public AssessmentRequestDTO getAssessmentRequestDTO(AssessmentRequestEntity assessmentRequestEntity) {
+        AssessmentRequestDTO assessmentRequestDTO = new AssessmentRequestDTO();
+
+        assessmentRequestDTO.setId(assessmentRequestEntity.getId());
+        assessmentRequestDTO.setAnswered(assessmentRequestEntity.getAnswered());
+        assessmentRequestDTO.setDate(assessmentRequestEntity.getDate());
+        assessmentRequestDTO.setRead(assessmentRequestEntity.getRead());
+        assessmentRequestDTO.setReceiverPerson(getProfileDTO(assessmentRequestEntity.getReceiverPerson()));
+        assessmentRequestDTO.setSenderPerson(getProfileDTO(assessmentRequestEntity.getSenderPerson()));
+        assessmentRequestDTO.setRequestType(assessmentRequestEntity.getRequestType().getType());
+        assessmentRequestDTO.setReceiverVisible(assessmentRequestEntity.getReceiverVisible());
+        assessmentRequestDTO.setSenderVisible(assessmentRequestEntity.getSenderVisible());
+
+        return assessmentRequestDTO;
+    }
+
+    @Override
+    public AbstractRequestDTO getRequestDTO(RequestEntity requestEntity) {
+        AbstractRequestDTO abstractRequestDTO = new AbstractRequestDTO();
+
+        switch (requestEntity.getRequestType().getType()){
+            case RequestType.REQUEST_MESSAGE: abstractRequestDTO = getMessageRequestDTO((MessageRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_VACANCY: abstractRequestDTO = getVacancyRequestDTO((VacancyRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_CONSULTATION: abstractRequestDTO = getConsultationRequestDTO((ConsultationRequestEntity) requestEntity); break;
+            case RequestType.REQUEST_ASSESSMENT: abstractRequestDTO = getAssessmentRequestDTO((AssessmentRequestEntity) requestEntity); break;
+        }
+
+        return abstractRequestDTO;
+    }
 }
