@@ -268,10 +268,10 @@ public class PersonService implements IPersonService {
 
         if (countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName())==null) {
 
-            //CountryEntity countryEntity = new CountryEntity();
-            //countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
-            //countryRepository.save(countryEntity);
-            //personEntity.getContact().getLocation().setCountry(countryEntity);
+            CountryEntity countryEntity = new CountryEntity();
+            countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
+            countryRepository.save(countryEntity);
+            personEntity.getContact().getLocation().setCountry(countryEntity);
 
         } else {
 
@@ -380,6 +380,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    @Transactional
     public Boolean update(PersonEntity personEntity,ContactEntity contactEntity) {
 
         personEntity.getContact().setAvatarPath(contactEntity.getAvatarPath());
@@ -410,8 +411,8 @@ public class PersonService implements IPersonService {
         if (cityRepository.getByNameIgnoreCase(contactEntity.getLocation().getCity().getName())==null) {
 
             CityEntity cityEntity = new CityEntity();
-            cityEntity.setName(personEntity.getContact().getLocation().getCity().getName());
-            cityEntity.setCountry(contactEntity.getLocation().getCountry());
+            cityEntity.setName(contactEntity.getLocation().getCity().getName());
+            cityEntity.setCountry(personEntity.getContact().getLocation().getCountry());
             personEntity.getContact().getLocation().setCity(cityRepository.save(cityEntity));
 
         } else {

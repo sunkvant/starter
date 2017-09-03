@@ -120,7 +120,7 @@ public class VacancyController {
 
         if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))
-                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
             if (vacancyService.add(entityFactory.getVacancyEntity(vacancyDTO),projectEntity)) {
 
@@ -165,7 +165,7 @@ public class VacancyController {
 
         if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))
-                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
             if (vacancyService.delete(vacancyEntity,projectEntity)) {
 
