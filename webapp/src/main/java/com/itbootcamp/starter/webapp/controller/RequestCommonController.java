@@ -22,7 +22,7 @@ import java.util.List;
  * Created by admin on 9/2/2017.
  */
 @RestController
-public class RequestEntityController {
+public class RequestCommonController {
 
     @Autowired
     IRequestService requestService;
@@ -63,7 +63,7 @@ public class RequestEntityController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/message/read", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/message/setRead", method = RequestMethod.POST)
     public ResponseEntity readMessage(
             @RequestParam(value = "messageId", required = false) Integer requestId,
             OAuth2Authentication oAuth2Authentication) {
