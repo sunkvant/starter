@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  * Created by admin on 9/2/2017.
  */
 public class AbstractRequestDTO {
+    private Integer id;
     private Boolean isRead;
     @NotNull
     private Timestamp date;
@@ -15,6 +16,14 @@ public class AbstractRequestDTO {
     private String requestType;
     private ProfileDTO senderPerson;
     private ProfileDTO receiverPerson;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Boolean getRead() {
         return isRead;

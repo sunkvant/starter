@@ -16,4 +16,10 @@ public interface IRequestService {
     List<RequestEntity> getSentRequests(PersonEntity personEntity);
 
     Integer getCountNotRead(PersonEntity personEntity);
+
+    RequestEntity getByRequestIdAndPerson(Integer requestId, PersonEntity personEntity);
+
+    Boolean deleteByRequestIdAndPerson(Integer requestId, PersonEntity personEntity);
+
+    Boolean readByRequestIdAndPerson(Integer requestId, PersonEntity personEntity);
 }

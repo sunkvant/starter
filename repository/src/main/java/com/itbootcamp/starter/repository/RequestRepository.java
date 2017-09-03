@@ -11,4 +11,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RequestRepository extends CrudRepository<RequestEntity, Integer>{
     Integer countAllByReceiverPersonAndRead(PersonEntity receiverPerson, Boolean isRead);
+    RequestEntity getByIdAndReceiverPersonAndReceiverVisibleOrIdAndSenderPersonAndSenderVisible(Integer requestReceiverId,
+                                                                                                     PersonEntity receiverPerson,
+                                                                                                     Boolean receiverVisible,
+                                                                                                     Integer requestSenderId,
+                                                                                                     PersonEntity senderPerson,
+                                                                                                     Boolean senderVisible);
+    RequestEntity getByIdAndReceiverPersonAndReceiverVisible(Integer requestReceiverId,
+                                                             PersonEntity receiverPerson,
+                                                             Boolean receiverVisible);
 }

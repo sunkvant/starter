@@ -376,6 +376,7 @@ public class DTOFactory implements IDTOFactory {
     public MessageRequestDTO getMessageRequestDTO(MessageRequestEntity messageRequestEntity) {
         MessageRequestDTO messageRequestDTO = new MessageRequestDTO();
 
+        messageRequestDTO.setId(messageRequestEntity.getId());
         messageRequestDTO.setText(messageRequestEntity.getText());
         messageRequestDTO.setTitle(messageRequestEntity.getTitle());
         messageRequestDTO.setDate(messageRequestEntity.getDate());
@@ -393,6 +394,7 @@ public class DTOFactory implements IDTOFactory {
     public VacancyRequestDTO getVacancyRequestDTO(VacancyRequestEntity vacancyRequestEntity) {
         VacancyRequestDTO vacancyRequestDTO = new VacancyRequestDTO();
 
+        vacancyRequestDTO.setId(vacancyRequestEntity.getId());
         vacancyRequestDTO.setAnswered(vacancyRequestEntity.getAnswered());
         vacancyRequestDTO.setVacancyDTO(getVacancyDTO(vacancyRequestEntity.getVacancy()));
         vacancyRequestDTO.setDate(vacancyRequestEntity.getDate());
@@ -410,6 +412,7 @@ public class DTOFactory implements IDTOFactory {
     public ConsultationRequestDTO getConsultationRequestDTO(ConsultationRequestEntity consultationRequestEntity) {
         ConsultationRequestDTO consultationRequestDTO = new ConsultationRequestDTO();
 
+        consultationRequestDTO.setId(consultationRequestEntity.getId());
         consultationRequestDTO.setSingle(consultationRequestEntity.getSingle());
         consultationRequestDTO.setProjectDTO(getProjectDTO(consultationRequestEntity.getProject()));
         consultationRequestDTO.setTitle(consultationRequestEntity.getTitle());
@@ -428,6 +431,7 @@ public class DTOFactory implements IDTOFactory {
     public AssessmentRequestDTO getAssessmentRequestDTO(AssessmentRequestEntity assessmentRequestEntity) {
         AssessmentRequestDTO assessmentRequestDTO = new AssessmentRequestDTO();
 
+        assessmentRequestDTO.setId(assessmentRequestEntity.getId());
         assessmentRequestDTO.setAnswered(assessmentRequestEntity.getAnswered());
         assessmentRequestDTO.setDate(assessmentRequestEntity.getDate());
         assessmentRequestDTO.setRead(assessmentRequestEntity.getRead());
