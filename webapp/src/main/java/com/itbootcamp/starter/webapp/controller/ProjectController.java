@@ -49,7 +49,7 @@ public class ProjectController {
     @Autowired
     private EntityFactory entityFactory;
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder','Customer')")
+    @PreAuthorize("hasAnyAuthority('Admin','Customer')")
     @RequestMapping(value = "/api/project/{projectId}/close",method = RequestMethod.POST)
     ResponseEntity close(@PathVariable Integer projectId, OAuth2Authentication oAuth2Authentication) {
 
@@ -146,7 +146,7 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
+    @PreAuthorize("hasAnyAuthority('Admin','Customer')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.PUT)
     ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult,
                                  OAuth2Authentication oAuth2Authentication) {
@@ -168,8 +168,7 @@ public class ProjectController {
         }
 
         if (!(personEntity.getId().equals(projectEntity.getCustomer().getId()))
-                &&(!personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))
-                &&(!personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
+                &&(!personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))) {
 
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 

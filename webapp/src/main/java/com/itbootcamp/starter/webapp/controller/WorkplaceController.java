@@ -57,7 +57,7 @@ public class WorkplaceController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/workplace",method = RequestMethod.POST)
     ResponseEntity addWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, BindingResult bindingResult) {
 
@@ -65,7 +65,7 @@ public class WorkplaceController {
 
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/workplace",method = RequestMethod.PUT)
     ResponseEntity updateWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, BindingResult bindingResult) {
 
@@ -74,7 +74,7 @@ public class WorkplaceController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/workplace/{workplaceId}",method = RequestMethod.DELETE)
     ResponseEntity deleteWorkplaceCustomProfile(@RequestBody @Valid WorkplaceDTO workplaceDTO, @PathVariable Integer personId, @PathVariable Integer workplaceId) {
 

@@ -58,7 +58,7 @@ public class EducationController {
 
 
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/education",method = RequestMethod.POST)
     ResponseEntity addEducationCustomProfile(@RequestBody @Valid EducationDTO educationDTO, @PathVariable Integer personId, BindingResult bindingResult) {
 
@@ -67,7 +67,7 @@ public class EducationController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/education",method = RequestMethod.PUT)
     ResponseEntity updateEducationCustomProfile(@RequestBody @Valid EducationDTO educationDTO, @PathVariable Integer personId, BindingResult bindingResult) {
 
@@ -75,7 +75,7 @@ public class EducationController {
 
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/education/{educationId}",method = RequestMethod.DELETE)
     ResponseEntity deleteEducationCustomProfile(@PathVariable Integer personId, @PathVariable Integer educationId) {
 

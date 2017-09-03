@@ -46,7 +46,7 @@ public class VacancyController {
 
     private static final Logger logger = Logger.getLogger(Logger.class);
 
-    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
+    @PreAuthorize("hasAnyAuthority('Admin','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy", method = RequestMethod.PUT)
     ResponseEntity updateVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO,
                                  BindingResult bindingResult,OAuth2Authentication oAuth2Authentication){
@@ -74,7 +74,7 @@ public class VacancyController {
 
         if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))
-                ||personEntity.getRole().getName().equals(RoleType.ROLE_MODER)) {
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))) {
 
             if (vacancyService.update(entityFactory.getVacancyEntity(vacancyDTO),projectEntity)) {
 
@@ -91,7 +91,7 @@ public class VacancyController {
 
     }
 
-    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
+    @PreAuthorize("hasAnyAuthority('Admin','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy", method = RequestMethod.POST)
     ResponseEntity addVacancy(@PathVariable Integer projectId, @RequestBody @Valid VacancyDTO vacancyDTO,BindingResult bindingResult,
                               OAuth2Authentication oAuth2Authentication){
@@ -120,7 +120,7 @@ public class VacancyController {
 
         if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))
-                ||(personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))) {
 
             if (vacancyService.add(entityFactory.getVacancyEntity(vacancyDTO),projectEntity)) {
 
@@ -135,7 +135,7 @@ public class VacancyController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @PreAuthorize("hasAnyAuthority('Moder','Customer','Mentor')")
+    @PreAuthorize("hasAnyAuthority('Admin','Customer','Mentor')")
     @RequestMapping(value = "api/project/{projectId}/vacancy/{vacancyId}", method = RequestMethod.DELETE)
     ResponseEntity deleteVacancy(@PathVariable Integer projectId,@PathVariable Integer vacancyId,
                                  OAuth2Authentication oAuth2Authentication){
@@ -165,7 +165,7 @@ public class VacancyController {
 
         if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
                 ||(projectService.isMember(personEntity,projectEntity))
-                ||(personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
+                ||(personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))) {
 
             if (vacancyService.delete(vacancyEntity,projectEntity)) {
 

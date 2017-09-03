@@ -64,8 +64,8 @@ public class VacancyService implements IVacancyService {
 
         }
 
-        if (!(vacancyEntity.getRole().equals(RoleType.ROLE_MENTOR))
-                &&(!vacancyEntity.getRole().equals(RoleType.ROLE_TRAINEE))) {
+        if (!(vacancyEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))
+                &&(!vacancyEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE))) {
 
             logger.error("Incorrect role type when adding vacancy.");
 
@@ -102,8 +102,8 @@ public class VacancyService implements IVacancyService {
 
         }
 
-        if (!(vacancyEntity.getRole().equals(RoleType.ROLE_MENTOR))
-                &&(!vacancyEntity.getRole().equals(RoleType.ROLE_TRAINEE))) {
+        if (!(vacancyEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))
+                &&(!vacancyEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE))) {
 
             logger.error("Incorrect role type when adding vacancy.");
 

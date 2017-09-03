@@ -38,7 +38,7 @@ public class SkillController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('Admin','Moder')")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     @RequestMapping(value = "api/profile/{personId}/skills",method = RequestMethod.POST)
     ResponseEntity addEducationCustomProfile(@RequestBody List<String> skills, @PathVariable Integer personId) {
 
