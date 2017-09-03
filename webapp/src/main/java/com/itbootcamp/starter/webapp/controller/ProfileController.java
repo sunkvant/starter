@@ -50,14 +50,16 @@ public class ProfileController {
     @Autowired
     private PersonRepository personRepository;
 
-    private static final Logger logger = Logger.getLogger(Logger.class);
+    private static final Logger logger = Logger.getLogger(ProfileController.class);
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public ModelAndView test(Model model) {
+    public ModelAndView test(Model model) throws URISyntaxException {
 
         String ans="World";
 
         model.addAttribute("ans","World");
+
+        System.out.println(getClass().getClassLoader().getResource("static/avatar/").toURI().getPath());
 
         return new ModelAndView("welcome");
 
@@ -78,8 +80,9 @@ public class ProfileController {
                         new BufferedOutputStream(new FileOutputStream(pathToAvatar));
                 stream.write(bytes);
                 stream.close();
-                personEntity.getContact().setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/"+pathToAvatar.getName());
-                personService.update(personEntity);
+                ContactEntity contactEntity=personEntity.getContact();
+                contactEntity.setAvatarPath("https://starter-itbootcamp.herokuapp.com/avatar/"+pathToAvatar.getName());
+                personService.update(personEntity,contactEntity);
                 return new ResponseEntity(HttpStatus.ACCEPTED);
             } catch (Exception e) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -185,9 +188,8 @@ public class ProfileController {
 
 
         personEntity = personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
-        personEntity.setContact(entityFactory.getContactEntity(contactDTO));
 
-        if (!personService.update(personEntity)) {
+        if (!personService.update(personEntity,entityFactory.getContactEntity(contactDTO))) {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 

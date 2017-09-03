@@ -146,8 +146,7 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //@PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
-    @PreAuthorize("hasAuthority('Customer')")
+    @PreAuthorize("hasAnyAuthority('Moder','Admin','Customer')")
     @RequestMapping(value = "/api/project/{projectId}", method = RequestMethod.PUT)
     ResponseEntity updateProject(@PathVariable Integer projectId,@RequestBody @Valid ProjectDTO projectDTO, BindingResult bindingResult,
                                  OAuth2Authentication oAuth2Authentication) {
@@ -168,9 +167,9 @@ public class ProjectController {
 
         }
 
-        if ((personEntity.getId()!=projectEntity.getCustomer().getId())
-                ||(!personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))
-                ||(!personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
+        if (!(personEntity.getId().equals(projectEntity.getCustomer().getId()))
+                &&(!personEntity.getRole().getName().equals(RoleType.ROLE_ADMIN))
+                &&(!personEntity.getRole().getName().equals(RoleType.ROLE_MODER))) {
 
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 

@@ -6,6 +6,8 @@ import com.itbootcamp.starter.services.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PositionService implements IPositionService {
 
@@ -15,5 +17,10 @@ public class PositionService implements IPositionService {
     @Override
     public PositionEntity getByName(String name) {
         return positionRepository.getByNameIgnoreCase(name);
+    }
+
+    @Override
+    public List<PositionEntity> getAll() {
+        return (List)positionRepository.findAll();
     }
 }

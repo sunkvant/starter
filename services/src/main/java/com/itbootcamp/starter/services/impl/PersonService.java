@@ -268,9 +268,10 @@ public class PersonService implements IPersonService {
 
         if (countryRepository.getByNameIgnoreCase(personEntity.getContact().getLocation().getCountry().getName())==null) {
 
-            CountryEntity countryEntity = new CountryEntity();
-            countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
-            personEntity.getContact().getLocation().setCountry(countryRepository.save(countryEntity));
+            //CountryEntity countryEntity = new CountryEntity();
+            //countryEntity.setName(personEntity.getContact().getLocation().getCountry().getName());
+            //countryRepository.save(countryEntity);
+            //personEntity.getContact().getLocation().setCountry(countryEntity);
 
         } else {
 
@@ -379,11 +380,59 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public Boolean update(PersonEntity personEntity) {
+    public Boolean update(PersonEntity personEntity,ContactEntity contactEntity) {
 
-        personEntity.getContact().setId(personEntity.getId());
+        personEntity.getContact().setAvatarPath(contactEntity.getAvatarPath());
+        personEntity.getContact().setDateOfBirth(contactEntity.getDateOfBirth());
+        personEntity.getContact().setPhone(contactEntity.getPhone());
+        personEntity.getContact().setSkype(contactEntity.getSkype());
+        personEntity.getContact().setAvatarPath(contactEntity.getAvatarPath());
+        personEntity.getContact().setEmail(contactEntity.getEmail());
+        personEntity.getContact().setAbout(contactEntity.getAbout());
+        personEntity.getContact().setFullName(contactEntity.getFullName());
 
-        return save(personEntity);
+        if (countryRepository.getByNameIgnoreCase(contactEntity.getLocation().getCountry().getName())==null) {
+
+            CountryEntity countryEntity = new CountryEntity();
+            countryEntity.setName(contactEntity.getLocation().getCountry().getName());
+            countryRepository.save(countryEntity);
+            personEntity.getContact().getLocation().setCountry(countryEntity);
+
+        } else {
+
+            personEntity.getContact().getLocation().setCountry(
+                    countryRepository.getByNameIgnoreCase(contactEntity.getLocation().getCountry().getName()));
+
+        }
+
+
+
+        if (cityRepository.getByNameIgnoreCase(contactEntity.getLocation().getCity().getName())==null) {
+
+            CityEntity cityEntity = new CityEntity();
+            cityEntity.setName(personEntity.getContact().getLocation().getCity().getName());
+            cityEntity.setCountry(contactEntity.getLocation().getCountry());
+            personEntity.getContact().getLocation().setCity(cityRepository.save(cityEntity));
+
+        } else {
+
+
+
+            personEntity.getContact().getLocation().setCity(
+                    cityRepository.getByNameIgnoreCase(contactEntity.getLocation().getCity().getName()));
+
+        }
+
+
+        if (personRepository.save(personEntity)!=null) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
 
     }
 

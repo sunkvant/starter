@@ -1,5 +1,6 @@
 package com.itbootcamp.starter.services;
 
+import com.itbootcamp.starter.datamodel.ContactEntity;
 import com.itbootcamp.starter.datamodel.PersonEntity;
 import com.itbootcamp.starter.datamodel.PositionEntity;
 
@@ -18,7 +19,7 @@ public interface IPersonService {
     PositionEntity getPositionOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
     Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
     Boolean create(PersonEntity personEntity);
-    Boolean update(PersonEntity personEntity);
+    Boolean update(PersonEntity personEntity, ContactEntity contactEntity);
 
     List<PersonEntity> searchPersons(
             String role,

@@ -13,7 +13,6 @@ public class CountryEntity extends AbstractEntityID{
     private List<LocationEntity> locations;
 
 
-    @Basic
     @Column(name = "name", nullable = false, length = 255)
     public String getName() {
         return name;
