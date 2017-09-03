@@ -217,6 +217,50 @@ public class ProfileController {
 
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
+    @RequestMapping(value = "/api/profile/{personId}/blocked", method = RequestMethod.POST)
+    ResponseEntity blockedProfile(@PathVariable Integer personId) {
+
+        PersonEntity personEntity = personService.getById(personId);
+
+        if (personEntity == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+
+        if (!personService.blocked(personEntity)) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
+    @PreAuthorize("hasAuthority('Admin')")
+    @RequestMapping(value = "/api/profile/{personId}/approwed", method = RequestMethod.POST)
+    ResponseEntity approwedProfile(@PathVariable Integer personId) {
+
+        PersonEntity personEntity = personService.getById(personId);
+
+        if (personEntity == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+
+        if (!personService.approwed(personEntity)) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
 
 
 }

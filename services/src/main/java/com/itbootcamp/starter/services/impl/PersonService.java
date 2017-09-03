@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -435,6 +436,44 @@ public class PersonService implements IPersonService {
 
         }
 
+    }
+
+    @Override
+    public Boolean blocked(PersonEntity personEntity) {
+
+
+
+        personEntity.setBlocked(!personEntity.getBlocked());
+
+        if (personRepository.save(personEntity)!=null) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public Boolean approwed(PersonEntity personEntity) {
+
+        if ((!personEntity.getRole().getName().equals(RoleType.ROLE_MENTOR))
+            &&(!personEntity.getRole().getName().equals(RoleType.ROLE_TRAINEE))) {
+
+            return false;
+
+        }
+
+        personEntity.getProfile().setApproved(!personEntity.getProfile().getApproved());
+
+        if (personRepository.save(personEntity)!=null) {
+
+            return true;
+
+        }
+
+        return false;
     }
 
 

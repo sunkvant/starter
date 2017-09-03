@@ -20,6 +20,8 @@ public interface IPersonService {
     Boolean getStatusOnProjectByPersonIdAndByProjectId(Integer personId, Integer projectId);
     Boolean create(PersonEntity personEntity);
     Boolean update(PersonEntity personEntity, ContactEntity contactEntity);
+    Boolean blocked(PersonEntity personEntity);
+    Boolean approwed(PersonEntity personEntity);
 
     List<PersonEntity> searchPersons(
             String role,
