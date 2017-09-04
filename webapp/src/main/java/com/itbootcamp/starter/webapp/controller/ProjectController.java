@@ -64,7 +64,7 @@ public class ProjectController {
 
         }
 
-        if (projectEntity.getCustomer().getId()==personEntity.getId()) {
+        if (projectEntity.getCustomer().getId().equals(personEntity.getId())) {
 
             if (!projectService.closeProject(projectEntity)) {
 
@@ -122,6 +122,51 @@ public class ProjectController {
 
 
     }
+
+
+    @PreAuthorize("hasAnyAuthority('Mentor','Customer')")
+    @RequestMapping(value = "/api/project/{projectId}/team/profile/{personId}",method = RequestMethod.DELETE)
+    ResponseEntity deleteMember(@PathVariable Integer projectId, @PathVariable Integer personId,
+                             OAuth2Authentication oAuth2Authentication) {
+
+        PersonEntity personEntity=personService.getByLogin(oAuth2Authentication.getUserAuthentication().getName());
+
+        PersonEntity member = personService.getById(personId);
+
+        ProjectEntity projectEntity=projectService.getById(projectId);
+
+        if (projectEntity==null) {
+
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if (member==null) {
+
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+
+        if ((projectEntity.getCustomer().getId().equals(personEntity.getId()))
+                ||(projectService.isMember(personEntity,projectEntity))) {
+
+            if (!projectService.deleteMember(projectEntity,member)) {
+
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            }
+
+
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+    }
+
 
     @PreAuthorize("hasAuthority('Customer')")
     @RequestMapping(value = "/api/project/", method = RequestMethod.POST)

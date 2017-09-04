@@ -26,6 +26,9 @@ public class ReviewService implements IReviewService{
     @Autowired
     private ProjectService projectService;
 
+     @Autowired
+     private MessageRequestService messageRequestService;
+
     @Override
     public Boolean add(ReviewEntity reviewEntity,PersonEntity senderPerson) {
 
@@ -64,7 +67,17 @@ public class ReviewService implements IReviewService{
         reviewEntity.setDate(new Timestamp(System.currentTimeMillis()));
         reviewEntity.setSenderPerson(senderPerson);
 
-        reviewRepository.save(reviewEntity);
+
+
+        if (reviewRepository.save(reviewEntity)!=null) {
+
+            messageRequestService.save(reviewEntity.getReceiverPerson().getId(),
+                    "Отзыв на проекте.",
+                    "Вам был оставлен отзыв по проекту "+reviewEntity.getProject().getName(),
+                    personRepository.findByLogin("Bot"));
+
+
+        }
 
 
         return true;

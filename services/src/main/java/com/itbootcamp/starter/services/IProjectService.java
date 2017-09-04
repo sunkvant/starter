@@ -21,9 +21,12 @@ public interface IProjectService {
     Boolean update(ProjectEntity projectEntity,ProjectEntity projectEntityOld);
     Boolean addMember(VacancyEntity vacancyEntity, PersonEntity personEntity);
     Boolean closeProject(ProjectEntity projectEntity);
+    Boolean deleteMember(ProjectEntity projectEntity, PersonEntity member);
 
     List<ProjectEntity> searchProjects(String projectName,
                                        List<String> projectCategoryList,
                                        List<String> projectStatusList,
                                        List<String> projectLanguageList);
+
+
 }

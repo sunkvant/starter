@@ -48,6 +48,8 @@ public class PersonService implements IPersonService {
     private CountryRepository countryRepository;
 
     private static final Logger logger = Logger.getLogger(Logger.class);
+    @Autowired
+    private MessageRequestService messageRequestService;
 
     @Override
     public PersonEntity getById(Integer personId) {
@@ -463,6 +465,13 @@ public class PersonService implements IPersonService {
         personEntity.getProfile().setApproved(!personEntity.getProfile().getApproved());
 
         if (personRepository.save(personEntity)!=null) {
+
+
+            messageRequestService.save(personEntity.getId(),
+                    "Ответ на ассессмент",
+                    "Поздравляем, вы прошли ассессмент",
+                    personRepository.findByLogin("Bot"));
+
 
             return true;
 

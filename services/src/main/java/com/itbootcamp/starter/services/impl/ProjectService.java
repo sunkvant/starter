@@ -1,6 +1,7 @@
 package com.itbootcamp.starter.services.impl;
 
 import com.itbootcamp.starter.datamodel.*;
+import com.itbootcamp.starter.repository.PersonRepository;
 import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.repository.VacancyRepository;
@@ -37,6 +38,15 @@ public class ProjectService implements IProjectService {
 
     @Autowired
     private VacancyService vacancyService;
+
+    @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private MessageRequestService messageRequestService;
 
     @Override
     public ProjectEntity getById(Integer projectId) {
@@ -89,6 +99,7 @@ public class ProjectService implements IProjectService {
     @Override
     public Boolean create(ProjectEntity projectEntity,PersonEntity personEntity) {
 
+
         if ((projectEntity.getProjectCategory()==null)) {
 
             return false;
@@ -101,6 +112,7 @@ public class ProjectService implements IProjectService {
         projectEntity.setCustomer(personEntity);
 
         if (projectRepository.save(projectEntity)!=null) {
+
 
             return true;
 
@@ -127,6 +139,35 @@ public class ProjectService implements IProjectService {
         projectEntityOld.setProjectStatus(projectEntity.getProjectStatus());
 
         if (projectRepository.save(projectEntityOld)!=null) {
+
+            List<PersonEntity> listPersons=personService.getAllPersonsByProjectId(projectEntity.getId(),true);
+
+            if (listPersons!=null) {
+
+                for(PersonEntity person:listPersons) {
+
+
+                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
+                        messageRequestService.save(person.getId(),
+                                "Статус проекта.",
+                                "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Набор команды",
+                                personRepository.findByLogin("Bot"));
+                    }
+
+
+                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.DEVELOP)) {
+                        messageRequestService.save(person.getId(),
+                                "Статус проекта.",
+                                "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на В разработке.",
+                                personRepository.findByLogin("Bot"));
+                    }
+
+                }
+
+
+            }
+
+
 
             return true;
 
@@ -158,6 +199,11 @@ public class ProjectService implements IProjectService {
 
         }
 
+        messageRequestService.save(personEntity.getId(),
+                "Статус проекта.",
+                "Внимание! Вы были приняты на проект "+ vacancyEntity.getProject().getName()+" в качестве "+vacancyEntity.getPosition().getName(),
+                personRepository.findByLogin("Bot"));
+
         teamRepository.save(teamEntity);
 
         return true;
@@ -188,12 +234,63 @@ public class ProjectService implements IProjectService {
         projectEntity.setProjectStatus(projectStatusService.getByName(ProjectStatus.CLOSE));
         projectEntity.setDateEnd(new Timestamp(System.currentTimeMillis()));
 
-        projectRepository.save(projectEntity);
+        if (projectRepository.save(projectEntity)!=null) {
+
+            List<PersonEntity> listPersons=personService.getAllPersonsByProjectId(projectEntity.getId(),true);
+
+            if (listPersons!=null) {
+
+                for(PersonEntity person:listPersons) {
+
+
+                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.CLOSE)) {
+                        messageRequestService.save(person.getId(),
+                                "Статус проекта.",
+                                "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Закрыт. Теперь вы можете оставить отзывы, перейдя на страницу проекта.",
+                                personRepository.findByLogin("Bot"));
+                    }
+
+                }
+
+
+            }
+
+
+
+        };
 
 
         return true;
 
 
+    }
+
+    @Override
+    public Boolean deleteMember(ProjectEntity projectEntity, PersonEntity member) {
+
+        if (!isMember(member,projectEntity)) {
+
+
+
+            return false;
+
+
+        }
+
+        messageRequestService.save(member.getId(),
+                    "Статус проекта.",
+                    "Внимание! Вы были исключены из проекта " + projectEntity.getName(),
+                    personRepository.findByLogin("Bot"));
+
+
+        TeamEntity teamEntity=teamRepository.findByPersonIdAndProjectId(member.getId(),projectEntity.getId());
+
+        teamEntity.setMember(false);
+
+        teamRepository.save(teamEntity);
+
+
+        return true;
     }
 
     @Override
