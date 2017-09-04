@@ -467,10 +467,12 @@ public class PersonService implements IPersonService {
         if (personRepository.save(personEntity)!=null) {
 
 
+/*
             messageRequestService.save(personEntity.getId(),
                     "Ответ на ассессмент",
                     "Поздравляем, вы прошли ассессмент",
                     personRepository.findByLogin("Bot"));
+*/
 
 
             return true;

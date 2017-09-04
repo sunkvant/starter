@@ -144,7 +144,7 @@ public class ProjectService implements IProjectService {
 
             if (listPersons!=null) {
 
-                for(PersonEntity person:listPersons) {
+               /* for(PersonEntity person:listPersons) {
 
 
                     if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
@@ -162,7 +162,7 @@ public class ProjectService implements IProjectService {
                                 personRepository.findByLogin("Bot"));
                     }
 
-                }
+                }*/
 
 
             }
@@ -199,10 +199,12 @@ public class ProjectService implements IProjectService {
 
         }
 
+/*
         messageRequestService.save(personEntity.getId(),
                 "Статус проекта.",
                 "Внимание! Вы были приняты на проект "+ vacancyEntity.getProject().getName()+" в качестве "+vacancyEntity.getPosition().getName(),
                 personRepository.findByLogin("Bot"));
+*/
 
         teamRepository.save(teamEntity);
 
@@ -240,7 +242,7 @@ public class ProjectService implements IProjectService {
 
             if (listPersons!=null) {
 
-                for(PersonEntity person:listPersons) {
+                /*for(PersonEntity person:listPersons) {
 
 
                     if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.CLOSE)) {
@@ -250,7 +252,7 @@ public class ProjectService implements IProjectService {
                                 personRepository.findByLogin("Bot"));
                     }
 
-                }
+                }*/
 
 
             }
@@ -277,11 +279,11 @@ public class ProjectService implements IProjectService {
 
         }
 
-        messageRequestService.save(member.getId(),
+  /*      messageRequestService.save(member.getId(),
                     "Статус проекта.",
                     "Внимание! Вы были исключены из проекта " + projectEntity.getName(),
                     personRepository.findByLogin("Bot"));
-
+*/
 
         TeamEntity teamEntity=teamRepository.findByPersonIdAndProjectId(member.getId(),projectEntity.getId());
 

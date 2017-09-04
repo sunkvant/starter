@@ -9,4 +9,5 @@ public interface RoleType {
     public static final String ROLE_CUSTOMER = "Customer";
     public static final String ROLE_MENTOR =   "Mentor";
     public static final String ROLE_TRAINEE =  "Trainee";
+    public static final String ROLE_BOT =  "Bot";
 }
