@@ -37,6 +37,7 @@ public class VacancyRequestController {
 
         List<PersonEntity> personEntityList =
                 personService.getAllPersonsByProjectId(vacancyService.getById(vacancyId).getProject().getId(), true);
+        personEntityList.add(vacancyService.getById(vacancyId).getProject().getCustomer());
 
         for (PersonEntity receiverPerson : personEntityList) {
             if (receiverPerson.getRole().getName().equals(RoleType.ROLE_MENTOR) || receiverPerson.getRole().getName().equals(RoleType.ROLE_CUSTOMER)) {

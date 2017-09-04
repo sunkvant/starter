@@ -239,7 +239,7 @@ public class ProfileController {
     }
 
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Mentor')")
     @RequestMapping(value = "/api/profile/{personId}/approwed", method = RequestMethod.POST)
     ResponseEntity approwedProfile(@PathVariable Integer personId) {
 
@@ -255,6 +255,8 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
+
+
 
         return new ResponseEntity<>(HttpStatus.OK);
 

@@ -40,7 +40,7 @@ public class Starter extends SpringBootServletInitializer {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 //heroku environment
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+/*        URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
@@ -48,14 +48,14 @@ public class Starter extends SpringBootServletInitializer {
 
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setPassword(password);*/
 //localhost environment----------------------------
         dataSource.setDriverClassName("org.postgresql.Driver");
 
 
-/*        dataSource.setUrl("jdbc:postgresql://localhost:5432/starter");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/starter");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("admin");*/
+        dataSource.setPassword("admin");
 
         return dataSource;
     }
