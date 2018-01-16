@@ -254,6 +254,7 @@ public class EntityFactory implements IEntityFactory {
 
         vacancyEntity.setId(vacancyDTO.getId());
         vacancyEntity.setPersonNumber(vacancyDTO.getPersonNumber());
+        vacancyEntity.setActive(vacancyDTO.getActive());
         vacancyEntity.setPosition(positionService.getByName(vacancyDTO.getPosition()));
         vacancyEntity.setRole(roleService.getByName(vacancyDTO.getRole()));
         vacancyEntity.setLanguages(getLanguagesEntity(vacancyDTO.getLanguages()));

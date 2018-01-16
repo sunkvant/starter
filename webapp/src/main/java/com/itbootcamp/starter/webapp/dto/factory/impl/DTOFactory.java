@@ -88,6 +88,7 @@ public class DTOFactory implements IDTOFactory {
 
         vacancyDTO.setId(vacancyEntity.getId());
         vacancyDTO.setProjectId(vacancyEntity.getProject().getId());
+        vacancyDTO.setActive(vacancyEntity.getActive());
         vacancyDTO.setPersonNumber(vacancyEntity.getPersonNumber());
         vacancyDTO.setPosition(vacancyEntity.getPosition().getName());
         vacancyDTO.setRole(vacancyEntity.getRole().getName());
