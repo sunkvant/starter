@@ -147,7 +147,7 @@ public class ProjectService implements IProjectService {
                 for(PersonEntity person:listPersons) {
 
 
-                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
+/*                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Набор команды",
@@ -160,7 +160,7 @@ public class ProjectService implements IProjectService {
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на В разработке.",
                                 projectEntity.getCustomer());
-                    }
+                    }*/
 
                 }
 
