@@ -270,12 +270,12 @@ public class ProjectService implements IProjectService {
 
             }
 
+            return true;
+
+        }
 
 
-        };
-
-
-        return true;
+        return false;
 
 
     }
