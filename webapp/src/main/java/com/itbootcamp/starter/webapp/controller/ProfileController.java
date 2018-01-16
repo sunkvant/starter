@@ -50,6 +50,9 @@ public class ProfileController {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private MessageRequestService messageRequestService;
+
     private static final Logger logger = Logger.getLogger(ProfileController.class);
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
@@ -240,8 +243,8 @@ public class ProfileController {
 
 
     @PreAuthorize("hasAnyAuthority('Mentor')")
-    @RequestMapping(value = "/api/profile/{personId}/approwed", method = RequestMethod.POST)
-    ResponseEntity approwedProfile(@PathVariable Integer personId) {
+    @RequestMapping(value = "/api/profile/{personId}/approwed/{senderId}", method = RequestMethod.POST)
+    ResponseEntity approwedProfile(@PathVariable Integer personId,@PathVariable Integer senderId) {
 
         PersonEntity personEntity = personService.getById(personId);
 
@@ -255,6 +258,11 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
+
+        messageRequestService.save(personId,
+                "Статус проекта.",
+                "Внимание! Вы прошли ассессмент. Теперь вы можете участвовать в проекте." ,
+                personService.getById(senderId));
 
 
 

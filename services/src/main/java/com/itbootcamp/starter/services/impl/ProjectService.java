@@ -144,14 +144,14 @@ public class ProjectService implements IProjectService {
 
             if (listPersons!=null) {
 
-               /* for(PersonEntity person:listPersons) {
+                for(PersonEntity person:listPersons) {
 
 
                     if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Набор команды",
-                                personRepository.findByLogin("Bot"));
+                                projectEntity.getCustomer());
                     }
 
 
@@ -159,10 +159,10 @@ public class ProjectService implements IProjectService {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на В разработке.",
-                                personRepository.findByLogin("Bot"));
+                                projectEntity.getCustomer());
                     }
 
-                }*/
+                }
 
 
             }
@@ -199,12 +199,12 @@ public class ProjectService implements IProjectService {
 
         }
 
-/*
+
         messageRequestService.save(personEntity.getId(),
                 "Статус проекта.",
                 "Внимание! Вы были приняты на проект "+ vacancyEntity.getProject().getName()+" в качестве "+vacancyEntity.getPosition().getName(),
-                personRepository.findByLogin("Bot"));
-*/
+                vacancyEntity.getProject().getCustomer());
+
 
         teamRepository.save(teamEntity);
 
@@ -242,17 +242,17 @@ public class ProjectService implements IProjectService {
 
             if (listPersons!=null) {
 
-                /*for(PersonEntity person:listPersons) {
+                for(PersonEntity person:listPersons) {
 
 
                     if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.CLOSE)) {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Закрыт. Теперь вы можете оставить отзывы, перейдя на страницу проекта.",
-                                personRepository.findByLogin("Bot"));
+                                projectEntity.getCustomer());
                     }
 
-                }*/
+                }
 
 
             }
@@ -279,11 +279,11 @@ public class ProjectService implements IProjectService {
 
         }
 
-  /*      messageRequestService.save(member.getId(),
+        messageRequestService.save(member.getId(),
                     "Статус проекта.",
                     "Внимание! Вы были исключены из проекта " + projectEntity.getName(),
-                    personRepository.findByLogin("Bot"));
-*/
+                    projectEntity.getCustomer());
+
 
         TeamEntity teamEntity=teamRepository.findByPersonIdAndProjectId(member.getId(),projectEntity.getId());
 
