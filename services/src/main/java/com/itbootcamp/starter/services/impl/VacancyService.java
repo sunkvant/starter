@@ -76,6 +76,7 @@ public class VacancyService implements IVacancyService {
 
         vacancyEntity.setId(null);
         vacancyEntity.setProject(projectEntity);
+        vacancyEntity.setActive(true);
 
         projectEntity.getVacancies().add(vacancyEntity);
 
@@ -145,12 +146,14 @@ public class VacancyService implements IVacancyService {
 
             if (vacancyEntity.getId().equals(vacancy.getId())) {
 
-                projectEntity.getVacancies().remove(vacancy);
+                vacancy.setActive(false);
+
+/*                projectEntity.getVacancies().remove(vacancy);
                 if (projectRepository.save(projectEntity)!=null) {
 
                     return true;
 
-                }
+                }*/
 
             }
 

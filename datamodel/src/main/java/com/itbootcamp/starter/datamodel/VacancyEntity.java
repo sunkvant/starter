@@ -12,6 +12,7 @@ import java.util.List;
 public class VacancyEntity extends AbstractEntityID{
     private Integer personNumber;
     private PositionEntity position;
+    private Boolean isActive;
     private ProjectEntity project;
     private List<VacancyRequestEntity> vacancyRequests;
     private List<LanguageEntity> languages;
@@ -87,5 +88,14 @@ public class VacancyEntity extends AbstractEntityID{
 
     public void setRole(RoleEntity role) {
         this.role = role;
+    }
+
+    @Column(name = "is_active", nullable = false)
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

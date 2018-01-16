@@ -18,6 +18,7 @@ public class VacancyDTO {
     @NotNull
     @NotBlank
     private String position;
+    private Boolean isActive;
     @NotBlank
     @NotNull
     private String role;
@@ -81,4 +82,14 @@ public class VacancyDTO {
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
+
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
 }

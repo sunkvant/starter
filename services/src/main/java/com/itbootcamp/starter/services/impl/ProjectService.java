@@ -188,8 +188,6 @@ public class ProjectService implements IProjectService {
         teamEntity.setPosition(vacancyEntity.getPosition());
         teamEntity.setPerson(personEntity);
 
-        System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-
         if (vacancyEntity.getPersonNumber()==1) {
 
             vacancyService.delete(vacancyEntity,vacancyEntity.getProject());
@@ -218,12 +216,12 @@ public class ProjectService implements IProjectService {
     public Boolean closeProject(ProjectEntity projectEntity) {
 
 
-/*        while(!projectEntity.getVacancies().isEmpty()) {
+        while(!projectEntity.getVacancies().isEmpty()) {
 
             vacancyService.delete(projectEntity.getVacancies().get(0),projectEntity);
 
 
-        }*/
+        }
 
         List<TeamEntity> teamEntities=teamRepository.findAllByProjectId(projectEntity.getId());
 
