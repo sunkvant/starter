@@ -246,29 +246,28 @@ public class ProjectService implements IProjectService {
         }
 
 
+        List<PersonEntity> listPersons=personService.getAllPersonsByProjectId(projectEntity.getId(),true);
+
+        if (listPersons!=null) {
+
+            for(PersonEntity person:listPersons) {
+
+
+                if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.CLOSE)) {
+                    messageRequestService.save(person.getId(),
+                            "Статус проекта.",
+                            "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Закрыт. Теперь вы можете оставить отзывы, перейдя на страницу проекта.",
+                            projectEntity.getCustomer());
+                }
+
+            }
+
+        }
+
         projectEntity.setProjectStatus(projectStatusService.getByName(ProjectStatus.CLOSE));
         projectEntity.setDateEnd(new Timestamp(System.currentTimeMillis()));
 
         if (projectRepository.save(projectEntity)!=null) {
-
-            List<PersonEntity> listPersons=personService.getAllPersonsByProjectId(projectEntity.getId(),true);
-
-            if (listPersons!=null) {
-
-                for(PersonEntity person:listPersons) {
-
-
-                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.CLOSE)) {
-                        messageRequestService.save(person.getId(),
-                                "Статус проекта.",
-                                "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Закрыт. Теперь вы можете оставить отзывы, перейдя на страницу проекта.",
-                                projectEntity.getCustomer());
-                    }
-
-                }
-
-
-            }
 
             return true;
 
