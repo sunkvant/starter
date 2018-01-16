@@ -147,19 +147,20 @@ public class ProjectService implements IProjectService {
                 for(PersonEntity person:listPersons) {
 
 
-/*                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
+                   if (projectEntityOld.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
+                       System.out.println("ERVEVVEVEVEVEVEVEVEVEVEV");
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Набор команды",
-                                projectEntity.getCustomer());
+                                projectEntityOld.getCustomer());
                     }
 
 
-                    if (projectEntity.getProjectStatus().getStatus().equals(ProjectStatus.DEVELOP)) {
+/*                    if (projectEntityOld.getProjectStatus().getStatus().equals(ProjectStatus.DEVELOP)) {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на В разработке.",
-                                projectEntity.getCustomer());
+                                projectEntityOld.getCustomer());
                     }*/
 
                 }
