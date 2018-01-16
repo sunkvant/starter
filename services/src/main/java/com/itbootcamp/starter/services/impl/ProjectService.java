@@ -188,6 +188,8 @@ public class ProjectService implements IProjectService {
         teamEntity.setPosition(vacancyEntity.getPosition());
         teamEntity.setPerson(personEntity);
 
+        System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+
         if (vacancyEntity.getPersonNumber()==1) {
 
             vacancyService.delete(vacancyEntity,vacancyEntity.getProject());
