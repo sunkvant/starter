@@ -6,6 +6,7 @@ import com.itbootcamp.starter.repository.ProjectRepository;
 import com.itbootcamp.starter.repository.TeamRepository;
 import com.itbootcamp.starter.repository.VacancyRepository;
 import com.itbootcamp.starter.services.IProjectService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,9 +127,20 @@ public class ProjectService implements IProjectService {
     public Boolean update(ProjectEntity projectEntity,ProjectEntity projectEntityOld) {
 
 
+        Boolean isChangeStatus = false;
+        String changedStatus="";
+
         if ((projectEntity.getProjectStatus()==null)||(projectEntity.getProjectCategory()==null)) {
 
             return false;
+
+        }
+
+        if (!projectEntity.getProjectStatus().getStatus().equals(projectEntityOld.getProjectStatus().getStatus())) {
+
+            isChangeStatus=true;
+            changedStatus=projectEntity.getProjectStatus().getStatus();
+
 
         }
 
@@ -138,17 +150,17 @@ public class ProjectService implements IProjectService {
         projectEntityOld.setDescription(projectEntity.getDescription());
         projectEntityOld.setProjectStatus(projectEntity.getProjectStatus());
 
-        if (projectRepository.save(projectEntityOld)!=null) {
+        if (isChangeStatus) {
 
-            List<PersonEntity> listPersons=personService.getAllPersonsByProjectId(projectEntity.getId(),true);
+            List<PersonEntity> listPersons = personService.getAllPersonsByProjectId(projectEntity.getId(), true);
 
-            if (listPersons!=null) {
+            if (listPersons != null) {
 
-                for(PersonEntity person:listPersons) {
+                for (PersonEntity person : listPersons) {
 
 
-                   if (projectEntityOld.getProjectStatus().getStatus().equals(ProjectStatus.RECRUITING)) {
-                       System.out.println("ERVEVVEVEVEVEVEVEVEVEVEV");
+                    if (changedStatus.equals(ProjectStatus.RECRUITING)) {
+                        System.out.println("ERVEVVEVEVEVEVEVEVEVEVEV");
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на Набор команды",
@@ -156,19 +168,19 @@ public class ProjectService implements IProjectService {
                     }
 
 
-/*                    if (projectEntityOld.getProjectStatus().getStatus().equals(ProjectStatus.DEVELOP)) {
+                    if (changedStatus.equals(ProjectStatus.DEVELOP)) {
                         messageRequestService.save(person.getId(),
                                 "Статус проекта.",
                                 "Внимание! Был изменен статус проекта " + projectEntity.getName() + " на В разработке.",
                                 projectEntityOld.getCustomer());
-                    }*/
+                    }
 
                 }
 
-
             }
+        }
 
-
+        if (projectRepository.save(projectEntityOld)!=null) {
 
             return true;
 
