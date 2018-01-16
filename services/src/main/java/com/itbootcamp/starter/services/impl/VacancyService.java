@@ -148,6 +148,8 @@ public class VacancyService implements IVacancyService {
 
                 vacancy.setActive(false);
 
+                vacancyRepository.save(vacancy);
+
                 return true;
 
 /*                projectEntity.getVacancies().remove(vacancy);
