@@ -229,9 +229,9 @@ public class ProjectService implements IProjectService {
     public Boolean closeProject(ProjectEntity projectEntity) {
 
 
-        while(!projectEntity.getVacancies().isEmpty()) {
+        for(VacancyEntity vacancy:projectEntity.getVacancies()) {
 
-            vacancyService.delete(projectEntity.getVacancies().get(0),projectEntity);
+            vacancyService.delete(vacancy,projectEntity);
 
 
         }
